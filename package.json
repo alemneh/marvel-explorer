@@ -1,0 +1,26 @@
+{
+  "name": "marvel_front-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "gulp": "^3.9.1",
+    "gulp-concat-css": "^2.2.0",
+    "gulp-minify-css": "^1.2.4",
+    "style-loader": "^0.13.1",
+    "webpack-stream": "^3.2.0"
+  }
+}

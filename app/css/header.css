@@ -1,0 +1,33 @@
+header {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  background-size: cover;
+  background: url("images/splash.jpg") center center no-repeat fixed;
+  border-left: 1px solid rgba(0, 0, 0, 0.6);
+  border-right: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+header h1 {
+  margin: 0 0 5px;
+  padding-top: 50px;
+  font-size: 4em;
+  font-family: 'Open Sans Condensed', sans-serif;
+  color: white;
+}
+
+header h3 {
+  font-family: 'Bangers', cursive;
+  font-size: 3em;
+  color: #FFD200;
+  padding-bottom: 75px;
+  margin: 5px 0 0;
+}
+
+img {
+  width: 7em;
+}
+
+#signIn {
+  float: right;
+}
