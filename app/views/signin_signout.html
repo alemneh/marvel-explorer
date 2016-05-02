@@ -1,0 +1,14 @@
+<div id="signIn">
+  <a
+  data-ng-if="!appCtrl.signedIn"
+  data-ng-click="appCtrl.signingIn()"
+  class="btn btn-success btn-xs">
+    Sign In / Sign Up
+  </a>
+  <a
+  data-ng-if="appCtrl.signedIn"
+  data-ng-click="appCtrl.signOut()"
+  class="btn btn-default btn-xs">
+    Sign Out
+  </a>
+</div>

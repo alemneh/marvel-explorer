@@ -1,0 +1,35 @@
+#signin-mask {
+  position: fixed;
+  z-index: 1100;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#signin-wrapper {
+  position: absolute;
+  top: 20%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  height: auto;
+  width: 400px;
+  background-image: url('images/bg-spidey.jpg');
+  background-size: cover;
+  background-position: top left;
+}
+
+#signin-form {
+  position: relative;
+  margin: 0 auto;
+  border: solid 1px gray;
+  padding: 1em 1.5em;
+}
+
+#signin-form .form-group {
+  padding: 0 1em;
+}
+
+#signin-form .alert {
+  margin: 0;
+}

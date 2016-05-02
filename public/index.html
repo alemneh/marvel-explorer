@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-ng-app="marvelApp">
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="vendor/slate-bootstrap.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="vendor/carousel.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="styles.min.css" media="screen" title="no title" charset="utf-8">
+
+    <title>Marvel Front-End</title>
+  </head>
+  <body data-ng-controller="AppController as appCtrl">
+
+    <signin-popup></signin-popup>
+
+    <div class="container">
+      <header>
+        <signin-button></signin-button>
+        <div class="inner">
+          <h1>MARVEL EXPLORER</h1>
+          <h3>Explore the Heroes of Marvel</h3>
+        </div>
+      </header>
+
+      <navbar></navbar>
+
+      <main data-ng-view></main>
+
+      <footer>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <img src="images/marvel-url.png" alt="" />
+          </div>
+        </div>
+      </footer>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script src="angular.bundle.js" charset="utf-8"></script>
+  <script src="custom.bundle.js" charset="utf-8"></script>
+  </body>
+</html>
