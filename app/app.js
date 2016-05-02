@@ -6,7 +6,8 @@ require('angular-animate');
 
 const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
-// require('./controllers/app_login.js')(app);
+require('./services/auth_service')(app);
+require('./controllers/app_signin.js')(app);
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -23,33 +24,17 @@ app.controller('AppController', ['$window', 'ErrorService', function($window, Er
   const _this = this;
   _this.signInPopup = false;
   _this.error = ErrorService(null);
-  _this.signedIn = false;
+  // _this.signedIn = false;
+  //
+  // _this.checkSignedIn = (token) => {
+  //   if (token) {
+  //     return _this.signedIn = true;
+  //   }
+  //   _this.signedIn = false;
+  // }
+  // _this.checkSignedIn($window.localStorage.meToken);
 
-  _this.checkSignedIn = (token) => {
-    if (token) {
-      // TODO: httpService.validate(token).then();
-      return _this.signedIn = true;
-    }
-    _this.signedIn = false;
-  }
-  _this.checkSignedIn($window.localStorage.meToken);
-
-  _this.submitUser = user => {
-    // TODO: httpService.signin(user).then();
-
-    delete user.username;
-    delete user.password;
-  }
-
-  _this.signingIn = () => {
-    _this.error = ErrorService(null);
-    _this.signInPopup = !_this.signInPopup;
-  }
-
-  _this.signOut = () => {
-    delete $window.localStorage.meToken;
-    _this.signedIn = false;
-  }
+  
 
   _this.cancel = input => {
     for (var key in input) {
@@ -71,6 +56,8 @@ app.directive('signinPopup', function() {
   return {
     restrict: 'E',
     replace: true,
+    controller: 'SigninController',
+    controllerAs: 'signinCtrl',
     templateUrl: 'views/signinPopup.html'
   }
 });
@@ -79,6 +66,8 @@ app.directive('signinButton', function() {
   return {
     restrict: 'E',
     replace: true,
+    controller: 'SigninController',
+    controllerAs: 'signinCtrl',
     templateUrl: 'views/signin_signout.html'
   }
 });
