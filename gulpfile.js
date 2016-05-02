@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
 const concatCss = require('gulp-concat-css');
-const minifyCss = require('gulp-minify-css');
+const minifyCss = require('gulp-clean-css');
 
 const sources = {
   css: __dirname + '/app/css/*.css',
