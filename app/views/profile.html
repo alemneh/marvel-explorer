@@ -1,6 +1,9 @@
-<section>
-  <h1>Profile</h1>
-  <p>
-    {{appCtrl.test}}
-  </p>
+<section id="profile">
+  <div data-ng-if="!profileCtrl.profileEdit" class="">
+    <h1>Profile</h1>
+    <p>
+      {{profileCtrl.sampleUser.username}}
+    </p>
+  </div>
+
 </section>
