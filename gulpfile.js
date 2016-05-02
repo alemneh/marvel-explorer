@@ -9,9 +9,15 @@ const sources = {
   test: __dirname + '/test/*_spec.js'
 };
 
-gulp.task('bundle:dev', () => {
-  return gulp.src(sources.js)
-    .pipe(webpack({output: {filename: 'bundle.js'}}))
+gulp.task('bundle:angular', () => {
+  return gulp.src(__dirname + '/app/app.js')
+    .pipe(webpack({output: {filename: 'angular.bundle.js'}}))
+    .pipe(gulp.dest('./public'))
+});
+
+gulp.task('bundle:custom', () => {
+  return gulp.src(__dirname + '/app/js/*.js')
+    .pipe(webpack({output: {filename: 'custom.bundle.js'}}))
     .pipe(gulp.dest('./public'))
 });
 
@@ -33,4 +39,4 @@ gulp.task('css', function() {
 //     .pipe(gulp.dest('./test'));
 // });
 
-gulp.task('default', ['bundle:dev', 'css']);
+gulp.task('default', ['bundle:angular', 'bundle:custom', 'css']);
