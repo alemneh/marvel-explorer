@@ -51,6 +51,7 @@
 
 	const app = angular.module('marvelApp', ['ngRoute']);
 	__webpack_require__(5)(app);
+	// require('./controllers/app_login.js')(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
