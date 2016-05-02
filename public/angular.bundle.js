@@ -52,7 +52,8 @@
 
 	const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 	__webpack_require__(7)(app);
-	// require('./controllers/app_login.js')(app);
+	__webpack_require__(8)(app);
+	__webpack_require__(9)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -69,33 +70,17 @@
 	  const _this = this;
 	  _this.signInPopup = false;
 	  _this.error = ErrorService(null);
-	  _this.signedIn = false;
+	  // _this.signedIn = false;
+	  //
+	  // _this.checkSignedIn = (token) => {
+	  //   if (token) {
+	  //     return _this.signedIn = true;
+	  //   }
+	  //   _this.signedIn = false;
+	  // }
+	  // _this.checkSignedIn($window.localStorage.meToken);
 
-	  _this.checkSignedIn = (token) => {
-	    if (token) {
-	      // TODO: httpService.validate(token).then();
-	      return _this.signedIn = true;
-	    }
-	    _this.signedIn = false;
-	  }
-	  _this.checkSignedIn($window.localStorage.meToken);
-
-	  _this.submitUser = user => {
-	    // TODO: httpService.signin(user).then();
-
-	    delete user.username;
-	    delete user.password;
-	  }
-
-	  _this.signingIn = () => {
-	    _this.error = ErrorService(null);
-	    _this.signInPopup = !_this.signInPopup;
-	  }
-
-	  _this.signOut = () => {
-	    delete $window.localStorage.meToken;
-	    _this.signedIn = false;
-	  }
+	  
 
 	  _this.cancel = input => {
 	    for (var key in input) {
@@ -117,6 +102,8 @@
 	  return {
 	    restrict: 'E',
 	    replace: true,
+	    controller: 'SigninController',
+	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signinPopup.html'
 	  }
 	});
@@ -125,6 +112,8 @@
 	  return {
 	    restrict: 'E',
 	    replace: true,
+	    controller: 'SigninController',
+	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signin_signout.html'
 	  }
 	});
@@ -36247,6 +36236,111 @@
 	    }
 	  });
 	}
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('AuthService', ['$http', '$window', function($http, $window) {
+	    var token;
+	    var signedIn = false;
+	    var url = 'http://localhost:3000';
+	    var auth = {
+	      createUser(user, cb) {
+	        cb || function() {};
+	        $http.post(url + 'signup', user)
+	          .then((res) => {
+	            token = $window.localStorage.token = res.data.token;
+	            cb(null, res);
+	          }, (err) => {
+	            cb(err);
+	          });
+	      },
+	      getToken() {
+	        return token || $window.localStorage.token;
+	      },
+	      signOut(cb) {
+	        token = null;
+	        $window.localStorage.removeItem('token');
+	        if (cb) cb();
+	      },
+	      signIn(user, cb) {
+	        cb || function() {};
+	        $http.get(url + '/signin', {
+	          headers: {
+	            authorization: 'Basic ' + btoa(user.username + ':' + user.password)
+	          }
+	        }).then((res) => {
+	          token = $window.localStorage.token = res.data.token;
+	          cb(null, res);
+	        }, (err) => {
+	          cb(err);
+	        });
+	      }
+	    };
+	    return auth;
+	  }]);
+	};
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('SigninController', ['$location', 'AuthService', 'ErrorService',
+	    function($location, AuthService, ErrorService) {
+	      const _this = this;
+	      _this.signedIn = false;
+
+	      _this.submitUser = user => {
+	        if (user.email) {
+	          _this.signUp(user);
+	        } else {
+	          // TODO: httpService.signin(user).then();
+	          // in success response
+	          _this.signIn(user);
+	        }
+	        delete user.username;
+	        delete user.password;
+	      }
+
+	      _this.togglePopup = () => {
+	        _this.error = ErrorService(null);
+	        _this.signInPopup = !_this.signInPopup;
+	      }
+
+	      _this.signIn = function(user) {
+	        AuthService.signIn(user, (err, res) => {
+	          if(err) return _this.error = ErrorService('Invalid Username or Password');
+	          _this.error = ErrorService(null);
+	          _this.signedIn = true;
+	          _this.togglePopup();
+	        });
+	      };
+
+	      _this.signUp = function(user) {
+	        AuthService.createUser(user, function(err, res) {
+	          if(err) return _this.error = ErrorService('signup error');
+	          _this.error = ErrorService(null);
+	          _this.signedIn = true;
+
+	        });
+	      };
+
+	      _this.signOut = function() {
+	        AuthService.signOut(() => {
+	          $location.path('/');
+	          _this.signedIn = false;
+	        });
+	      };
+
+	    }]);
+	};
 
 
 /***/ }

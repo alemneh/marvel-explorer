@@ -1,11 +1,11 @@
-<section data-ng-show="appCtrl.signInPopup" id="signin-mask">
+<section data-ng-show="signinCtrl.signInPopup" id="signin-mask">
   <div id="signin-wrapper">
     <form id="signin-form" class="form-horizontal">
       <fieldset>
         <legend>Sign In</legend>
-        <div data-ng-show="appCtrl.error" class="alert alert-dismissible alert-info">
+        <div data-ng-show="signinCtrl.error" class="alert alert-dismissible alert-info">
           <h4>Something Went Wrong!</h4>
-          <p>{{appCtrl.error}}</p>
+          <p>{{signinCtrl.error}}</p>
         </div>
         <div class="form-group">
           <label for="inputUsername" class="control-label">Username</label>
@@ -21,8 +21,8 @@
         </div>
         <div class="form-group">
           <div>
-            <button data-ng-click="appCtrl.submitUser(user)" type="submit" class="btn btn-primary">Submit</button>
-            <button data-ng-click="appCtrl.cancel(user); appCtrl.signingIn()" type="cancel" class="btn btn-primary">Cancel</button>
+            <button data-ng-click="signinCtrl.submitUser(user)" type="submit" class="btn btn-primary">Submit</button>
+            <button data-ng-click="signinCtrl.cancel(user); signinCtrl.togglePopup()" type="cancel" class="btn btn-primary">Cancel</button>
           </div>
         </div>
       </fieldset>

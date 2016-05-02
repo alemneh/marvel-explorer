@@ -1,6 +1,7 @@
 module.exports = function(app) {
   app.factory('AuthService', ['$http', '$window', function($http, $window) {
     var token;
+    var signedIn = false;
     var url = 'http://localhost:3000';
     var auth = {
       createUser(user, cb) {
@@ -23,7 +24,7 @@ module.exports = function(app) {
       },
       signIn(user, cb) {
         cb || function() {};
-        $http.get(url + '/login', {
+        $http.get(url + '/signin', {
           headers: {
             authorization: 'Basic ' + btoa(user.username + ':' + user.password)
           }

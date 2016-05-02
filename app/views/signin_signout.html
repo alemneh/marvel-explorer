@@ -1,13 +1,13 @@
 <div id="signIn">
   <a
-  data-ng-if="!appCtrl.signedIn"
-  data-ng-click="appCtrl.signingIn()"
+  data-ng-if="!signinCtrl.signedIn"
+  data-ng-click="signinCtrl.togglePopup()"
   class="btn btn-success btn-xs">
     Sign In / Sign Up
   </a>
   <a
-  data-ng-if="appCtrl.signedIn"
-  data-ng-click="appCtrl.signOut()"
+  data-ng-if="signinCtrl.signedIn"
+  data-ng-click="signinCtrl.signOut()"
   class="btn btn-default btn-xs">
     Sign Out
   </a>
