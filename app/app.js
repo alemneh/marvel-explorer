@@ -2,8 +2,9 @@
 
 const angular = require('angular');
 require('angular-route');
+require('angular-animate');
 
-const app = angular.module('marvelApp', ['ngRoute']);
+const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 // require('./controllers/app_login.js')(app);
 
@@ -24,7 +25,6 @@ app.controller('AppController', ['$window', 'ErrorService', function($window, Er
   _this.error = ErrorService(null);
   _this.signedIn = false;
 
-  // find out how to stay logged in through refreshes. How is this tracked
   _this.checkSignedIn = (token) => {
     if (token) {
       // TODO: httpService.validate(token).then();

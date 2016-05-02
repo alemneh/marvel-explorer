@@ -6,6 +6,15 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
+#signin-mask {
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+#signin-mask.ng-hide {
+  opacity:0;
+}
+
 #signin-wrapper {
   position: absolute;
   top: 20%;
