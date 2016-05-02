@@ -45,6 +45,7 @@
 /***/ function(module, exports) {
 
 	$(document).ready(function(){
+	  /******** Sticky Nav ********/
 	  $(window).scroll(function() {
 	    if ($(this).scrollTop() > 235) {
 	      $('nav').addClass('fixed-top');

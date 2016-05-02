@@ -2,8 +2,9 @@
 
 const angular = require('angular');
 require('angular-route');
+require('angular-animate');
 
-const app = angular.module('marvelApp', ['ngRoute']);
+const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
