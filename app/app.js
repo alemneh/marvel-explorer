@@ -5,6 +5,7 @@ require('angular-route');
 
 const app = angular.module('marvelApp', ['ngRoute']);
 require('./services/error_service')(app);
+// require('./controllers/app_login.js')(app);
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -35,14 +36,7 @@ app.controller('AppController', ['$window', 'ErrorService', function($window, Er
 
   _this.submitUser = user => {
     // TODO: httpService.signin(user).then();
-    if (user.username == sampleUser.username && user.password == sampleUser.password) {
-      _this.error = ErrorService(null);
-      _this.signedIn = true;
-      $window.localStorage.meToken = 'sdfklksdlkfhvnbbkweb';
-      _this.signingIn();
-    } else {
-      _this.error = ErrorService('Incorrect Username or Password');
-    }
+
     delete user.username;
     delete user.password;
   }
