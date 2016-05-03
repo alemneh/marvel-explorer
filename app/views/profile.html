@@ -17,7 +17,7 @@
               <th>Read List</th>
             </tr>
             <tbody>
-              <tr class="warning" data-ng-repeat="readBook in profileCtrl.readList track by $index" >
+              <tr class="warning" data-ng-repeat="readBook in profileCtrl.readList" >
                 <td>
                   {{readBook.name}}
                   <a ng-click="profileCtrl.removeBook(readBook)" href class="btn btn-primary btn-xs">Delete</a>
@@ -36,7 +36,7 @@
               </th>
             </tr>
             <tbody>
-              <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList track by $index" >
+              <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList" >
                 <td>
                   {{unReadBook.name}}
                   <a ng-click="profileCtrl.markRead(unReadBook)" href class="btn btn-primary btn-xs">Read</a>
@@ -82,7 +82,7 @@
           <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
               <button data-ng-click="profileCtrl.cancel(user)" type="reset" class="btn btn-default">Cancel</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Update</button>
             </div>
           </div>
         </fieldset>
