@@ -119,15 +119,7 @@
 	  };
 	});
 
-	app.directive('profile', function() {
-	  return {
-	    restrict: 'E',
-	    replace: true,
-	    controller: 'ProfileController',
-	    controllerAs: 'profileCtrl',
-	    templateUrl: 'views/signin_signout.html'
-	  };
-	});
+
 
 
 	app.directive('carousel', function() {
@@ -36331,17 +36323,6 @@
 	        } else {
 	          _this.signIn(user);
 	        }
-<<<<<<< HEAD
-=======
-	        for (var key in user) {
-	          delete user[key];
-	        }
-	      }
-
-	      _this.togglePopup = () => {
-	        _this.error = ErrorService(null);
-	        _this.signInPopup = !_this.signInPopup;
->>>>>>> 7b8740ec170c5b901d16efb6b8043764949f2e67
 	      }
 
 	      _this.signIn = function(user) {
@@ -36415,8 +36396,8 @@
 	  app.controller('ProfileController', ['ErrorService', function(ErrorService) {
 	    // const readingListResource = httpService('readinglist');
 	    const _this = this;
-	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}];
-	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'}];
+	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
+	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
 	    _this.sampleUser = {
 	      username: 'Tim',
 	      profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',

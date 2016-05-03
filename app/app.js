@@ -7,8 +7,8 @@ require('angular-animate');
 const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 require('./services/auth_service')(app);
-require('./controllers/app_signin.js')(app);
-require('./controllers/app_profile')(app);
+require('./controllers/signin_controller')(app);
+require('./controllers/profile_controller')(app);
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -73,15 +73,7 @@ app.directive('signinButton', function() {
   };
 });
 
-app.directive('profile', function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    controller: 'ProfileController',
-    controllerAs: 'profileCtrl',
-    templateUrl: 'views/signin_signout.html'
-  };
-});
+
 
 
 app.directive('carousel', function() {
