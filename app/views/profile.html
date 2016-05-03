@@ -1,9 +1,44 @@
 <section id="profile">
-  <div data-ng-if="!profileCtrl.profileEdit" class="">
+  <div data-ng-show="!profileCtrl.profileEdit" class="">
     <h1>Profile</h1>
-    <p>
-      {{profileCtrl.sampleUser.username}}
-    </p>
+    <img data-ng-src="{{profileCtrl.sampleUser.profileImage}}" alt="" />
+    <p>{{profileCtrl.sampleUser.username}}</p>
+    <p>{{profileCtrl.sampleUser.age}}</p>
+    <p>{{profileCtrl.sampleUser.city}}</p>
+    <p>{{profileCtrl.sampleUser.state}}</p>
+    <button type="button" class="btn btn-primary" data-ng-click="profileCtrl.edit(profileCtrl.sampleUser)">Edit Profile</button>
+
+    <h2>Reading List</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Read</h3>
+        <ul>
+          <li data-ng-repeat="readBook in profileCtrl.readList">{{readBook.name}}<button type="button" name="button" data-ng-click="profileCtrl.removeBook(readBook)" class="btn btn-danger">Delete</button></li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h3>Unread</h3>
+        <ul>
+          <li data-ng-repeat="unReadBook in profileCtrl.unreadList">{{unReadBook.name}}<button type="button" class="btn btn-danger" data-ng-click="profileCtrl.removeBook(unReadBook)">Delete</button><button data-ng-click="profileCtrl.markRead(unReadBook)" class="btn btn-success" type="button">Read</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div data-ng-show="profileCtrl.profileEdit" class="">
+    <form class="" data-ng-submit="profileCtrl.update(user)">
+      <label for="">Username</label><br>
+      <input type="text" name="name" value="" data-ng-model="profileCtrl.sampleUser.username"><br><br>
+      <label for="">Age</label><br>
+      <input type="text" name="name" value="" data-ng-model="profileCtrl.sampleUser.age"><br><br>
+      <label for="">City</label><br>
+      <input type="text" name="name" value="" data-ng-model="profileCtrl.sampleUser.city"><br><br>
+      <label for="">State</label><br>
+      <input type="text" name="name" value="" data-ng-model="profileCtrl.sampleUser.state"><br><br>
+      <button class="btn btn-primary" type="submit" >Update</button>
+      <button type="button" class="btn btn-primary" data-ng-click="profileCtrl.cancel(user)">Cancel</button>
+    </form>
   </div>
 
 </section>

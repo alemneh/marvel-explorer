@@ -54,6 +54,7 @@
 	__webpack_require__(7)(app);
 	__webpack_require__(8)(app);
 	__webpack_require__(9)(app);
+	__webpack_require__(10)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -80,13 +81,13 @@
 	  // }
 	  // _this.checkSignedIn($window.localStorage.meToken);
 
-	  
+
 
 	  _this.cancel = input => {
 	    for (var key in input) {
 	      delete input[key];
 	    }
-	  }
+	  };
 
 	}]);
 
@@ -95,7 +96,7 @@
 	    restrict: 'E',
 	    replace: true,
 	    templateUrl: 'views/nav.html'
-	  }
+	  };
 	});
 
 	app.directive('signinPopup', function() {
@@ -105,7 +106,7 @@
 	    controller: 'SigninController',
 	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signinPopup.html'
-	  }
+	  };
 	});
 
 	app.directive('signinButton', function() {
@@ -115,15 +116,26 @@
 	    controller: 'SigninController',
 	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signin_signout.html'
-	  }
+	  };
 	});
+
+	app.directive('profile', function() {
+	  return {
+	    restrict: 'E',
+	    replace: true,
+	    controller: 'ProfileController',
+	    controllerAs: 'profileCtrl',
+	    templateUrl: 'views/signin_signout.html'
+	  };
+	});
+
 
 	app.directive('carousel', function() {
 	  return {
 	    restrict: 'E',
 	    replace: true,
 	    templateUrl: 'views/carousel.html'
-	  }
+	  };
 	});
 
 	app.config(['$routeProvider', router => {
@@ -134,8 +146,10 @@
 	  })
 	  .when('/profile', {
 	    templateUrl: 'views/profile.html',
-	    controller: 'TabController'
-	  })
+	    controller: 'ProfileController',
+	    controllerAs: 'profileCtrl'
+
+	  });
 	}]);
 
 
@@ -36301,12 +36315,11 @@
 	        if (user.email) {
 	          _this.signUp(user);
 	        } else {
-	          // TODO: httpService.signin(user).then();
-	          // in success response
 	          _this.signIn(user);
 	        }
-	        delete user.username;
-	        delete user.password;
+	        for (var key in user) {
+	          delete user[key];
+	        }
 	      }
 
 	      _this.togglePopup = () => {
@@ -36340,6 +36353,88 @@
 	      };
 
 	    }]);
+	};
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('ProfileController', ['ErrorService', function(ErrorService) {
+	    // const readingListResource = httpService('readinglist');
+	    const _this = this;
+	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}];
+	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'}];
+	    _this.sampleUser = {
+	      username: 'Tim',
+	      profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
+	      age: 25,
+	      city: 'Seattle',
+	      state: 'WA'
+	    }
+
+	    _this.profileEdit = false;
+
+	    var currentInfo = {};
+	    var newInfo = {};
+
+	    _this.setUser = function(user) {
+	      currentInfo = {
+	        username: user.username,
+	        profileImage: user.profileImage,
+	        age: user.age,
+	        city: user.city,
+	        state: user.state
+	      }
+	      console.log(currentInfo.username);
+	    }
+
+
+	    _this.edit = function(user) {
+	      _this.profileEdit = true;
+	      _this.setUser(user);
+	    };
+
+	    _this.cancel = function(user) {
+	      _this.sampleUser.username = currentInfo.username;
+	      _this.sampleUser.age = currentInfo.age;
+	      _this.sampleUser.city = currentInfo.city;
+	      _this.sampleUser.state = currentInfo.state;
+	      _this.profileEdit = false;
+
+	    }
+
+	    _this.update = function(user) {
+	      _this.profileEdit = false;
+
+	    }
+
+	    _this.markRead = function(book) {
+	      console.log('hit');
+	      _this.removeBook(book);
+	      _this.readList.push(book);
+	    }
+
+	    _this.removeBook = function(book) {
+	      _this.unreadList = _this.unreadList.filter((b) => b.name != book.name );
+	      _this.readList = _this.readList.filter((b) => b.name != book.name );
+	    }
+
+	    _this.updateReadingList = function(list, token) {
+	      readingListResource.update(list, token)
+	        .then((res) => {
+
+	        }, function(error) {
+	          console.error(error);
+
+	        });
+	    };
+
+
+	  }]);
 	};
 
 

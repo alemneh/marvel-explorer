@@ -100,7 +100,8 @@ app.config(['$routeProvider', router => {
   })
   .when('/profile', {
     templateUrl: 'views/profile.html',
-    controller: 'TabController'
+    controller: 'ProfileController',
+    controllerAs: 'profileCtrl'
 
   });
 }]);
