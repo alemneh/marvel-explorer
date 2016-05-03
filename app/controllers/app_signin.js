@@ -26,9 +26,6 @@ module.exports = function(app) {
         } else {
           _this.signIn(user);
         }
-        for (var key in user) {
-          delete user[key];
-        }
       }
 
       _this.signIn = function(user) {
@@ -37,6 +34,9 @@ module.exports = function(app) {
           _this.error = ErrorService(null);
           _this.signedIn = true;
           _this.togglePopup();
+          for (var key in user) {
+            delete user[key];
+          }
         });
       };
 
@@ -45,7 +45,10 @@ module.exports = function(app) {
           if(err) return _this.error = ErrorService('server response');
           _this.error = ErrorService(null);
           _this.signedIn = true;
-          user.error = false;
+          _this.togglePopup();
+          for (var key in user) {
+            delete user[key];
+          }
         });
       };
 
