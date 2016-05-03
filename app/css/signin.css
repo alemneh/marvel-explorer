@@ -7,8 +7,8 @@
 }
 
 #signin-mask {
-  -webkit-transition:all linear 0.5s;
-  transition:all linear 0.5s;
+  -webkit-transition:all linear 0.2s;
+  transition:all linear 0.2s;
 }
 
 #signin-mask.ng-hide {
@@ -17,7 +17,7 @@
 
 #signin-wrapper {
   position: absolute;
-  top: 20%;
+  top: 15%;
   margin: 0 auto;
   left: 0;
   right: 0;
@@ -28,17 +28,24 @@
   background-position: top left;
 }
 
-#signin-form {
+#signin-form,
+#signup-form {
   position: relative;
   margin: 0 auto;
   border: solid 1px gray;
   padding: 1em 1.5em;
 }
 
-#signin-form .form-group {
+#signin-form .form-group,
+#signup-form .form-group {
   padding: 0 1em;
 }
 
-#signin-form .alert {
+#signin-form .alert,
+#signup-form .alert {
   margin: 0;
+}
+
+#skip {
+  color: white;
 }
