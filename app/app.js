@@ -8,6 +8,7 @@ const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 require('./services/auth_service')(app);
 require('./controllers/app_signin.js')(app);
+require('./controllers/app_profile')(app);
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -34,13 +35,13 @@ app.controller('AppController', ['$window', 'ErrorService', function($window, Er
   // }
   // _this.checkSignedIn($window.localStorage.meToken);
 
-  
+
 
   _this.cancel = input => {
     for (var key in input) {
       delete input[key];
     }
-  }
+  };
 
 }]);
 
@@ -49,7 +50,7 @@ app.directive('navbar', function() {
     restrict: 'E',
     replace: true,
     templateUrl: 'views/nav.html'
-  }
+  };
 });
 
 app.directive('signinPopup', function() {
@@ -59,7 +60,7 @@ app.directive('signinPopup', function() {
     controller: 'SigninController',
     controllerAs: 'signinCtrl',
     templateUrl: 'views/signinPopup.html'
-  }
+  };
 });
 
 app.directive('signinButton', function() {
@@ -69,15 +70,26 @@ app.directive('signinButton', function() {
     controller: 'SigninController',
     controllerAs: 'signinCtrl',
     templateUrl: 'views/signin_signout.html'
-  }
+  };
 });
+
+app.directive('profile', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    controller: 'ProfileController',
+    controllerAs: 'profileCtrl',
+    templateUrl: 'views/signin_signout.html'
+  };
+});
+
 
 app.directive('carousel', function() {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: 'views/carousel.html'
-  }
+  };
 });
 
 app.config(['$routeProvider', router => {
@@ -88,6 +100,8 @@ app.config(['$routeProvider', router => {
   })
   .when('/profile', {
     templateUrl: 'views/profile.html',
-    controller: 'TabController'
-  })
+    controller: 'ProfileController',
+    controllerAs: 'profileCtrl'
+
+  });
 }]);
