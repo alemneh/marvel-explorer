@@ -1,9 +1,9 @@
 <div id="signIn">
   <a
   data-ng-if="!signinCtrl.signedIn"
-  data-ng-click="signinCtrl.togglePopup()"
+  data-ng-click="signinCtrl.togglePopup(); signinCtrl.toggleForm()"
   class="btn btn-success btn-xs">
-    Sign In / Sign Up
+    SignUp / SignIn
   </a>
   <a
   data-ng-if="signinCtrl.signedIn"
