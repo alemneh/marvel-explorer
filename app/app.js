@@ -105,5 +105,8 @@ app.config(['$routeProvider', router => {
     templateUrl: 'views/find_character.html',
     controller: 'FindCharacterController',
     controllerAs: 'findCtrl'
+  })
+  .when('/compare-characters', {
+    templateUrl: 'views/compare_characters.html'
   });
 }]);

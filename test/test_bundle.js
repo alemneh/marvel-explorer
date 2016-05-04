@@ -200,6 +200,12 @@
 	    templateUrl: 'views/find_character.html',
 	    controller: 'FindCharacterController',
 	    controllerAs: 'findCtrl'
+<<<<<<< HEAD
+=======
+	  })
+	  .when('/compare-characters', {
+	    templateUrl: 'views/compare_characters.html'
+>>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	  });
 	}]);
 
@@ -36311,13 +36317,13 @@
 	  app.factory('AuthService', ['$http', '$window', function($http, $window) {
 	    var token;
 	    var signedIn = false;
-	    var url = 'http://localhost:3000';
+	    var url = 'http://54.201.60.218';
 	    var auth = {
 	      createUser(user, cb) {
 	        cb || function() {};
-	        $http.post(url + 'signup', user)
+	        $http.post(url + '/users/new', user)
 	          .then((res) => {
-	            token = $window.localStorage.token = res.data.token;
+	            console.log(res);
 	            cb(null, res);
 	          }, (err) => {
 	            cb(err);
@@ -36333,11 +36339,8 @@
 	      },
 	      signIn(user, cb) {
 	        cb || function() {};
-	        $http.get(url + '/signin', {
-	          headers: {
-	            authorization: 'Basic ' + btoa(user.username + ':' + user.password)
-	          }
-	        }).then((res) => {
+	        $http.post(url + '/users/signin', user )
+	          .then((res) => {
 	          token = $window.localStorage.token = res.data.token;
 	          cb(null, res);
 	        }, (err) => {
@@ -36420,8 +36423,11 @@
 	    const requestCharacter = httpService('characters');
 	    // const requestComics
 	    _this.showResults = false;
+<<<<<<< HEAD
 	    _this.onLeft = true;
 	    _this.onRight = false;
+=======
+>>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	    _this.queries = [];
 	    _this.num = 0;
 	    _this.questions = [
@@ -36455,6 +36461,7 @@
 	    _this.getResults = (num, option) => {
 	      _this.queries[num] =  option;
 	      _this.showResults = true;
+<<<<<<< HEAD
 	      endScroll();
 	    }
 
@@ -36485,6 +36492,8 @@
 	          _this.onRight = false;
 	        }
 	      });
+=======
+>>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	    }
 	  }]);
 
@@ -36556,7 +36565,7 @@
 	        AuthService.createUser(user, function(err, res) {
 	          if(err) return _this.error = ErrorService('server response');
 	          _this.error = ErrorService(null);
-	          _this.signedIn = true;
+	          // _this.signedIn = true;
 	          _this.togglePopup();
 	          for (var key in user) {
 	            delete user[key];
@@ -36573,31 +36582,31 @@
 
 	    }]);
 
-	    // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
-	    app.directive('showErrors', function() {
-	      return {
-	        restrict: 'A',
-	        require:  '^form',
-	        link: function (scope, el, attrs, formCtrl) {
-	          // find the text box element, which has the 'name' attribute
-	          var inputEl   = el[0].querySelector('[name]');
-	          // convert the native text box element to an angular element
-	          var inputNgEl = angular.element(inputEl);
-	          // get the name on the text box so we know the property to check
-	          // on the form controller
-	          var inputName = inputNgEl.attr('name');
-
-	          // only apply the has-error class after the user leaves the text box
-	          inputNgEl.bind('blur', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-
-	          scope.$on('show-errors-check-validity', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-	        }
-	      }
-	    });
+	    // // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
+	    // app.directive('showErrors', function() {
+	    //   return {
+	    //     restrict: 'A',
+	    //     require:  '^form',
+	    //     link: function (scope, el, attrs, formCtrl) {
+	    //       // find the text box element, which has the 'name' attribute
+	    //       var inputEl   = el[0].querySelector('[name]');
+	    //       // convert the native text box element to an angular element
+	    //       var inputNgEl = angular.element(inputEl);
+	    //       // get the name on the text box so we know the property to check
+	    //       // on the form controller
+	    //       var inputName = inputNgEl.attr('name');
+	    //
+	    //       // only apply the has-error class after the user leaves the text box
+	    //       inputNgEl.bind('blur', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //
+	    //       scope.$on('show-errors-check-validity', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //     }
+	    //   }
+	    // });
 	};
 
 
