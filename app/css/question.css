@@ -26,3 +26,22 @@
   width: 168px;
   height: 252px;
 }
+
+.result-cover:nth-child(n+2) {
+  margin-left: 10px;
+}
+
+.result-cover:last-child {
+  margin-right: 10px;
+}
+
+#results .well {
+  overflow-x: scroll;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#comic-covers {
+  white-space: nowrap;
+  width: 1500px;
+}

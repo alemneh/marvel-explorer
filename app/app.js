@@ -5,9 +5,11 @@ require('angular-route');
 require('angular-animate');
 
 const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
+  // SERVICES
 require('./services/error_service')(app);
 require('./services/auth_service')(app);
 require('./services/http_services')(app);
+  // CONTROLLERS
 require('./controllers/findCharacter_controller')(app);
 require('./controllers/signin_controller')(app);
 require('./controllers/profile_controller')(app);
