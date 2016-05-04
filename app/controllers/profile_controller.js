@@ -10,9 +10,9 @@ module.exports = function(app) {
     _this.sampleUser = {
       username: 'Tim',
       profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
-      age: 25,
-      city: 'Seattle',
-      state: 'WA'
+      favorite_Hero: 'Superman',
+      location: 'Seattle',
+      Bio: 'About me .....'
     }
 
     _this.profileEdit = false;

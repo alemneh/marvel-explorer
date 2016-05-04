@@ -7,11 +7,7 @@ module.exports = function(app) {
     }
 
     Resource.prototype.getAll = function() {
-      return $http.get(mainRoute + this.resourceName, {
-        headers: {
-          Authorization: 'Token ' + AuthService.getToken()
-        }
-      });
+      return $http.get(mainRoute + this.resourceName);
     };
 
     Resource.prototype.getOne = function(id) {

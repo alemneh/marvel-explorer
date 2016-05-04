@@ -1,11 +1,12 @@
 <section data-ng-init="profileCtrl.getComics(10)" id="profile">
+  <div class="well well-lg">
   <div data-ng-show="!profileCtrl.profileEdit" class="">
     <h1>Profile</h1>
     <img data-ng-src="{{profileCtrl.sampleUser.profileImage}}" alt="" />
     <p>{{profileCtrl.sampleUser.username}}</p>
-    <p>{{profileCtrl.sampleUser.age}}</p>
-    <p>{{profileCtrl.sampleUser.city}}</p>
-    <p>{{profileCtrl.sampleUser.state}}</p>
+    <p>{{profileCtrl.sampleUser.favorite_Hero}}</p>
+    <p>{{profileCtrl.sampleUser.location}}</p>
+    <p>{{profileCtrl.sampleUser.Bio}}</p>
     <button type="button" class="btn btn-primary"
     data-ng-click="profileCtrl.edit(profileCtrl.sampleUser)"
     data-toggle="modal" data-target="#myModal"
@@ -110,5 +111,5 @@
 
 
   </div><!-- End profile edit -->
-
+</div>
 </section>

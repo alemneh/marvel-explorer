@@ -166,6 +166,9 @@
 	  })
 	  .when('/compare-characters', {
 	    templateUrl: 'views/compare_characters.html'
+	  })
+	  .when('/character', {
+	    templateUrl: 'views/character.html'
 	  });
 	}]);
 
@@ -36586,9 +36589,9 @@
 	    _this.sampleUser = {
 	      username: 'Tim',
 	      profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
-	      age: 25,
-	      city: 'Seattle',
-	      state: 'WA'
+	      favorite_Hero: 'Superman',
+	      location: 'Seattle',
+	      Bio: 'About me .....'
 	    }
 
 	    _this.profileEdit = false;

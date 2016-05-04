@@ -120,5 +120,8 @@ app.config(['$routeProvider', router => {
   })
   .when('/compare-characters', {
     templateUrl: 'views/compare_characters.html'
+  })
+  .when('/character', {
+    templateUrl: 'views/character.html'
   });
 }]);
