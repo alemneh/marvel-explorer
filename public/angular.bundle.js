@@ -36349,7 +36349,7 @@
 	    Resource.prototype.update = function(data, token) {
 	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
@@ -36357,7 +36357,7 @@
 	    Resource.prototype.remove = function(data, token) {
 	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    }
