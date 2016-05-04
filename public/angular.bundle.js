@@ -36325,16 +36325,16 @@
 	      this.resourceName = resourceName;
 	    }
 
-	    Resource.prototype.getAll = function(id) {
-	      return $http.get(mainRoute + this.resourceName + id + '/comics' , {
+	    Resource.prototype.getAll = function() {
+	      return $http.get(mainRoute + this.resourceName, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
 
-	    Resource.prototype.getOne = function(data, token) {
-	      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.getOne = function(id) {
+	      return $http.get(mainRoute + this.resourceName + id + '/comics', {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
@@ -36609,7 +36609,7 @@
 
 
 	    _this.edit = function(user) {
-	      _this.profileEdit = true;
+	      // _this.profileEdit = true;
 	      _this.setUser(user);
 	    };
 
@@ -36639,8 +36639,12 @@
 	    }
 
 	    _this.getComics = function(id) {
-	      usersResource.getAll(id).then((res) => {
-	        console.log(res);
+	      usersResource.getOne(id).then((res) => {
+	        console.log(res.data);
+	        res.data.forEach(function(book) {
+	          if(book.read) _this.readList.push(book);
+	          _this.unreadList.push(book);
+	        })
 	      }, function(error) {
 	        console.log(error);
 	      })
