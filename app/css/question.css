@@ -1,6 +1,6 @@
 .question .modal {
   display: block;
-  overflow: visible;
+  /*overflow: visible;*/
   position: relative;
   z-index: 10;
 }
@@ -21,8 +21,42 @@
   padding: 0 15px;
 }
 
-.result-cover {
+.result-image {
   display: inline-block;
   width: 168px;
   height: 252px;
+}
+
+.result-image:nth-child(n+2) {
+  margin-left: 10px;
+}
+
+.result-image:last-child {
+  margin-right: 10px;
+}
+
+#results .well {
+  overflow-x: scroll;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#character-images {
+  white-space: nowrap;
+}
+
+#fade-left {
+  left: 20px;
+}
+
+#fade-right {
+  right: 20px;
+}
+
+#fade-left,
+#fade-right {
+  position: absolute;
+  margin-top: -10px;
+  height: 275px;
+  z-index: 1000;
 }

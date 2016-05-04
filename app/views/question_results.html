@@ -1,19 +1,11 @@
-<article data-ng-show="findCtrl.showResults">
-  <div class="well well-sm row">
-      <div class="result-cover" style="background-image: url(https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder&w=168&h=252)">
-
-      </div>
-      <div class="result-cover">
-
-      </div>
-      <div class="result-cover">
-
-      </div>
-      <div class="result-cover">
-
-      </div>
-      <div class="result-cover">
-
+<article id="results" data-ng-show="findCtrl.showResults">
+  <h2>Results</h2>
+  <div id="character-images" class="well well-sm row">
+    <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
+    <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
+    <div>
+      <div data-ng-repeat="character in findCtrl.results" class="result-image"
+      style="background-image: url({{character.image}})">
       </div>
     </div>
   </div>
