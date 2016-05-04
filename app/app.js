@@ -7,6 +7,8 @@ require('angular-animate');
 const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 require('./services/auth_service')(app);
+require('./services/http_services')(app);
+require('./controllers/findCharacter_controller')(app);
 require('./controllers/signin_controller')(app);
 require('./controllers/profile_controller')(app);
 
@@ -16,6 +18,7 @@ app.controller('TabController', function($location) {
   let _this = this;
   if ($location.$$path == '/') _this.tab = 1;
   if ($location.$$path == '/profile') _this.tab = 2;
+  if ($location.$$path == '/find-character') _this.tab = 3;
 
   _this.setTab = num => _this.tab = num;
   _this.isSet = num => _this.tab == num;
@@ -95,5 +98,10 @@ app.config(['$routeProvider', router => {
     controller: 'ProfileController',
     controllerAs: 'profileCtrl'
 
+  })
+  .when('/find-character', {
+    templateUrl: 'views/find_character.html',
+    controller: 'FindCharacterController',
+    controllerAs: 'findCtrl'
   });
 }]);

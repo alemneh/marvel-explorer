@@ -55,6 +55,8 @@
 	__webpack_require__(8)(app);
 	__webpack_require__(9)(app);
 	__webpack_require__(10)(app);
+	__webpack_require__(11)(app);
+	__webpack_require__(12)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -62,6 +64,7 @@
 	  let _this = this;
 	  if ($location.$$path == '/') _this.tab = 1;
 	  if ($location.$$path == '/profile') _this.tab = 2;
+	  if ($location.$$path == '/find-character') _this.tab = 3;
 
 	  _this.setTab = num => _this.tab = num;
 	  _this.isSet = num => _this.tab == num;
@@ -141,6 +144,11 @@
 	    controller: 'ProfileController',
 	    controllerAs: 'profileCtrl'
 
+	  })
+	  .when('/find-character', {
+	    templateUrl: 'views/find_character.html',
+	    controller: 'FindCharacterController',
+	    controllerAs: 'findCtrl'
 	  });
 	}]);
 
@@ -36295,6 +36303,64 @@
 /* 9 */
 /***/ function(module, exports) {
 
+	module.exports = function(app) {
+	  app.factory('httpService', ['$http', function($http) {
+	    const mainRoute = 'http://localhost:3000/';
+
+	    function Resource(resourceName) {
+	      this.resourceName = resourceName;
+	    }
+
+	    Resource.prototype.getAll = function(token) {
+	      return $http.get(mainRoute + this.resourceName, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.getOne = function(data, token) {
+	      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.create = function(data) {
+	      return $http.post(mainRoute + this.resourceName, data);
+	    };
+
+
+	    Resource.prototype.update = function(data, token) {
+	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.remove = function(data, token) {
+	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    }
+
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+
+	  }]);
+	}
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	module.exports = function(app) {
@@ -36387,7 +36453,7 @@
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36466,6 +36532,72 @@
 
 	  }]);
 	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('FindCharacterController', ['httpService', function(httpService) {
+	    const _this = this;
+	    const requestCharacter = httpService('characters');
+	    // const requestComics
+	    _this.showResults = false;
+	    _this.queries = [];
+	    _this.num = 0;
+	    _this.questions = [
+	      'I want a character with gender:',
+	      'I want a character who first appears in:',
+	      'I want a character who has appeared in:',
+	      'I want a character who\'s identity is:',
+	      'I want a character who\'s hair is:',
+	      'I want a character who weighs:',
+	      'I want a character from:'
+	    ];
+	    _this.options = [
+	      ['thing1', 'thing2', 'thing3', 'thing4'],
+	      ['other1', 'other2', 'other3', 'other4'],
+	      ['tres1', 'tres2', 'tres3', 'tres4']
+	    ];
+
+	    _this.nxtQ = (num, option) => {
+	      if (num == 6) return;
+	      _this.queries[num] = option;
+	      _this.num = _this.num += 1;
+	      console.log(_this.num);
+	    }
+
+	    _this.back = (num) => {
+	      if (num == 0) return;
+	      _this.num = _this.num -= 1;
+	      console.log(_this.num);
+	    }
+
+	    _this.getResults = (num, option) => {
+	      _this.queries[num] =  option;
+	      _this.showResults = true;
+	    }
+	  }]);
+
+	  app.directive('question', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      templateUrl: 'views/question.html'
+	    }
+	  });
+
+	  app.directive('questionResults', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      templateUrl: 'views/question_results.html'
+	    }
+	  });
+	}
 
 
 /***/ }

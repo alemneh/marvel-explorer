@@ -1,0 +1,28 @@
+.question .modal {
+  display: block;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+}
+
+.question .modal-header {
+  color: white;
+}
+
+.question .modal .pager {
+  margin-bottom: 0;
+}
+
+.question span {
+  padding-right: 10px;
+}
+
+.select-options {
+  padding: 0 15px;
+}
+
+.result-cover {
+  display: inline-block;
+  width: 168px;
+  height: 252px;
+}

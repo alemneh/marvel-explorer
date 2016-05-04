@@ -1,12 +1,12 @@
-module.expots = function(app) {
+module.exports = function(app) {
   app.factory('httpService', ['$http', function($http) {
     const mainRoute = 'http://localhost:3000/';
 
-    function resource(resourceName) {
+    function Resource(resourceName) {
       this.resourceName = resourceName;
     }
 
-    resource.prototype.get = function(token) {
+    Resource.prototype.getAll = function(token) {
       return $http.get(mainRoute + this.resourceName, {
         headers: {
           token: token
@@ -14,12 +14,20 @@ module.expots = function(app) {
       });
     };
 
-    resource.prototype.create = function(data) {
+    Resource.prototype.getOne = function(data, token) {
+      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+        headers: {
+          token: token
+        }
+      });
+    };
+
+    Resource.prototype.create = function(data) {
       return $http.post(mainRoute + this.resourceName, data);
     };
 
 
-    resource.prototype.update = function(data, token) {
+    Resource.prototype.update = function(data, token) {
       return $http.put(mainRoute + this.resourceName + '/' + data._id, {
         headers: {
           token: token
@@ -27,16 +35,17 @@ module.expots = function(app) {
       });
     };
 
-    resource.prototype.remove = function(data, token) {
+    Resource.prototype.remove = function(data, token) {
       return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
         headers: {
           token: token
         }
       });
+    }
 
 
     return function(resourceName) {
-      return new resource(resourceName);
+      return new Resource(resourceName);
     };
 
   }]);
