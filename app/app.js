@@ -26,7 +26,18 @@ app.controller('TabController', function($location) {
   _this.isSet = num => _this.tab == num;
 });
 
-app.controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
+app.run(['$rootScope', '$location', '$route', '$window', function($rootScope, $location, $route, $window) {
+
+  $rootScope.$on('$locationChangeStart', function(event) {
+    var nextRoute = $route.routes[$location.path()];
+    if(nextRoute.requireLogin) {
+      if(!$window.localStorage.token) {
+        event.preventDefault();
+        $location.path('/');
+      }
+    }
+  })
+}]).controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
   const _this = this;
   _this.signInPopup = false;
   _this.error = ErrorService(null);
@@ -98,7 +109,8 @@ app.config(['$routeProvider', router => {
   .when('/profile', {
     templateUrl: 'views/profile.html',
     controller: 'ProfileController',
-    controllerAs: 'profileCtrl'
+    controllerAs: 'profileCtrl',
+    requireLogin: true
 
   })
   .when('/find-character', {

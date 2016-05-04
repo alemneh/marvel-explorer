@@ -1,4 +1,4 @@
-<section id="profile">
+<section data-ng-init="profileCtrl.getComics(10)" id="profile">
   <div data-ng-show="!profileCtrl.profileEdit" class="">
     <h1>Profile</h1>
     <img data-ng-src="{{profileCtrl.sampleUser.profileImage}}" alt="" />

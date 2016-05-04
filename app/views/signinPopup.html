@@ -52,6 +52,9 @@
           <h4>Something Went Wrong!</h4>
           <p>{{signinCtrl.error}}</p>
         </div>
+        <div data-ng-show="signinCtrl.verify" class="alert alert-dismissible alert-success">
+          <h4>Check your email and then singin!</h4>
+        </div>
         <div class="form-group">
           <label for="inputUsername" class="control-label">Username</label>
           <div>
