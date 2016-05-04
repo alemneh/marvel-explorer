@@ -72,36 +72,36 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="inputAge" class="col-lg-2 control-label">Age</label>
+              <label for="inputAge" class="col-lg-2 control-label">Favorite Hero</label>
               <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputAge" data-ng-model="profileCtrl.sampleUser.age">
+                <input type="text" class="form-control" id="inputAge" data-ng-model="profileCtrl.sampleUser.favorite_Hero">
               </div>
             </div>
             <div class="form-group">
-              <label for="inputCity" class="col-lg-2 control-label">City</label>
+              <label for="inputCity" class="col-lg-2 control-label">Location</label>
               <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputCity" data-ng-model="profileCtrl.sampleUser.city">
+                <input type="text" class="form-control" id="inputCity" data-ng-model="profileCtrl.sampleUser.location">
               </div>
             </div>
             <div class="form-group">
-              <label for="inputState" class="col-lg-2 control-label">State</label>
+              <label for="inputState" class="col-lg-2 control-label">Bio</label>
               <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputState" data-ng-model="profileCtrl.sampleUser.state">
+                <input type="text" class="form-control" id="inputState" data-ng-model="profileCtrl.sampleUser.Bio">
               </div>
             </div>
             <div class="form-group">
               <div class="col-lg-10 col-lg-offset-2">
-                <button data-ng-click="profileCtrl.cancel(user)" type="reset" class="btn btn-default">Cancel</button>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button data-ng-click="profileCtrl.cancel(user)" type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal">Update</button>
               </div>
             </div>
           </fieldset>
         </form>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div> -->
     </div>
 </div>
 </div>
