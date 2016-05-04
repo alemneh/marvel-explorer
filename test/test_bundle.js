@@ -46,7 +46,7 @@
 
 	__webpack_require__(1);
 	const angular = __webpack_require__(2);
-	__webpack_require__(12);
+	__webpack_require__(14);
 
 	describe('it should test something', () => {
 	  var profileController;
@@ -68,6 +68,24 @@
 	    expect(typeof profileController.markRead).toBe('function');
 	    expect(typeof profileController.removeBook).toBe('function');
 	  })
+
+	  describe('REST tests', () => {
+	    var $httpBackend;
+	    beforeEach(angular.mock.inject(function(_$httpBackend_) {
+	      $httpBackend = _$httpBackend_;
+	    }));
+	    afterEach(() => {
+	      $httpBackend.verifyNoOutstandingExpectation();
+	      $httpBackend.verifyNoOutstandingRequest();
+	    })
+
+	    it('get a reading list', () => {
+	      $httpBackend.expectGet('http://localhost:3000/')
+	        .respond(200, {data: [{list: ['Spiderman']}]});
+	      profileController.getList();
+	      $httpBackend.flush();
+	    })
+	  })
 	});
 
 
@@ -86,6 +104,8 @@
 	__webpack_require__(9)(app);
 	__webpack_require__(10)(app);
 	__webpack_require__(11)(app);
+	__webpack_require__(12)(app);
+	__webpack_require__(13)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -93,6 +113,7 @@
 	  let _this = this;
 	  if ($location.$$path == '/') _this.tab = 1;
 	  if ($location.$$path == '/profile') _this.tab = 2;
+	  if ($location.$$path == '/find-character') _this.tab = 3;
 
 	  _this.setTab = num => _this.tab = num;
 	  _this.isSet = num => _this.tab == num;
@@ -172,6 +193,14 @@
 	    controller: 'ProfileController',
 	    controllerAs: 'profileCtrl'
 
+	  })
+	  .when('/find-character', {
+	    templateUrl: 'views/find_character.html',
+	    controller: 'FindCharacterController',
+	    controllerAs: 'findCtrl'
+	  })
+	  .when('/compare-characters', {
+	    templateUrl: 'views/compare_characters.html'
 	  });
 	}]);
 
@@ -36283,13 +36312,13 @@
 	  app.factory('AuthService', ['$http', '$window', function($http, $window) {
 	    var token;
 	    var signedIn = false;
-	    var url = 'http://localhost:3000';
+	    var url = 'http://54.201.60.218';
 	    var auth = {
 	      createUser(user, cb) {
 	        cb || function() {};
-	        $http.post(url + 'signup', user)
+	        $http.post(url + '/users/new', user)
 	          .then((res) => {
-	            token = $window.localStorage.token = res.data.token;
+	            console.log(res);
 	            cb(null, res);
 	          }, (err) => {
 	            cb(err);
@@ -36305,11 +36334,8 @@
 	      },
 	      signIn(user, cb) {
 	        cb || function() {};
-	        $http.get(url + '/signin', {
-	          headers: {
-	            authorization: 'Basic ' + btoa(user.username + ':' + user.password)
-	          }
-	        }).then((res) => {
+	        $http.post(url + '/users/signin', user )
+	          .then((res) => {
 	          token = $window.localStorage.token = res.data.token;
 	          cb(null, res);
 	        }, (err) => {
@@ -36324,6 +36350,130 @@
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function(app) {
+	  app.factory('httpService', ['$http', function($http) {
+	    const mainRoute = 'http://localhost:3000/';
+
+	    function Resource(resourceName) {
+	      this.resourceName = resourceName;
+	    }
+
+	    Resource.prototype.getAll = function(token) {
+	      return $http.get(mainRoute + this.resourceName, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.getOne = function(data, token) {
+	      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.create = function(data) {
+	      return $http.post(mainRoute + this.resourceName, data);
+	    };
+
+
+	    Resource.prototype.update = function(data, token) {
+	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    };
+
+	    Resource.prototype.remove = function(data, token) {
+	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+	        headers: {
+	          token: token
+	        }
+	      });
+	    }
+
+
+	    return function(resourceName) {
+	      return new Resource(resourceName);
+	    };
+
+	  }]);
+	}
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function(app) {
+	  app.controller('FindCharacterController', ['httpService', function(httpService) {
+	    const _this = this;
+	    const requestCharacter = httpService('characters');
+	    // const requestComics
+	    _this.showResults = false;
+	    _this.queries = [];
+	    _this.num = 0;
+	    _this.questions = [
+	      'I want a character with gender:',
+	      'I want a character who first appears in:',
+	      'I want a character who has appeared in:',
+	      'I want a character who\'s identity is:',
+	      'I want a character who\'s hair is:',
+	      'I want a character who weighs:',
+	      'I want a character from:'
+	    ];
+	    _this.options = [
+	      ['thing1', 'thing2', 'thing3', 'thing4'],
+	      ['other1', 'other2', 'other3', 'other4'],
+	      ['tres1', 'tres2', 'tres3', 'tres4']
+	    ];
+
+	    _this.nxtQ = (num, option) => {
+	      if (num == 6) return;
+	      _this.queries[num] = option;
+	      _this.num = _this.num += 1;
+	      console.log(_this.num);
+	    }
+
+	    _this.back = (num) => {
+	      if (num == 0) return;
+	      _this.num = _this.num -= 1;
+	      console.log(_this.num);
+	    }
+
+	    _this.getResults = (num, option) => {
+	      _this.queries[num] =  option;
+	      _this.showResults = true;
+	    }
+	  }]);
+
+	  app.directive('question', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      templateUrl: 'views/question.html'
+	    }
+	  });
+
+	  app.directive('questionResults', function() {
+	    return {
+	      restrict: 'E',
+	      replace: true,
+	      templateUrl: 'views/question_results.html'
+	    }
+	  });
+	}
+
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36372,7 +36522,7 @@
 	        AuthService.createUser(user, function(err, res) {
 	          if(err) return _this.error = ErrorService('server response');
 	          _this.error = ErrorService(null);
-	          _this.signedIn = true;
+	          // _this.signedIn = true;
 	          _this.togglePopup();
 	          for (var key in user) {
 	            delete user[key];
@@ -36389,36 +36539,36 @@
 
 	    }]);
 
-	    // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
-	    app.directive('showErrors', function() {
-	      return {
-	        restrict: 'A',
-	        require:  '^form',
-	        link: function (scope, el, attrs, formCtrl) {
-	          // find the text box element, which has the 'name' attribute
-	          var inputEl   = el[0].querySelector('[name]');
-	          // convert the native text box element to an angular element
-	          var inputNgEl = angular.element(inputEl);
-	          // get the name on the text box so we know the property to check
-	          // on the form controller
-	          var inputName = inputNgEl.attr('name');
-
-	          // only apply the has-error class after the user leaves the text box
-	          inputNgEl.bind('blur', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-
-	          scope.$on('show-errors-check-validity', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-	        }
-	      }
-	    });
+	    // // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
+	    // app.directive('showErrors', function() {
+	    //   return {
+	    //     restrict: 'A',
+	    //     require:  '^form',
+	    //     link: function (scope, el, attrs, formCtrl) {
+	    //       // find the text box element, which has the 'name' attribute
+	    //       var inputEl   = el[0].querySelector('[name]');
+	    //       // convert the native text box element to an angular element
+	    //       var inputNgEl = angular.element(inputEl);
+	    //       // get the name on the text box so we know the property to check
+	    //       // on the form controller
+	    //       var inputName = inputNgEl.attr('name');
+	    //
+	    //       // only apply the has-error class after the user leaves the text box
+	    //       inputNgEl.bind('blur', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //
+	    //       scope.$on('show-errors-check-validity', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //     }
+	    //   }
+	    // });
 	};
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36500,7 +36650,7 @@
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports) {
 
 	/**
