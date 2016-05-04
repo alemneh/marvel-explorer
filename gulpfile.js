@@ -33,10 +33,10 @@ gulp.task('css', function() {
 //     .pipe(gulp.dest('./public'))
 // });
 
-// gulp.task('bundle:test', () => {
-//   return gulp.src(sources.test)
-//     .pipe(webpack({output: {filename: 'test_bundle.js'}}))
-//     .pipe(gulp.dest('./test'));
-// });
+gulp.task('bundle:test', () => {
+  return gulp.src(sources.test)
+    .pipe(webpack({output: {filename: 'test_bundle.js'}}))
+    .pipe(gulp.dest('./test'));
+});
 
-gulp.task('default', ['bundle:angular', 'bundle:custom', 'css']);
+gulp.task('default', ['bundle:angular', 'bundle:custom', 'css', 'bundle:test']);

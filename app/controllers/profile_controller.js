@@ -4,8 +4,8 @@ module.exports = function(app) {
   app.controller('ProfileController', ['ErrorService', function(ErrorService) {
     // const readingListResource = httpService('readinglist');
     const _this = this;
-    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}];
-    _this.unreadList = [{name: 'Superman'},{name: 'Batman'}];
+    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
+    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
     _this.sampleUser = {
       username: 'Tim',
       profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
