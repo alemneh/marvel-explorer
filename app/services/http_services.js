@@ -1,6 +1,6 @@
 module.exports = function(app) {
   app.factory('httpService', ['$http', function($http) {
-    const mainRoute = 'http://localhost:3000/';
+    const mainRoute = 'http://54.201.60.218/';
 
     function Resource(resourceName) {
       this.resourceName = resourceName;
@@ -14,8 +14,8 @@ module.exports = function(app) {
       });
     };
 
-    Resource.prototype.getOne = function(data, token) {
-      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.getOne = function(id, token) {
+      return $http.get(mainRoute + this.resourceName + '/' + id, {
         headers: {
           token: token
         }
@@ -27,16 +27,16 @@ module.exports = function(app) {
     };
 
 
-    Resource.prototype.update = function(data, token) {
-      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.update = function(id, token) {
+      return $http.put(mainRoute + this.resourceName + '/' + id, {
         headers: {
           token: token
         }
       });
     };
 
-    Resource.prototype.remove = function(data, token) {
-      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.remove = function(id, token) {
+      return $http.delete(mainRoute + this.resourceName + '/' + id, {
         headers: {
           token: token
         }

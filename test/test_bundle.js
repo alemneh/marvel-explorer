@@ -200,12 +200,9 @@
 	    templateUrl: 'views/find_character.html',
 	    controller: 'FindCharacterController',
 	    controllerAs: 'findCtrl'
-<<<<<<< HEAD
-=======
 	  })
 	  .when('/compare-characters', {
 	    templateUrl: 'views/compare_characters.html'
->>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	  });
 	}]);
 
@@ -36359,7 +36356,7 @@
 
 	module.exports = function(app) {
 	  app.factory('httpService', ['$http', function($http) {
-	    const mainRoute = 'http://localhost:3000/';
+	    const mainRoute = 'http://54.201.60.218/';
 
 	    function Resource(resourceName) {
 	      this.resourceName = resourceName;
@@ -36373,8 +36370,8 @@
 	      });
 	    };
 
-	    Resource.prototype.getOne = function(data, token) {
-	      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.getOne = function(id, token) {
+	      return $http.get(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
@@ -36386,16 +36383,16 @@
 	    };
 
 
-	    Resource.prototype.update = function(data, token) {
-	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.update = function(id, token) {
+	      return $http.put(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
 	      });
 	    };
 
-	    Resource.prototype.remove = function(data, token) {
-	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.remove = function(id, token) {
+	      return $http.delete(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
@@ -36418,32 +36415,42 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('FindCharacterController', ['httpService', function(httpService) {
+	  app.controller('FindCharacterController', ['httpService', '$window', '$scope', function(httpService, $window, $scope) {
+	    const httpReq = httpService('herofinder');
 	    const _this = this;
-	    const requestCharacter = httpService('characters');
+	    var token;
+
 	    // const requestComics
 	    _this.showResults = false;
-<<<<<<< HEAD
 	    _this.onLeft = true;
 	    _this.onRight = false;
-=======
->>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	    _this.queries = [];
 	    _this.num = 0;
-	    _this.questions = [
-	      'I want a character with gender:',
-	      'I want a character who first appears in:',
-	      'I want a character who has appeared in:',
-	      'I want a character who\'s identity is:',
-	      'I want a character who\'s hair is:',
-	      'I want a character who weighs:',
-	      'I want a character from:'
-	    ];
-	    _this.options = [
-	      ['thing1', 'thing2', 'thing3', 'thing4'],
-	      ['other1', 'other2', 'other3', 'other4'],
-	      ['tres1', 'tres2', 'tres3', 'tres4']
-	    ];
+
+	    _this.results = [];
+
+	    _this.init = () => {
+	      token = $window.localStorage.token;
+	      httpReq.getAll(token)
+	        .then(res => {
+	          _this.results = res.characters;
+	          console.log(_this.results);
+	        });
+	    }
+	    // _this.questions = [
+	    //   'I want a character with gender:',
+	    //   'I want a character who first appears in:',
+	    //   'I want a character who has appeared in:',
+	    //   'I want a character who\'s identity is:',
+	    //   'I want a character who\'s hair is:',
+	    //   'I want a character who weighs:',
+	    //   'I want a character from:'
+	    // ];
+	    // _this.options = [
+	    //   ['thing1', 'thing2', 'thing3', 'thing4'],
+	    //   ['other1', 'other2', 'other3', 'other4'],
+	    //   ['tres1', 'tres2', 'tres3', 'tres4']
+	    // ];
 
 	    _this.nxtQ = (num, option) => {
 	      if (num == 6) return;
@@ -36461,20 +36468,19 @@
 	    _this.getResults = (num, option) => {
 	      _this.queries[num] =  option;
 	      _this.showResults = true;
-<<<<<<< HEAD
 	      endScroll();
 	    }
 
-	    _this.results = [
-	      {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
-	      {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
-	      {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
-	      {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
-	      {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
-	      {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
-	      {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
-	      {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
-	    ]
+	    // _this.results = [
+	    //   {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
+	    //   {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
+	    //   {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
+	    //   {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
+	    //   {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
+	    //   {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
+	    //   {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
+	    //   {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
+	    // ]
 
 	    function endScroll() {
 	      var scroll = document.getElementById('character-images');
@@ -36482,18 +36488,17 @@
 	      var ele = $('#results');
 	      inner.scroll(function() {
 	        var scrollWidth = inner.scrollLeft() + ele.width();
-	        if (inner.scrollLeft() <= 10) {
+	        if (inner.scrollLeft() <= 15) {
 	          _this.onLeft = true;
-	        } else if (inner.scrollLeft() > 10 && inner.scrollLeft() < 20) {
+	        } else if (inner.scrollLeft() > 15 && inner.scrollLeft() < 30) {
 	          _this.onLeft = false;
-	        } else if (scrollWidth >= scroll.scrollWidth - 10) {
+	        } else if (scrollWidth >= scroll.scrollWidth - 15) {
 	          _this.onRight = true;
-	        } else if (scrollWidth < scroll.scrollWidth - 10 && scrollWidth > scroll.scrollWidth - 20) {
+	        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > scroll.scrollWidth - 30) {
 	          _this.onRight = false;
 	        }
+	        $scope.$digest();
 	      });
-=======
->>>>>>> b0f4ae6d152c2c630b2e79db47bca234fb50ba08
 	    }
 	  }]);
 

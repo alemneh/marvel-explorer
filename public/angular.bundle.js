@@ -151,6 +151,9 @@
 	    templateUrl: 'views/find_character.html',
 	    controller: 'FindCharacterController',
 	    controllerAs: 'findCtrl'
+	  })
+	  .when('/compare-characters', {
+	    templateUrl: 'views/compare_characters.html'
 	  });
 	}]);
 
@@ -36262,13 +36265,13 @@
 	  app.factory('AuthService', ['$http', '$window', function($http, $window) {
 	    var token;
 	    var signedIn = false;
-	    var url = 'http://localhost:3000';
+	    var url = 'http://54.201.60.218';
 	    var auth = {
 	      createUser(user, cb) {
 	        cb || function() {};
-	        $http.post(url + 'signup', user)
+	        $http.post(url + '/users/new', user)
 	          .then((res) => {
-	            token = $window.localStorage.token = res.data.token;
+	            console.log(res);
 	            cb(null, res);
 	          }, (err) => {
 	            cb(err);
@@ -36284,11 +36287,8 @@
 	      },
 	      signIn(user, cb) {
 	        cb || function() {};
-	        $http.get(url + '/signin', {
-	          headers: {
-	            authorization: 'Basic ' + btoa(user.username + ':' + user.password)
-	          }
-	        }).then((res) => {
+	        $http.post(url + '/users/signin', user )
+	          .then((res) => {
 	          token = $window.localStorage.token = res.data.token;
 	          cb(null, res);
 	        }, (err) => {
@@ -36307,7 +36307,7 @@
 
 	module.exports = function(app) {
 	  app.factory('httpService', ['$http', function($http) {
-	    const mainRoute = 'http://localhost:3000/';
+	    const mainRoute = 'http://54.201.60.218/';
 
 	    function Resource(resourceName) {
 	      this.resourceName = resourceName;
@@ -36321,8 +36321,8 @@
 	      });
 	    };
 
-	    Resource.prototype.getOne = function(data, token) {
-	      return $http.get(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.getOne = function(id, token) {
+	      return $http.get(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
@@ -36334,16 +36334,16 @@
 	    };
 
 
-	    Resource.prototype.update = function(data, token) {
-	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.update = function(id, token) {
+	      return $http.put(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
 	      });
 	    };
 
-	    Resource.prototype.remove = function(data, token) {
-	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.remove = function(id, token) {
+	      return $http.delete(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
 	          token: token
 	        }
@@ -36366,29 +36366,42 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('FindCharacterController', ['httpService', function(httpService) {
+	  app.controller('FindCharacterController', ['httpService', '$window', '$scope', function(httpService, $window, $scope) {
+	    const httpReq = httpService('herofinder');
 	    const _this = this;
-	    const requestCharacter = httpService('characters');
+	    var token;
+
 	    // const requestComics
 	    _this.showResults = false;
 	    _this.onLeft = true;
 	    _this.onRight = false;
 	    _this.queries = [];
 	    _this.num = 0;
-	    _this.questions = [
-	      'I want a character with gender:',
-	      'I want a character who first appears in:',
-	      'I want a character who has appeared in:',
-	      'I want a character who\'s identity is:',
-	      'I want a character who\'s hair is:',
-	      'I want a character who weighs:',
-	      'I want a character from:'
-	    ];
-	    _this.options = [
-	      ['thing1', 'thing2', 'thing3', 'thing4'],
-	      ['other1', 'other2', 'other3', 'other4'],
-	      ['tres1', 'tres2', 'tres3', 'tres4']
-	    ];
+
+	    _this.results = [];
+
+	    _this.init = () => {
+	      token = $window.localStorage.token;
+	      httpReq.getAll(token)
+	        .then(res => {
+	          _this.results = res.characters;
+	          console.log(_this.results);
+	        });
+	    }
+	    // _this.questions = [
+	    //   'I want a character with gender:',
+	    //   'I want a character who first appears in:',
+	    //   'I want a character who has appeared in:',
+	    //   'I want a character who\'s identity is:',
+	    //   'I want a character who\'s hair is:',
+	    //   'I want a character who weighs:',
+	    //   'I want a character from:'
+	    // ];
+	    // _this.options = [
+	    //   ['thing1', 'thing2', 'thing3', 'thing4'],
+	    //   ['other1', 'other2', 'other3', 'other4'],
+	    //   ['tres1', 'tres2', 'tres3', 'tres4']
+	    // ];
 
 	    _this.nxtQ = (num, option) => {
 	      if (num == 6) return;
@@ -36409,16 +36422,16 @@
 	      endScroll();
 	    }
 
-	    _this.results = [
-	      {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
-	      {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
-	      {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
-	      {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
-	      {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
-	      {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
-	      {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
-	      {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
-	    ]
+	    // _this.results = [
+	    //   {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
+	    //   {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
+	    //   {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
+	    //   {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
+	    //   {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
+	    //   {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
+	    //   {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
+	    //   {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
+	    // ]
 
 	    function endScroll() {
 	      var scroll = document.getElementById('character-images');
@@ -36426,15 +36439,16 @@
 	      var ele = $('#results');
 	      inner.scroll(function() {
 	        var scrollWidth = inner.scrollLeft() + ele.width();
-	        if (inner.scrollLeft() <= 10) {
+	        if (inner.scrollLeft() <= 15) {
 	          _this.onLeft = true;
-	        } else if (inner.scrollLeft() > 10 && inner.scrollLeft() < 20) {
+	        } else if (inner.scrollLeft() > 15 && inner.scrollLeft() < 30) {
 	          _this.onLeft = false;
-	        } else if (scrollWidth >= scroll.scrollWidth - 10) {
+	        } else if (scrollWidth >= scroll.scrollWidth - 15) {
 	          _this.onRight = true;
-	        } else if (scrollWidth < scroll.scrollWidth - 10 && scrollWidth > scroll.scrollWidth - 20) {
+	        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > scroll.scrollWidth - 30) {
 	          _this.onRight = false;
 	        }
+	        $scope.$digest();
 	      });
 	    }
 	  }]);
@@ -36507,7 +36521,7 @@
 	        AuthService.createUser(user, function(err, res) {
 	          if(err) return _this.error = ErrorService('server response');
 	          _this.error = ErrorService(null);
-	          _this.signedIn = true;
+	          // _this.signedIn = true;
 	          _this.togglePopup();
 	          for (var key in user) {
 	            delete user[key];
@@ -36524,31 +36538,31 @@
 
 	    }]);
 
-	    // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
-	    app.directive('showErrors', function() {
-	      return {
-	        restrict: 'A',
-	        require:  '^form',
-	        link: function (scope, el, attrs, formCtrl) {
-	          // find the text box element, which has the 'name' attribute
-	          var inputEl   = el[0].querySelector('[name]');
-	          // convert the native text box element to an angular element
-	          var inputNgEl = angular.element(inputEl);
-	          // get the name on the text box so we know the property to check
-	          // on the form controller
-	          var inputName = inputNgEl.attr('name');
-
-	          // only apply the has-error class after the user leaves the text box
-	          inputNgEl.bind('blur', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-
-	          scope.$on('show-errors-check-validity', function() {
-	            el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	          });
-	        }
-	      }
-	    });
+	    // // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
+	    // app.directive('showErrors', function() {
+	    //   return {
+	    //     restrict: 'A',
+	    //     require:  '^form',
+	    //     link: function (scope, el, attrs, formCtrl) {
+	    //       // find the text box element, which has the 'name' attribute
+	    //       var inputEl   = el[0].querySelector('[name]');
+	    //       // convert the native text box element to an angular element
+	    //       var inputNgEl = angular.element(inputEl);
+	    //       // get the name on the text box so we know the property to check
+	    //       // on the form controller
+	    //       var inputName = inputNgEl.attr('name');
+	    //
+	    //       // only apply the has-error class after the user leaves the text box
+	    //       inputNgEl.bind('blur', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //
+	    //       scope.$on('show-errors-check-validity', function() {
+	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
+	    //       });
+	    //     }
+	    //   }
+	    // });
 	};
 
 

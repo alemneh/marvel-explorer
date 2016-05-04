@@ -6,6 +6,7 @@ npm-debug.log*
 angular.bundle.js
 custom.bundle.js
 styles.min.css
+test/test_bundle.js
 
 # Runtime data
 pids
