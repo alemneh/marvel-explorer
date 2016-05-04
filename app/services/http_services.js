@@ -1,15 +1,15 @@
 module.exports = function(app) {
-  app.factory('httpService', ['$http', function($http) {
-    const mainRoute = 'http://localhost:3000/';
+  app.factory('httpService', ['$http', 'AuthService', function($http, AuthService) {
+    const mainRoute = 'http://54.201.60.218/';
 
     function Resource(resourceName) {
       this.resourceName = resourceName;
     }
 
-    Resource.prototype.getAll = function(token) {
-      return $http.get(mainRoute + this.resourceName, {
+    Resource.prototype.getAll = function(id) {
+      return $http.get(mainRoute + this.resourceName + id + '/comics' , {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
@@ -17,7 +17,7 @@ module.exports = function(app) {
     Resource.prototype.getOne = function(data, token) {
       return $http.get(mainRoute + this.resourceName + '/' + data._id, {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
@@ -30,7 +30,7 @@ module.exports = function(app) {
     Resource.prototype.update = function(data, token) {
       return $http.put(mainRoute + this.resourceName + '/' + data._id, {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
@@ -38,7 +38,7 @@ module.exports = function(app) {
     Resource.prototype.remove = function(data, token) {
       return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     }

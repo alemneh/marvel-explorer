@@ -1,8 +1,9 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('ProfileController', ['ErrorService', function(ErrorService) {
-    // const readingListResource = httpService('readinglist');
+  app.controller('ProfileController', ['ErrorService', 'httpService',
+  function(ErrorService, httpService) {
+    const usersResource = httpService('users/');
     const _this = this;
     _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
     _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
@@ -59,6 +60,15 @@ module.exports = function(app) {
     _this.removeBook = function(book) {
       _this.unreadList = _this.unreadList.filter((b) => b.name != book.name );
       _this.readList = _this.readList.filter((b) => b.name != book.name );
+    }
+
+    _this.getComics = function(id) {
+      usersResource.getAll(id).then((res) => {
+        console.log(res);
+      }, function(error) {
+        console.log(error);
+      })
+
     }
 
     _this.updateReadingList = function(list, token) {

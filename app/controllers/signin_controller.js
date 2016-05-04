@@ -6,6 +6,7 @@ module.exports = function(app) {
       const _this = this;
       _this.signedIn = false;
       _this.switchForm = true;
+      _this.verify = false;
 
       _this.togglePopup = () => {
         _this.error = ErrorService(null);
@@ -32,7 +33,9 @@ module.exports = function(app) {
         AuthService.signIn(user, (err, res) => {
           if(err) return _this.error = ErrorService('Invalid Username or Password');
           _this.error = ErrorService(null);
+          console.log(res);
           _this.signedIn = true;
+          _this.verify = false;
           _this.togglePopup();
           for (var key in user) {
             delete user[key];
@@ -42,10 +45,13 @@ module.exports = function(app) {
 
       _this.signUp = function(user) {
         AuthService.createUser(user, function(err, res) {
-          if(err) return _this.error = ErrorService('server response');
+          if(err) {
+            return _this.error = ErrorService(err.data.username[0]);
+          }
           _this.error = ErrorService(null);
-          // _this.signedIn = true;
-          _this.togglePopup();
+          _this.toggleForm();
+          _this.verify = true;
+          console.log(verify);
           for (var key in user) {
             delete user[key];
           }
