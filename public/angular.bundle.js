@@ -72,7 +72,18 @@
 	  _this.isSet = num => _this.tab == num;
 	});
 
-	app.controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
+	app.run(['$rootScope', '$location', '$route', '$window', function($rootScope, $location, $route, $window) {
+
+	  $rootScope.$on('$locationChangeStart', function(event) {
+	    var nextRoute = $route.routes[$location.path()];
+	    if(nextRoute.requireLogin) {
+	      if(!$window.localStorage.token) {
+	        event.preventDefault();
+	        $location.path('/');
+	      }
+	    }
+	  })
+	}]).controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
 	  const _this = this;
 	  _this.signInPopup = false;
 	  _this.error = ErrorService(null);
@@ -144,7 +155,8 @@
 	  .when('/profile', {
 	    templateUrl: 'views/profile.html',
 	    controller: 'ProfileController',
-	    controllerAs: 'profileCtrl'
+	    controllerAs: 'profileCtrl',
+	    requireLogin: true
 
 	  })
 	  .when('/find-character', {
@@ -36306,17 +36318,21 @@
 /***/ function(module, exports) {
 
 	module.exports = function(app) {
+<<<<<<< HEAD
 	  app.factory('httpService', ['$http', function($http) {
+=======
+	  app.factory('httpService', ['$http', 'AuthService', function($http, AuthService) {
+>>>>>>> 8440edb809dbec3cb1570fc4362e7c7522e9e0a3
 	    const mainRoute = 'http://54.201.60.218/';
 
 	    function Resource(resourceName) {
 	      this.resourceName = resourceName;
 	    }
 
-	    Resource.prototype.getAll = function(token) {
-	      return $http.get(mainRoute + this.resourceName, {
+	    Resource.prototype.getAll = function(id) {
+	      return $http.get(mainRoute + this.resourceName + id + '/comics' , {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
@@ -36324,7 +36340,7 @@
 	    Resource.prototype.getOne = function(id, token) {
 	      return $http.get(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
@@ -36337,7 +36353,7 @@
 	    Resource.prototype.update = function(id, token) {
 	      return $http.put(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
@@ -36345,7 +36361,7 @@
 	    Resource.prototype.remove = function(id, token) {
 	      return $http.delete(mainRoute + this.resourceName + '/' + id, {
 	        headers: {
-	          token: token
+	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    }
@@ -36483,6 +36499,7 @@
 	      const _this = this;
 	      _this.signedIn = false;
 	      _this.switchForm = true;
+	      _this.verify = false;
 
 	      _this.togglePopup = () => {
 	        _this.error = ErrorService(null);
@@ -36509,7 +36526,9 @@
 	        AuthService.signIn(user, (err, res) => {
 	          if(err) return _this.error = ErrorService('Invalid Username or Password');
 	          _this.error = ErrorService(null);
+	          console.log(res);
 	          _this.signedIn = true;
+	          _this.verify = false;
 	          _this.togglePopup();
 	          for (var key in user) {
 	            delete user[key];
@@ -36519,10 +36538,18 @@
 
 	      _this.signUp = function(user) {
 	        AuthService.createUser(user, function(err, res) {
-	          if(err) return _this.error = ErrorService('server response');
+	          if(err) {
+	            return _this.error = ErrorService(err.data.username[0]);
+	          }
 	          _this.error = ErrorService(null);
+<<<<<<< HEAD
 	          // _this.signedIn = true;
 	          _this.togglePopup();
+=======
+	          _this.toggleForm();
+	          _this.verify = true;
+	          console.log(verify);
+>>>>>>> 8440edb809dbec3cb1570fc4362e7c7522e9e0a3
 	          for (var key in user) {
 	            delete user[key];
 	          }
@@ -36573,8 +36600,9 @@
 	'use strict';
 
 	module.exports = function(app) {
-	  app.controller('ProfileController', ['ErrorService', function(ErrorService) {
-	    // const readingListResource = httpService('readinglist');
+	  app.controller('ProfileController', ['ErrorService', 'httpService',
+	  function(ErrorService, httpService) {
+	    const usersResource = httpService('users/');
 	    const _this = this;
 	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
 	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
@@ -36631,6 +36659,15 @@
 	    _this.removeBook = function(book) {
 	      _this.unreadList = _this.unreadList.filter((b) => b.name != book.name );
 	      _this.readList = _this.readList.filter((b) => b.name != book.name );
+	    }
+
+	    _this.getComics = function(id) {
+	      usersResource.getAll(id).then((res) => {
+	        console.log(res);
+	      }, function(error) {
+	        console.log(error);
+	      })
+
 	    }
 
 	    _this.updateReadingList = function(list, token) {
