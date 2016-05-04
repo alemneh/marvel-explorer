@@ -6,6 +6,8 @@ module.exports = function(app) {
     const requestCharacter = httpService('characters');
     // const requestComics
     _this.showResults = false;
+    _this.onLeft = true;
+    _this.onRight = false;
     _this.queries = [];
     _this.num = 0;
     _this.questions = [
@@ -43,24 +45,30 @@ module.exports = function(app) {
     }
 
     _this.results = [
-      {name: 'comic1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
-      {name: 'comic2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
-      {name: 'comic3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
-      {name: 'comic4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
-      {name: 'comic5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
-      {name: 'comic6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
-      {name: 'comic7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
-      {name: 'comic8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
+      {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
+      {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
+      {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
+      {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
+      {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
+      {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
+      {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
+      {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
     ]
 
     function endScroll() {
+      var scroll = document.getElementById('character-images');
+      var inner = $('#character-images');
       var ele = $('#results');
-      var inner = $('#comic-covers');
-
-      $('#results .well').scroll(function() {
-        console.log($('#results .well').scrollLeft() + ele.width(), inner.width());
-        if($('#results .well').scrollLeft() + ele.width() == inner.width()) {
-          alert("end!");
+      inner.scroll(function() {
+        var scrollWidth = inner.scrollLeft() + ele.width();
+        if (inner.scrollLeft() <= 10) {
+          _this.onLeft = true;
+        } else if (inner.scrollLeft() > 10 && inner.scrollLeft() < 20) {
+          _this.onLeft = false;
+        } else if (scrollWidth >= scroll.scrollWidth - 10) {
+          _this.onRight = true;
+        } else if (scrollWidth < scroll.scrollWidth - 10 && scrollWidth > scroll.scrollWidth - 20) {
+          _this.onRight = false;
         }
       });
     }
