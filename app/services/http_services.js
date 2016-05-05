@@ -10,35 +10,28 @@ module.exports = function(app) {
       return $http.get(mainRoute + this.resourceName);
     };
 
-<<<<<<< HEAD
     Resource.prototype.getOne = function(id) {
-<<<<<<< HEAD
-      return $http.get(mainRoute + this.resourceName, {
-=======
-      return $http.get(mainRoute + this.resourceName + id + '/comics', {
-=======
-    Resource.prototype.getOne = function(id, token) {
-      return $http.get(mainRoute + this.resourceName + '/' + id, {
->>>>>>> d589c19f330f15b860238e55cab8fcc3df2ae95c
->>>>>>> 4ba8b3872c172427e2cb07184f4c7b437d5d4325
+      return $http.get(mainRoute + this.resourceName  + (id ? '/' + id : ''), {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
 
+    Resource.prototype.getOneSubResource = function(id, subResource) {
+      return $http.get(mainRoute + this.resourceName + '/' + id + '/' + subResource, {
+        headers: {
+          Authorization: 'Token ' + AuthService.getToken()
+        }
+      });
+    }
+
     Resource.prototype.create = function(data) {
       return $http.post(mainRoute + this.resourceName, data);
     };
 
-
-<<<<<<< HEAD
-    Resource.prototype.update = function(user) {
-      return $http.put(mainRoute + this.resourceName , user, {
-=======
-    Resource.prototype.update = function(id, token) {
-      return $http.put(mainRoute + this.resourceName + '/' + id, {
->>>>>>> 4ba8b3872c172427e2cb07184f4c7b437d5d4325
+    Resource.prototype.update = function(user, id) {
+      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), user, {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
@@ -46,7 +39,7 @@ module.exports = function(app) {
     };
 
     Resource.prototype.remove = function(id, token) {
-      return $http.delete(mainRoute + this.resourceName + '/' + id, {
+      return $http.delete(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }

@@ -9,7 +9,7 @@ const app = angular.module('marvelApp', ['ngRoute', 'ngAnimate']);
 require('./services/error_service')(app);
 require('./services/auth_service')(app);
 require('./services/http_services')(app);
-// require('./services/characterInfo_service')(app);
+require('./services/characterInfo_service')(app);
   // CONTROLLERS
 require('./controllers/findCharacter_controller')(app);
 require('./controllers/character_controller')(app);
