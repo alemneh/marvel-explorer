@@ -11,7 +11,7 @@ module.exports = function(app) {
     };
 
     Resource.prototype.getOne = function(id) {
-      return $http.get(mainRoute + this.resourceName + id + '/comics', {
+      return $http.get(mainRoute + this.resourceName, {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
@@ -23,8 +23,8 @@ module.exports = function(app) {
     };
 
 
-    Resource.prototype.update = function(data, token) {
-      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.update = function(user) {
+      return $http.put(mainRoute + this.resourceName , user, {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }

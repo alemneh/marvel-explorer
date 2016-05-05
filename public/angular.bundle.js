@@ -55,10 +55,12 @@
 	__webpack_require__(7)(app);
 	__webpack_require__(8)(app);
 	__webpack_require__(9)(app);
+	// require('./services/characterInfo_service')(app);
 	  // CONTROLLERS
 	__webpack_require__(10)(app);
 	__webpack_require__(11)(app);
 	__webpack_require__(12)(app);
+	__webpack_require__(13)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -168,7 +170,9 @@
 	    templateUrl: 'views/compare_characters.html'
 	  })
 	  .when('/character', {
-	    templateUrl: 'views/character.html'
+	    templateUrl: 'views/character.html',
+	    controller: 'CharacterController',
+	    controllerAs: 'characterCtrl'
 	  });
 	}]);
 
@@ -36284,7 +36288,7 @@
 	    var auth = {
 	      createUser(user, cb) {
 	        cb || function() {};
-	        $http.post(url + '/users/new', user)
+	        $http.post(url + '/users/signup', user)
 	          .then((res) => {
 	            console.log(res);
 	            cb(null, res);
@@ -36333,7 +36337,7 @@
 	    };
 
 	    Resource.prototype.getOne = function(id) {
-	      return $http.get(mainRoute + this.resourceName + id + '/comics', {
+	      return $http.get(mainRoute + this.resourceName, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
@@ -36345,8 +36349,8 @@
 	    };
 
 
-	    Resource.prototype.update = function(data, token) {
-	      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+	    Resource.prototype.update = function(user) {
+	      return $http.put(mainRoute + this.resourceName , user, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
@@ -36472,13 +36476,59 @@
 /* 11 */
 /***/ function(module, exports) {
 
+	module.exports = function(app) {
+	  app.controller('CharacterController', ['ErrorService', 'httpService',
+	  function(ErrorService, httpService) {
+	    const _this = this;
+	    const comicsList = httpService('');
+
+	    // _this.character = CharacterService.get();
+	    _this.comics;
+	    _this.load = false;
+	    _this.loaded = false;
+	    _this.loading = true;
+
+	    _this.onLoad = function() {
+	      _this.load = false;
+	      _this.loading = true;
+
+	    };
+	    _this.loadedDone = function() {
+	      _this.load = true;
+	      _this.loaded = true;
+	      _this.loading = false;
+
+	    };
+	    // _this.getComics = function(character) {
+	    //   comicsList.getOne(character._id).then((res) => {
+	    //     console.log(res);
+	    //     _this.comics = res.data;
+	    //   });
+	    // };
+
+	    _this.addBook = function(comic) {
+	      comicsList.update(comic).then((res) => {
+	        console.log(res);
+	      }, function(error) {
+	        console.log(error);
+	      });
+	    };
+
+	  }]);
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	module.exports = function(app) {
 	  app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService',
 	    function($location, $scope, AuthService, ErrorService) {
 	      const _this = this;
-	      _this.signedIn = false;
+	      // _this.signedIn = false;
 	      _this.switchForm = true;
 	      _this.verify = false;
 
@@ -36502,6 +36552,17 @@
 	          _this.signIn(user);
 	        }
 	      }
+	      //
+	      // _this.signedIn = false;
+
+	      _this.checkSignedIn = (token) => {
+	        if (token) {
+	          return _this.signedIn = true;
+	        }
+	        _this.signedIn = false;
+	      }
+	      _this.checkSignedIn(AuthService.getToken);
+
 
 	      _this.signIn = function(user) {
 	        AuthService.signIn(user, (err, res) => {
@@ -36570,7 +36631,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36578,7 +36639,7 @@
 	module.exports = function(app) {
 	  app.controller('ProfileController', ['ErrorService', 'httpService',
 	  function(ErrorService, httpService) {
-	    const usersResource = httpService('users/');
+	    const profileResource = httpService('users/profile');
 	    const _this = this;
 	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
 	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
@@ -36589,7 +36650,7 @@
 	      location: 'Seattle',
 	      Bio: 'About me .....'
 	    }
-
+	    _this.user;
 	    _this.profileEdit = false;
 
 	    var currentInfo = {};
@@ -36621,8 +36682,25 @@
 
 	    }
 
-	    _this.update = function(user) {
-	      _this.profileEdit = false;
+	    _this.getProfileInfo = function() {
+	      profileResource.getOne().then((res) => {
+	        console.log(res);
+	        _this.user = res.data;
+	      }, function(error) {
+	        console.log(error);
+	      })
+	    }
+	    _this.getProfileInfo();
+
+	    _this.updateProfile = function(user) {
+	      console.log(user);
+	      profileResource.update(user).then((res) => {
+	        console.log(res);
+	        _this.profileEdit = false;
+	      }, function(error) {
+	        console.log(error);
+	      })
+
 
 	    }
 
@@ -36637,18 +36715,18 @@
 	      _this.readList = _this.readList.filter((b) => b.name != book.name );
 	    }
 
-	    _this.getComics = function(id) {
-	      usersResource.getOne(id).then((res) => {
-	        console.log(res.data);
-	        res.data.forEach(function(book) {
-	          if(book.read) _this.readList.push(book);
-	          _this.unreadList.push(book);
-	        })
-	      }, function(error) {
-	        console.log(error);
-	      })
-
-	    }
+	    // _this.getComics = function(id) {
+	    //   profileResource.getOne(id).then((res) => {
+	    //     console.log(res.data);
+	    //     res.data.forEach(function(book) {
+	    //       if(book.read) _this.readList.push(book);
+	    //       _this.unreadList.push(book);
+	    //     })
+	    //   }, function(error) {
+	    //     console.log(error);
+	    //   })
+	    //
+	    // }
 
 	    _this.updateReadingList = function(list, token) {
 	      readingListResource.update(list, token)
