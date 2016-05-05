@@ -4,21 +4,21 @@ module.exports = function(app) {
   app.controller('ProfileController', ['ErrorService', 'httpService',
   function(ErrorService, httpService) {
     const profileResource = httpService('users/profile');
+    const userComicsResource = httpService('users/comics');
     const _this = this;
     _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
     _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
     _this.sampleUser = {
       username: 'Tim',
-      profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
+      profileImage: 'https://s-media-cache-ak0.pinimg.com/736x/f8/ab/ca/f8abca4e6023dd27b355f0be0255888a.jpg',
       favorite_Hero: 'Superman',
       location: 'Seattle',
       Bio: 'About me .....'
-    }
+    };
     _this.user;
     _this.profileEdit = false;
 
     var currentInfo = {};
-    var newInfo = {};
 
     _this.setUser = function(user) {
       currentInfo = {
@@ -27,9 +27,9 @@ module.exports = function(app) {
         age: user.age,
         city: user.city,
         state: user.state
-      }
+      };
       console.log(currentInfo.username);
-    }
+    };
 
 
     _this.edit = function(user) {
@@ -44,7 +44,7 @@ module.exports = function(app) {
       _this.sampleUser.state = currentInfo.state;
       _this.profileEdit = false;
 
-    }
+    };
 
     _this.getProfileInfo = function() {
       profileResource.getOne().then((res) => {
@@ -52,54 +52,55 @@ module.exports = function(app) {
         _this.user = res.data;
       }, function(error) {
         console.log(error);
-      })
-    }
+      });
+    };
     _this.getProfileInfo();
 
     _this.updateProfile = function(user) {
       console.log(user);
-      profileResource.update().then((res) => {
+      profileResource.update(user).then((res) => {
         console.log(res);
         _this.profileEdit = false;
       }, function(error) {
         console.log(error);
-      })
+      });
 
 
-    }
+    };
 
     _this.markRead = function(book) {
-      console.log('hit');
-      _this.removeBook(book);
-      _this.readList.push(book);
-    }
+      userComicsResource.update(book.marvel_id, book).then((res) => {
+        console.log(res);
+        _this.removeBook(book);
+        _this.readList.push(book);
+      }, function(error) {
+        console.log(error);
+      });
+
+    };
 
     _this.removeBook = function(book) {
-      _this.unreadList = _this.unreadList.filter((b) => b.name != book.name );
-      _this.readList = _this.readList.filter((b) => b.name != book.name );
-    }
+      userComicsResource.remove(book.marvel_id).then((res) => {
+        console.log(res);
+        _this.unreadList = _this.unreadList.filter((b) => b.name != book.name );
+        _this.readList = _this.readList.filter((b) => b.name != book.name );
+      }, function(error) {
+        console.log(error);
+      });
 
-    // _this.getComics = function(id) {
-    //   profileResource.getOne(id).then((res) => {
-    //     console.log(res.data);
-    //     res.data.forEach(function(book) {
-    //       if(book.read) _this.readList.push(book);
-    //       _this.unreadList.push(book);
-    //     })
-    //   }, function(error) {
-    //     console.log(error);
-    //   })
-    //
-    // }
+    };
 
-    _this.updateReadingList = function(list, token) {
-      readingListResource.update(list, token)
-        .then((res) => {
-
-        }, function(error) {
-          console.error(error);
-
+    _this.getComics = function() {
+      userComicsResource.getOne().then((res) => {
+        console.log(res);
+        res.data.forEach(function(book) {
+          if(book.read) _this.readList.push(book);
+          _this.unreadList.push(book);
         });
+      }, function(error) {
+        console.log(error);
+      });
+
     };
 
 

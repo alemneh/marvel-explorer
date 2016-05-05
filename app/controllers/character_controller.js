@@ -2,7 +2,8 @@ module.exports = function(app) {
   app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService',
   function(ErrorService, httpService, CharacterService) {
     const _this = this;
-    const comicsList = httpService('herofinder');
+    const comicsListResource = httpService('herofinder');
+    const addComicToListResource = httpService('users/comics');
     const getCharacter = CharacterService();
 
 
@@ -28,14 +29,14 @@ module.exports = function(app) {
     }
 
     _this.getComics = function(character) {
-      comicsList.getOne(character._id).then((res) => {
+      comicsListResource.getOneSubResource(character.marvel_id, 'comics').then((res) => {
         console.log(res);
         _this.comics = res.data;
       });
     };
 
     _this.addBook = function(comic) {
-      comicsList.update(comic).then((res) => {
+      addComicToListResource.update(comic).then((res) => {
         console.log(res);
       }, function(error) {
         console.log(error);
