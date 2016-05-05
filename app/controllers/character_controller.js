@@ -1,10 +1,11 @@
 module.exports = function(app) {
-  app.controller('CharacterController', ['ErrorService', 'httpService',
-  function(ErrorService, httpService) {
+  app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService',
+  function(ErrorService, httpService, CharacterService) {
     const _this = this;
     const comicsList = httpService('');
+    const getCharacter = CharacterService();
 
-    // _this.character = CharacterService.get();
+
     _this.comics;
     _this.load = false;
     _this.loaded = false;
@@ -19,8 +20,12 @@ module.exports = function(app) {
       _this.load = true;
       _this.loaded = true;
       _this.loading = false;
-
     };
+
+    _this.getCharacter = function() {
+      _this.character = getCharacter.get();
+      console.log(_this.character);
+    }
     // _this.getComics = function(character) {
     //   comicsList.getOne(character._id).then((res) => {
     //     console.log(res);
