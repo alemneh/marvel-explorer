@@ -24,30 +24,28 @@ module.exports = function(app) {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
-      })
+      });
     }
 
+    Resource.prototype.create = function(data) {
+      return $http.post(mainRoute + this.resourceName, data);
+    };
 
-
-
-
-    Resource.prototype.update = function(id) {
-      console.log(AuthService.getToken());
-      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), {
+    Resource.prototype.update = function(data, id) {
+      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), data, {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
 
-    Resource.prototype.remove = function(id, token) {
+    Resource.prototype.remove = function(id) {
       return $http.delete(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
       });
     }
-
 
     return function(resourceName) {
       return new Resource(resourceName);
