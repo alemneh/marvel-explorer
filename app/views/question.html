@@ -1,7 +1,7 @@
 <article data-ng-show="!findCtrl.showResults" class="question">
-  <div class="progress progress-striped active">
-    <div class="progress-bar progress-bar-success" style="width: {{findCtrl.num == 6 ? 100 : findCtrl.num * 16.66}}%"></div>
-  </div>
+  <!-- <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-success" style="width: {{findCtrl.num == findCtrl.questions.length-1 ? 100 : findCtrl.num * (100/findCtrl.questions.length)}}%"></div>
+  </div> -->
   <div class="modal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -13,17 +13,17 @@
           <form>
             <div class="form-group">
               <div class="select-options">
-                <select class="form-control" id="select" ng-model="queryOption" ng-options="option for option in findCtrl.options[findCtrl.num]">
-                  <option value="">-- no preference --</option>
+                <select class="form-control" id="select" ng-model="filterOption" ng-options="option for option in findCtrl.options[findCtrl.num]">
+                  <option value="">--- select one ---</option>
                 </select>
                 <br>
               </div>
               <ul class="pager">
-                <li data-ng-class="{'disabled':findCtrl.num == 0}" class="previous">
+                <!-- <li data-ng-class="{'disabled':findCtrl.num == 0}" class="previous">
                   <a data-ng-click="findCtrl.back(findCtrl.num)">&larr; Back</a>
-                </li>
-                <li data-ng-class="{'disabled':findCtrl.num == 6}" class="next">
-                  <a data-ng-click="findCtrl.nxtQ(findCtrl.num, queryOption)">Next &rarr;</a>
+                </li> -->
+                <li data-ng-class="{'disabled':findCtrl.num == findCtrl.questions.length-1}" class="next">
+                  <a data-ng-click="findCtrl.nxtQ(findCtrl.num, filterOption)">Next &rarr;</a>
                 </li>
               </ul>
             </div>
@@ -31,9 +31,9 @@
         </div>
 
         <div class="modal-footer">
-          <span data-ng-show="findCtrl.num != 6">Tired of answering questions?</span>
-          <button type="button" data-ng-click="findCtrl.getResults(findCtrl.num, queryOption)"
-            class="btn btn-primary">{{findCtrl.num == 6 ? 'Get Results' : 'Get Results Now'}}</button>
+          <span data-ng-show="findCtrl.num != findCtrl.questions.length-1">Tired of answering questions?</span>
+          <button type="button" data-ng-click="findCtrl.lastFilter(findCtrl.num, filterOption)"
+            class="btn btn-primary">{{findCtrl.num == findCtrl.questions.length-1 ? 'Get Results' : 'Get Results Now'}}</button>
         </div>
       </div>
     </div>
