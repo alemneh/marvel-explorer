@@ -10,8 +10,9 @@ module.exports = function(app) {
       return $http.get(mainRoute + this.resourceName);
     };
 
+
     Resource.prototype.getOne = function(id) {
-      return $http.get(mainRoute + this.resourceName  + (id ? '/' + id : ''), {
+      return $http.get(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
@@ -30,22 +31,21 @@ module.exports = function(app) {
       return $http.post(mainRoute + this.resourceName, data);
     };
 
-    Resource.prototype.update = function(user, id) {
-      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), user, {
+    Resource.prototype.update = function(data, id) {
+      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), data, {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
 
-    Resource.prototype.remove = function(id, token) {
+    Resource.prototype.remove = function(id) {
       return $http.delete(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
       });
     }
-
 
     return function(resourceName) {
       return new Resource(resourceName);
