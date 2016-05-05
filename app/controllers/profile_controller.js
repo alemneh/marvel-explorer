@@ -10,9 +10,9 @@ module.exports = function(app) {
     _this.sampleUser = {
       username: 'Tim',
       profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
-      age: 25,
-      city: 'Seattle',
-      state: 'WA'
+      favorite_Hero: 'Superman',
+      location: 'Seattle',
+      Bio: 'About me .....'
     }
 
     _this.profileEdit = false;
@@ -33,7 +33,7 @@ module.exports = function(app) {
 
 
     _this.edit = function(user) {
-      _this.profileEdit = true;
+      // _this.profileEdit = true;
       _this.setUser(user);
     };
 
@@ -63,8 +63,12 @@ module.exports = function(app) {
     }
 
     _this.getComics = function(id) {
-      usersResource.getAll(id).then((res) => {
-        console.log(res);
+      usersResource.getOne(id).then((res) => {
+        console.log(res.data);
+        res.data.forEach(function(book) {
+          if(book.read) _this.readList.push(book);
+          _this.unreadList.push(book);
+        })
       }, function(error) {
         console.log(error);
       })

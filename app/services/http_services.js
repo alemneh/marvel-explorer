@@ -10,16 +10,17 @@ module.exports = function(app) {
       this.resourceName = resourceName;
     }
 
-    Resource.prototype.getAll = function(id) {
-      return $http.get(mainRoute + this.resourceName + id + '/comics' , {
-        headers: {
-          Authorization: 'Token ' + AuthService.getToken()
-        }
-      });
+    Resource.prototype.getAll = function() {
+      return $http.get(mainRoute + this.resourceName);
     };
 
+<<<<<<< HEAD
+    Resource.prototype.getOne = function(id) {
+      return $http.get(mainRoute + this.resourceName + id + '/comics', {
+=======
     Resource.prototype.getOne = function(id, token) {
       return $http.get(mainRoute + this.resourceName + '/' + id, {
+>>>>>>> d589c19f330f15b860238e55cab8fcc3df2ae95c
         headers: {
           Authorization: 'Token ' + AuthService.getToken()
         }
