@@ -1,8 +1,9 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('FindCharacterController', ['httpService', '$window', '$scope', function(httpService, $window, $scope) {
+  app.controller('FindCharacterController', ['httpService', 'CharacterService', '$location', '$window', '$scope', function(httpService, CharacterService, $location, $window, $scope) {
     // Internal Variables
+    const saveCharacter = CharacterService();
     const httpReq = httpService('herofinder');
     const _this = this;
     var results = [];
@@ -148,6 +149,11 @@ module.exports = function(app) {
       // TODO: setup a #/find-charater/results route
       _this.showResults = true;
       endScroll();
+    }
+
+    _this.selectCharacter = (character) => {
+      saveCharacter.set(character);
+      $location.path('/character');
     }
 
     function endScroll() {
