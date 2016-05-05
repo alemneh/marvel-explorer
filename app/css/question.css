@@ -60,3 +60,14 @@
   height: 275px;
   z-index: 1000;
 }
+
+#fade-left,
+#fade-right {
+  -webkit-transition:all linear 0.4s;
+  transition:all linear 0.4s;
+}
+
+#fade-left.ng-hide,
+#fade-right.ng-hide {
+  opacity:0;
+}
