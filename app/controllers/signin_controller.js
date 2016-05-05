@@ -28,6 +28,17 @@ module.exports = function(app) {
           _this.signIn(user);
         }
       }
+      //
+      // _this.signedIn = false;
+
+      _this.checkSignedIn = (token) => {
+        if (token) {
+          return _this.signedIn = true;
+        }
+        _this.signedIn = false;
+      }
+      _this.checkSignedIn(AuthService.getToken);
+
 
       _this.signIn = function(user) {
         AuthService.signIn(user, (err, res) => {

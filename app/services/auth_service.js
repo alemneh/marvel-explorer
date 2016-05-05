@@ -6,7 +6,7 @@ module.exports = function(app) {
     var auth = {
       createUser(user, cb) {
         cb || function() {};
-        $http.post(url + '/users/new', user)
+        $http.post(url + '/users/signup', user)
           .then((res) => {
             console.log(res);
             cb(null, res);

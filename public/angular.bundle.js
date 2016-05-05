@@ -55,10 +55,12 @@
 	__webpack_require__(7)(app);
 	__webpack_require__(8)(app);
 	__webpack_require__(9)(app);
+	// require('./services/characterInfo_service')(app);
 	  // CONTROLLERS
 	__webpack_require__(10)(app);
 	__webpack_require__(11)(app);
 	__webpack_require__(12)(app);
+	__webpack_require__(13)(app);
 
 	var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -166,6 +168,11 @@
 	  })
 	  .when('/compare-characters', {
 	    templateUrl: 'views/compare_characters.html'
+	  })
+	  .when('/character', {
+	    templateUrl: 'views/character.html',
+	    controller: 'CharacterController',
+	    controllerAs: 'characterCtrl'
 	  });
 	}]);
 
@@ -36281,7 +36288,7 @@
 	    var auth = {
 	      createUser(user, cb) {
 	        cb || function() {};
-	        $http.post(url + '/users/new', user)
+	        $http.post(url + '/users/signup', user)
 	          .then((res) => {
 	            console.log(res);
 	            cb(null, res);
@@ -36329,8 +36336,8 @@
 	      return $http.get(mainRoute + this.resourceName);
 	    };
 
-	    Resource.prototype.getOne = function(id, token) {
-	      return $http.get(mainRoute + this.resourceName + '/' + id, {
+	    Resource.prototype.getOne = function(id) {
+	      return $http.get(mainRoute + this.resourceName, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
@@ -36342,16 +36349,16 @@
 	    };
 
 
-	    Resource.prototype.update = function(id, token) {
-	      return $http.put(mainRoute + this.resourceName + '/' + id, {
+	    Resource.prototype.update = function(user) {
+	      return $http.put(mainRoute + this.resourceName , user, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
 	      });
 	    };
 
-	    Resource.prototype.remove = function(id, token) {
-	      return $http.delete(mainRoute + this.resourceName + '/' + id, {
+	    Resource.prototype.remove = function(data, token) {
+	      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
 	        headers: {
 	          Authorization: 'Token ' + AuthService.getToken()
 	        }
@@ -36374,6 +36381,7 @@
 	'use strict';
 
 	module.exports = function(app) {
+<<<<<<< HEAD
 	  app.controller('FindCharacterController', ['httpService', '$window', '$scope', function(httpService, $window, $scope) {
 	    // Internal Variables
 	    const httpReq = httpService('herofinder');
@@ -36382,11 +36390,18 @@
 
 	    // Controller Variables
 	    _this.filterOpts = [];
+=======
+	  app.controller('FindCharacterController', ['httpService', function(httpService) {
+	    const _this = this;
+	    const requestCharacter = httpService('characters');
+	    // const requestComics
+>>>>>>> fd98eeb59120658bf69b3226fcf853873721bfcd
 	    _this.showResults = false;
 	    _this.onLeft = true;
 	    _this.onRight = false;
 	    _this.filtered = [];
 	    _this.num = 0;
+<<<<<<< HEAD
 	    _this.options = [
 	      ['No Preference', 'Male', 'Female', 'Unknown'],
 	      ['No Preference', 'dark', 'bronze', 'silver', 'golden', 'modern'],
@@ -36486,6 +36501,21 @@
 	      // 'What is the color of their hair?',
 	      // 'How many publications have they appeared in?',
 	      // 'What weight-class are they?',
+=======
+	    _this.questions = [
+	      'I want a character with gender:',
+	      'I want a character who first appears in:',
+	      'I want a character who has appeared in:',
+	      'I want a character who\'s identity is:',
+	      'I want a character who\'s hair is:',
+	      'I want a character who weighs:',
+	      'I want a character from:'
+	    ];
+	    _this.options = [
+	      ['thing1', 'thing2', 'thing3', 'thing4'],
+	      ['other1', 'other2', 'other3', 'other4'],
+	      ['tres1', 'tres2', 'tres3', 'tres4']
+>>>>>>> fd98eeb59120658bf69b3226fcf853873721bfcd
 	    ];
 
 	    _this.nxtQ = (num, option) => {
@@ -36508,22 +36538,35 @@
 	      endScroll();
 	    }
 
+<<<<<<< HEAD
+=======
+	    _this.results = [
+	      {name: 'character1', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder1&w=168&h=252'},
+	      {name: 'character2', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder2&w=168&h=252'},
+	      {name: 'character3', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder3&w=168&h=252'},
+	      {name: 'character4', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder4&w=168&h=252'},
+	      {name: 'character5', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder5&w=168&h=252'},
+	      {name: 'character6', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder6&w=168&h=252'},
+	      {name: 'character7', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder7&w=168&h=252'},
+	      {name: 'character8', image: 'https://placeholdit.imgix.net/~text?txtsize=33&txt=placeholder8&w=168&h=252'}
+	    ]
+
+>>>>>>> fd98eeb59120658bf69b3226fcf853873721bfcd
 	    function endScroll() {
 	      var scroll = document.getElementById('character-images');
 	      var inner = $('#character-images');
 	      var ele = $('#results');
 	      inner.scroll(function() {
 	        var scrollWidth = inner.scrollLeft() + ele.width();
-	        if (inner.scrollLeft() <= 15) {
+	        if (inner.scrollLeft() <= 10) {
 	          _this.onLeft = true;
-	        } else if (inner.scrollLeft() > 15 && inner.scrollLeft() < 30) {
+	        } else if (inner.scrollLeft() > 10 && inner.scrollLeft() < 20) {
 	          _this.onLeft = false;
-	        } else if (scrollWidth >= scroll.scrollWidth - 15) {
+	        } else if (scrollWidth >= scroll.scrollWidth - 10) {
 	          _this.onRight = true;
-	        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > scroll.scrollWidth - 30) {
+	        } else if (scrollWidth < scroll.scrollWidth - 10 && scrollWidth > scroll.scrollWidth - 20) {
 	          _this.onRight = false;
 	        }
-	        $scope.$digest();
 	      });
 	    }
 	  }]);
@@ -36550,13 +36593,59 @@
 /* 11 */
 /***/ function(module, exports) {
 
+	module.exports = function(app) {
+	  app.controller('CharacterController', ['ErrorService', 'httpService',
+	  function(ErrorService, httpService) {
+	    const _this = this;
+	    const comicsList = httpService('');
+
+	    // _this.character = CharacterService.get();
+	    _this.comics;
+	    _this.load = false;
+	    _this.loaded = false;
+	    _this.loading = true;
+
+	    _this.onLoad = function() {
+	      _this.load = false;
+	      _this.loading = true;
+
+	    };
+	    _this.loadedDone = function() {
+	      _this.load = true;
+	      _this.loaded = true;
+	      _this.loading = false;
+
+	    };
+	    // _this.getComics = function(character) {
+	    //   comicsList.getOne(character._id).then((res) => {
+	    //     console.log(res);
+	    //     _this.comics = res.data;
+	    //   });
+	    // };
+
+	    _this.addBook = function(comic) {
+	      comicsList.update(comic).then((res) => {
+	        console.log(res);
+	      }, function(error) {
+	        console.log(error);
+	      });
+	    };
+
+	  }]);
+	};
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
 	'use strict';
 
 	module.exports = function(app) {
 	  app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService',
 	    function($location, $scope, AuthService, ErrorService) {
 	      const _this = this;
-	      _this.signedIn = false;
+	      // _this.signedIn = false;
 	      _this.switchForm = true;
 	      _this.verify = false;
 
@@ -36580,6 +36669,17 @@
 	          _this.signIn(user);
 	        }
 	      }
+	      //
+	      // _this.signedIn = false;
+
+	      _this.checkSignedIn = (token) => {
+	        if (token) {
+	          return _this.signedIn = true;
+	        }
+	        _this.signedIn = false;
+	      }
+	      _this.checkSignedIn(AuthService.getToken);
+
 
 	      _this.signIn = function(user) {
 	        AuthService.signIn(user, (err, res) => {
@@ -36648,7 +36748,7 @@
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36656,18 +36756,18 @@
 	module.exports = function(app) {
 	  app.controller('ProfileController', ['ErrorService', 'httpService',
 	  function(ErrorService, httpService) {
-	    const usersResource = httpService('users/');
+	    const profileResource = httpService('users/profile');
 	    const _this = this;
 	    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
 	    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
 	    _this.sampleUser = {
 	      username: 'Tim',
 	      profileImage: 'http://www.corporatetraveller.ca/assets/images/profile-placeholder.gif',
-	      age: 25,
-	      city: 'Seattle',
-	      state: 'WA'
+	      favorite_Hero: 'Superman',
+	      location: 'Seattle',
+	      Bio: 'About me .....'
 	    }
-
+	    _this.user;
 	    _this.profileEdit = false;
 
 	    var currentInfo = {};
@@ -36686,7 +36786,7 @@
 
 
 	    _this.edit = function(user) {
-	      _this.profileEdit = true;
+	      // _this.profileEdit = true;
 	      _this.setUser(user);
 	    };
 
@@ -36699,8 +36799,25 @@
 
 	    }
 
-	    _this.update = function(user) {
-	      _this.profileEdit = false;
+	    _this.getProfileInfo = function() {
+	      profileResource.getOne().then((res) => {
+	        console.log(res);
+	        _this.user = res.data;
+	      }, function(error) {
+	        console.log(error);
+	      })
+	    }
+	    _this.getProfileInfo();
+
+	    _this.updateProfile = function(user) {
+	      console.log(user);
+	      profileResource.update(user).then((res) => {
+	        console.log(res);
+	        _this.profileEdit = false;
+	      }, function(error) {
+	        console.log(error);
+	      })
+
 
 	    }
 
@@ -36715,14 +36832,18 @@
 	      _this.readList = _this.readList.filter((b) => b.name != book.name );
 	    }
 
-	    _this.getComics = function(id) {
-	      usersResource.getAll(id).then((res) => {
-	        console.log(res);
-	      }, function(error) {
-	        console.log(error);
-	      })
-
-	    }
+	    // _this.getComics = function(id) {
+	    //   profileResource.getOne(id).then((res) => {
+	    //     console.log(res.data);
+	    //     res.data.forEach(function(book) {
+	    //       if(book.read) _this.readList.push(book);
+	    //       _this.unreadList.push(book);
+	    //     })
+	    //   }, function(error) {
+	    //     console.log(error);
+	    //   })
+	    //
+	    // }
 
 	    _this.updateReadingList = function(list, token) {
 	      readingListResource.update(list, token)
