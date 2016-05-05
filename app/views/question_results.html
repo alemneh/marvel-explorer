@@ -1,11 +1,23 @@
 <article id="results" data-ng-show="findCtrl.showResults">
-  <h2>Results</h2>
-  <div id="character-images" class="well well-sm row">
-    <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
-    <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
-    <div>
-      <div data-ng-repeat="character in findCtrl.results" class="result-image"
-      style="background-image: url({{character.thumbnail}})">
+  <div data-ng-show="findCtrl.error">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">Somthing Went Wrong!</h3>
+      </div>
+      <div class="panel-body">
+        {{findCtrl.error}}
+      </div>
+    </div>
+  </div>
+
+  <div data-ng-show="!findCtrl.error">
+    <h2>Characters that match: <span ng-repeat="filter in findCtrl.filterOpts"> {{filter}}</span></h2>
+    <div id="character-images" class="well well-sm row">
+      <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
+      <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
+      <div>
+        <div data-ng-repeat="character in findCtrl.filtered" class="result-image"
+        style="background-image: url({{character.thumbnail}})"></div>
       </div>
     </div>
   </div>

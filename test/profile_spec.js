@@ -34,10 +34,11 @@ describe('it should test something', () => {
     })
 
     it('get a reading list', () => {
-      $httpBackend.expectGet('http://localhost:3000/')
-        .respond(200, {data: [{list: ['Spiderman']}]});
-      profileController.getList();
+      $httpBackend.expectGET('http://54.201.60.218/users/1/comics')
+        .respond(200, {data: [{name: 'Spiderman', read: false}] });
+      profileController.getComics(1);
       $httpBackend.flush();
+      expect(profileController.unreadList.lenth).toBe(0);
     })
   })
 });
