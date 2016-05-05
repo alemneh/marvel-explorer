@@ -27,7 +27,7 @@ module.exports = function(app) {
         .then(res => {
           results = res.data;
           results = results.map(char => {
-            char.thumbnail = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
+            char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
             return char;
           });
         });

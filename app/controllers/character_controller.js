@@ -2,7 +2,7 @@ module.exports = function(app) {
   app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService',
   function(ErrorService, httpService, CharacterService) {
     const _this = this;
-    const comicsList = httpService('');
+    const comicsList = httpService('herofinder');
     const getCharacter = CharacterService();
 
 
@@ -26,12 +26,13 @@ module.exports = function(app) {
       _this.character = getCharacter.get();
       console.log(_this.character);
     }
-    // _this.getComics = function(character) {
-    //   comicsList.getOne(character._id).then((res) => {
-    //     console.log(res);
-    //     _this.comics = res.data;
-    //   });
-    // };
+
+    _this.getComics = function(character) {
+      comicsList.getOne(character._id).then((res) => {
+        console.log(res);
+        _this.comics = res.data;
+      });
+    };
 
     _this.addBook = function(comic) {
       comicsList.update(comic).then((res) => {
