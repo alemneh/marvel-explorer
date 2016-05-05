@@ -58,7 +58,7 @@ module.exports = function(app) {
 
     _this.updateProfile = function(user) {
       console.log(user);
-      profileResource.update(user).then((res) => {
+      profileResource.update().then((res) => {
         console.log(res);
         _this.profileEdit = false;
       }, function(error) {
