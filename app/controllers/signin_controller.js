@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService',
     function($location, $scope, AuthService, ErrorService) {
       const _this = this;
-      _this.signedIn = false;
+      // _this.signedIn = false;
       _this.switchForm = true;
       _this.verify = false;
 

@@ -10,6 +10,7 @@ module.exports = function(app) {
       return $http.get(mainRoute + this.resourceName);
     };
 
+
     Resource.prototype.getOne = function(id) {
       return $http.get(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
