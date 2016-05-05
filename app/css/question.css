@@ -25,6 +25,7 @@
   display: inline-block;
   width: 168px;
   height: 252px;
+  cursor: pointer;
 }
 
 .result-image:nth-child(n+2) {
