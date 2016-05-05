@@ -7,7 +7,7 @@ module.exports = function(app) {
     };
 
     this.get = function() {
-      return cache;
+      return cache || null;
     };
 
   }]);

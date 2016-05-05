@@ -3,7 +3,7 @@
 module.exports = function(app) {
   app.controller('ProfileController', ['ErrorService', 'httpService',
   function(ErrorService, httpService) {
-    const usersResource = httpService('users/');
+    const profileResource = httpService('users/profile');
     const _this = this;
     _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
     _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
@@ -14,7 +14,7 @@ module.exports = function(app) {
       location: 'Seattle',
       Bio: 'About me .....'
     }
-
+    _this.user;
     _this.profileEdit = false;
 
     var currentInfo = {};
@@ -46,8 +46,25 @@ module.exports = function(app) {
 
     }
 
-    _this.update = function(user) {
-      _this.profileEdit = false;
+    _this.getProfileInfo = function() {
+      profileResource.getOne().then((res) => {
+        console.log(res);
+        _this.user = res.data;
+      }, function(error) {
+        console.log(error);
+      })
+    }
+    _this.getProfileInfo();
+
+    _this.updateProfile = function(user) {
+      console.log(user);
+      profileResource.update(user).then((res) => {
+        console.log(res);
+        _this.profileEdit = false;
+      }, function(error) {
+        console.log(error);
+      })
+
 
     }
 
@@ -62,18 +79,18 @@ module.exports = function(app) {
       _this.readList = _this.readList.filter((b) => b.name != book.name );
     }
 
-    _this.getComics = function(id) {
-      usersResource.getOne(id).then((res) => {
-        console.log(res.data);
-        res.data.forEach(function(book) {
-          if(book.read) _this.readList.push(book);
-          _this.unreadList.push(book);
-        })
-      }, function(error) {
-        console.log(error);
-      })
-
-    }
+    // _this.getComics = function(id) {
+    //   profileResource.getOne(id).then((res) => {
+    //     console.log(res.data);
+    //     res.data.forEach(function(book) {
+    //       if(book.read) _this.readList.push(book);
+    //       _this.unreadList.push(book);
+    //     })
+    //   }, function(error) {
+    //     console.log(error);
+    //   })
+    //
+    // }
 
     _this.updateReadingList = function(list, token) {
       readingListResource.update(list, token)
