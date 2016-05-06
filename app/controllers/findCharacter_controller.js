@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('FindCharacterController', ['httpService', 'CharacterService', '$location', '$window', '$scope', function(httpService, CharacterService, $location, $window, $scope) {
+  app.controller('FindCharacterController', ['httpService', 'CharacterService', '$location', '$window', '$scope', '$route',
+  function(httpService, CharacterService, $location, $window, $scope, $route) {
     // Internal Variables
     const saveCharacter = CharacterService();
     const httpReq = httpService('herofinder');
@@ -47,6 +48,10 @@ module.exports = function(app) {
             return char;
           });
         });
+    }
+
+    _this.reloadPage = function() {
+      $route.reload();
     }
 
     var filter0 = (num, option) => {

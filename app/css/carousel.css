@@ -8,8 +8,8 @@
 }
 
 #first-slide {
-  background-image: url('images/splash.jpg');
-  background-position: center top;
+  background-image: url('images/slide1.jpg');
+  background-position: center;
 }
 
 #second-slide {
@@ -18,6 +18,10 @@
 }
 
 #third-slide {
-  background-image: url('images/splash.jpg');
-  background-position: center top;
+  background-image: url('images/comics.jpg');
+  background-position: center;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
 }
