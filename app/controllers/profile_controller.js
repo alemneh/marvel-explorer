@@ -4,6 +4,7 @@ module.exports = function(app) {
   app.controller('ProfileController', ['ErrorService', 'httpService', '$location', 'AuthService',
   function(ErrorService, httpService, $location, $window) {
     const profileResource = httpService('users/profile');
+    const userResource = httpService('users');
     const userComicsResource = httpService('users/comics');
     const _this = this;
     _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
@@ -56,9 +57,11 @@ module.exports = function(app) {
     };
 
     _this.removeProfile = function() {
-      profileResource.remove().then((res) => {
+
+      userResource.remove().then((res) => {
         AuthService.signOut();
         $location.path('/');
+        console.log(res);
       }, function(error) {
         console.log(error);
       })
@@ -104,7 +107,7 @@ module.exports = function(app) {
       userComicsResource.getOne().then((res) => {
         console.log(res);
         res.data.forEach(function(book) {
-          if(book.read) _this.readList.push(book);
+          if(book.issue_number > 50) _this.readList.push(book);
           _this.unreadList.push(book);
         });
       }, function(error) {
