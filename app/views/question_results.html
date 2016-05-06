@@ -1,11 +1,15 @@
 <article id="results" data-ng-show="findCtrl.showResults">
   <div id="results-container">
     <h2>Here are your filtered matches:</h2>
-    <div id="character-images" class="well well-sm row">
+    <div class="pull-left">
       <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
+    </div>
+    <div class="pull-right">
       <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
+    </div>
+    <div id="character-images" class="well well-sm row">
       <div>
-        <div id="{{character.marvel_id}}" ng-mouseover="findCtrl.mouseIn(character.marvel_id)" ng-mouseleave="findCtrl.mouseOut()"
+        <div id="{{character.marvel_id}}" ng-click="findCtrl.characterClick(character.marvel_id)"
         data-ng-repeat="character in findCtrl.filtered" class="character-result"
         style="background-image: url({{character.image_medium}})">
 
@@ -21,7 +25,7 @@
                   <p data-ng-show="character.description != ''">{{character.description}}</p>
                 </div>
                 <div class="modal-footer">
-                  <a data-ng-click="findCtrl.selectCharacter(character)" class="btn btn-default btn-lg btn-block">View Character</a>
+                  <a data-ng-click="findCtrl.selectCharacter(character)" class="btn btn-default">View Character</a>
                 </div>
               </div>
               <!-- END POPUP -->

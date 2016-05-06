@@ -8,38 +8,38 @@
           <p>{{signinCtrl.error}}</p>
         </div>
         <!-- TODO: PUT BACK BASIC FORM VALIDATION, REMOVE showErrors DIRECTIVE -->
-        <div class="form-group" show-errors>
+        <div class="form-group" ng-class="{ 'has-error': signUpForm.name.$invalid && signUpForm.name.$dirty }">
           <label for="newName" class="control-label">Name</label>
           <div>
             <input data-ng-model="user.name" type="text" class="form-control" name="name" placeholder="Name" required />
           </div>
         </div>
-        <div class="form-group" show-errors>
+        <div class="form-group" ng-class="{ 'has-error': signUpForm.email.$invalid && signUpForm.email.$dirty }">
           <label for="newEmail" class="control-label">Email</label>
           <div>
             <input data-ng-model="user.email" type="email" class="form-control" name="email" placeholder="email@email.com" required />
           </div>
         </div>
-        <div class="form-group" show-errors>
+        <div class="form-group" ng-class="{ 'has-error': signUpForm.username.$invalid && signUpForm.username.$dirty }">
           <label for="newUsername" class="control-label">Username</label>
           <div>
             <input data-ng-model="user.username" type="text" class="form-control" name="username" ng-pattern="/^[a-zA-Z0-9]*$/" placeholder="Username" required />
           </div>
         </div>
-        <div class="form-group" show-errors>
+        <div class="form-group" ng-class="{ 'has-error': signUpForm.password.$invalid && signUpForm.password.$dirty }">
           <label for="newPassword" class="control-label">Password</label>
           <div>
-            <input data-ng-model="user.password" type="password" class="form-control" id="newPassword" placeholder="Password" required />
+            <input data-ng-model="user.password" type="password" class="form-control" name="password" ng-pattern="/^\S/" placeholder="Password" required />
           </div>
         </div>
         <div class="form-group">
           <div class="pull-left">
-            <button data-ng-click="signinCtrl.submitUser(user)" type="submit" class="btn btn-default">Submit</button>
+            <button data-ng-click="signinCtrl.submitUser(user)" type="submit" ng-disabled="userForm.$invalid" class="btn btn-default">Submit</button>
             <button data-ng-click="appCtrl.cancel(user); signinCtrl.togglePopup()" type="cancel" class="btn btn-primary">Cancel</button>
           </div>
           <div class="pull-right">
             <span id="skip">Already Signed Up?</span>
-            <button data-ng-click="signinCtrl.toggleForm(); appCtrl.cancel(user)" class="btn btn-success">Sign In</button>
+            <button data-ng-click="signinCtrl.showSignIn(); appCtrl.cancel(user)" class="btn btn-success">Sign In</button>
           </div>
         </div>
       </fieldset>

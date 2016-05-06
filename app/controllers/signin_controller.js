@@ -1,9 +1,10 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService',
-    function($location, $scope, AuthService, ErrorService) {
+  app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService', 'TabService',
+    function($location, $scope, AuthService, ErrorService, TabService) {
       const _this = this;
+      var tabSrv = TabService();
       _this.switchForm = true;
       _this.verify = false;
 
@@ -12,8 +13,12 @@ module.exports = function(app) {
         _this.signInPopup = !_this.signInPopup;
       }
 
-      _this.toggleForm = () => {
-        _this.switchForm = !_this.switchForm;
+      _this.showSignIn = () => {
+        _this.switchForm = true;
+      }
+
+      _this.showSignUp = () => {
+        _this.switchForm = false;
       }
 
       _this.submitUser = user => {
@@ -71,7 +76,7 @@ module.exports = function(app) {
         AuthService.signOut(() => {
           $location.path('/');
           _this.signedIn = false;
-          $scope.$digest();
+          tabSrv.setTab(1);
         });
       };
 
