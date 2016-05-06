@@ -25,6 +25,10 @@
   padding: 0 15px;
 }
 
+#search-again {
+  margin-bottom: 20px;
+}
+
 .character-result {
   display: inline-block;
   width: 168px;
