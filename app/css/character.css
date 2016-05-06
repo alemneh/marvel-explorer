@@ -11,3 +11,7 @@
   width: 450px;
   border-radius: 5px;
 }
+
+#marvelComic button {
+  margin: 10px 0;
+}

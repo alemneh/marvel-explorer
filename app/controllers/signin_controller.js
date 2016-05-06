@@ -71,6 +71,7 @@ module.exports = function(app) {
         AuthService.signOut(() => {
           $location.path('/');
           _this.signedIn = false;
+          $scope.$digest();
         });
       };
 

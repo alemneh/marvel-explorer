@@ -39,6 +39,11 @@ app.run(['$rootScope', '$location', '$route', '$window', function($rootScope, $l
       console.log('Next: '+next);
     }
 
+    if(current == 'http://localhost:9000/#/comic-book' && next == 'http://localhost:9000/#/comic-book') {
+      $location.path('/find-character');
+      console.log('Current: '+current);
+      console.log('Next: '+next);
+    }
     var nextRoute = $route.routes[$location.path()];
     if(nextRoute.requireLogin) {
       if(!$window.localStorage.token) {

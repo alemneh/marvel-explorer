@@ -1,11 +1,11 @@
-<section id="marvelComic" data-ng-init="characterCtrl.getComicBook()">
+<section id="marvelComic" data-ng-init="comicbookCtrl.getComicBook()">
   <div class="well well-lg">
     <div class="row">
       <div class="col-md-6">
-        <img src="{{characterCtrl.comicBook.thumbnail}}" alt="" />
+        <img src="{{comicbookCtrl.comicBook.thumbnail}}" alt="" />
       </div>
       <div class="col-md-6">
-        <h1>{{characterCtrl.comicBook.name}}</h1>
+        <h1>{{comicbookCtrl.comicBook.name}}</h1>
         <table class="table table-striped table-hover ">
           <thead>
             <tr>
@@ -15,19 +15,19 @@
           <tbody>
             <tr class="info">
               <td>Aliases</td>
-              <td>{{characterCtrl.comicBook.aliases}}</td>
+              <td>{{comicbookCtrl.comicBook.aliases}}</td>
             </tr>
             <tr class="info">
               <td>Abilities</td>
-              <td>{{characterCtrl.comicBook.abilities}}</td>
+              <td>{{comicbookCtrl.comicBook.abilities}}</td>
             </tr>
             <tr class="info">
               <td>Weapons</td>
-              <td>{{characterCtrl.comicBook.weapons}}</td>
+              <td>{{comicbookCtrl.comicBook.weapons}}</td>
             </tr>
             <tr class="info">
               <td>Origin</td>
-              <td>{{characterCtrl.comicBook.origin}}</td>
+              <td>{{comicbookCtrl.comicBook.origin}}</td>
             </tr>
           </tbody>
         </table>
@@ -35,7 +35,7 @@
     </div>
 
     <!-- <div class="container"> -->
-  <button data-ng-show="characterCtrl.load" data-ng-click="characterCtrl.onLoad()"class="btn btn-lg btn-info btn-block">Add to Reading List</button>
+  <button  data-ng-click="comicbookCtrl.addBook()"class="btn btn-lg btn-info btn-block">Add to Reading List</button>
 
 <!-- </div> -->
   </div>
