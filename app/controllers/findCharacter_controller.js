@@ -2,7 +2,7 @@
 
 module.exports = function(app) {
   app.controller('FindCharacterController', ['httpService', 'CharacterService', '$location', '$window', '$scope', '$route',
-  function(httpService, CharacterService, $location, $window, $scope) {
+  function(httpService, CharacterService, $location, $window, $scope, $route) {
     // Internal Variables
     const saveCharacter = CharacterService();
     const httpReq = httpService('herofinder');
