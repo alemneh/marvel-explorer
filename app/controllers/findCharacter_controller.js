@@ -9,11 +9,13 @@ module.exports = function(app) {
     var results = [];
 
     // Controller Variables
+    _this.notLoaded = true;
     _this.filterOpts = [];
     _this.showResults = false;
     _this.onLeft = true;
     _this.onRight = false;
     _this.filtered = [];
+    _this.random20;
     _this.num = 0;
     _this.options = [
       ['No Preference', 'Male', 'Female', 'Unknown'],
@@ -23,9 +25,23 @@ module.exports = function(app) {
     ]
 
     _this.init = () => {
+      httpReq.getOne('random20')
+        .then(res => {
+          console.log(res.data);
+          _this.random20 = res.data;
+          _this.random20 = _this.random20.slice(0, 20);
+          _this.random20 = _this.random20.map(char => {
+            char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
+            return char;
+          });
+
+          endScroll(_this.random20, 'random20-images');
+        });
+
       httpReq.getAll()
         .then(res => {
           results = res.data;
+          _this.notLoaded = false;
           results = results.map(char => {
             char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
             return char;
@@ -34,7 +50,8 @@ module.exports = function(app) {
     }
 
     var filter0 = (num, option) => {
-      console.log(results);
+      // _this.filtered = [{image_medium: 'http://x.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73/portrait_fantastic.jpg'}]
+      if (option == undefined) return _this.filtered = results;
       if (option == 'No Preference') return _this.filtered = results;
       _this.filtered = results.filter(char => {
         return (char.gender == option);
@@ -100,8 +117,9 @@ module.exports = function(app) {
       if (options[3] == 'No Preference') return _this.filtered;
 
       _this.filtered = _this.filtered.filter(char => {
+        console.log(char);
         if (options[3] == 'U.S.A.') return char.citizenship == 'U.S.A.';
-        return char.citizenship == 'Other';
+        return char.citizenship != 'U.S.A.';
       });
 
       // if (_this.filtered.length <= 20 || _this.options[num].length < 3) {
@@ -133,6 +151,10 @@ module.exports = function(app) {
     _this.nxtQ = (num, option) => {
       console.log(option);
       if (num == _this.questions.length-1) return;
+      if (option == undefined) {
+        _this.num = _this.num += 1;
+        return _this.filtered;
+      }
       _this.filterOpts[num] = option;
       _this.filterList[num](num, option);
       _this.num = _this.num += 1;
@@ -148,7 +170,7 @@ module.exports = function(app) {
     _this.getResults = () => {
       // TODO: setup a #/find-charater/results route
       _this.showResults = true;
-      endScroll();
+      endScroll(_this.filtered, 'character-images');
     }
 
     _this.selectCharacter = (character) => {
@@ -156,25 +178,42 @@ module.exports = function(app) {
       $location.path('/character');
     }
 
-    function endScroll() {
-      var scroll = document.getElementById('character-images');
-      var inner = $('#character-images');
-      var ele = $('#results');
+    function endScroll(array, divId) {
+      var scroll = document.getElementById(divId);
+      var inner = $(`#${divId}`);
+      var totalWidth = resultWidth(array);
+      var eleWidth = $window.innerWidth - 30;
+      console.log($window.innerWidth);
       inner.scroll(function() {
-        var scrollWidth = inner.scrollLeft() + ele.width();
+        $('.character-result .modal-content').css({'margin-left':`-${inner.scrollLeft()}px`});
+        var scrollWidth = inner.scrollLeft() + eleWidth;
         if (inner.scrollLeft() <= 15) {
           _this.onLeft = true;
         } else if (inner.scrollLeft() > 15 && inner.scrollLeft() < 30) {
           _this.onLeft = false;
-        } else if (scrollWidth >= scroll.scrollWidth - 15) {
+        } else if (scrollWidth >= totalWidth - 15) {
           _this.onRight = true;
-        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > scroll.scrollWidth - 30) {
+        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > totalWidth - 30) {
           _this.onRight = false;
         }
         $scope.$digest();
       });
     }
+
+    function resultWidth(array) {
+      return ((168 + 10) * array.length);
+    }
+
+    _this.mouseIn = function(id) {
+      $('#' + id + ' .modal-content').fadeIn('slow');
+    }
+
+    _this.mouseOut = function() {
+      $('.character-result .modal-content').fadeOut('slow');
+    }
   }]);
+
+
 
   app.directive('question', function() {
     return {
