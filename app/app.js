@@ -40,16 +40,17 @@ app.run(['$rootScope', '$location', '$route', '$window',
         console.log('Next: '+next);
       }
 
-    if(current == 'http://localhost:9000/#/comic-book' && next == 'http://localhost:9000/#/comic-book') {
-      $location.path('/find-character');
-      console.log('Current: '+current);
-      console.log('Next: '+next);
-    }
-    var nextRoute = $route.routes[$location.path()];
-    if(nextRoute.requireLogin) {
-      if(!$window.localStorage.token) {
-        event.preventDefault();
-        $location.path('/');
+      if(current == 'http://localhost:9000/#/comic-book' && next == 'http://localhost:9000/#/comic-book') {
+        $location.path('/find-character');
+        console.log('Current: '+current);
+        console.log('Next: '+next);
+      }
+      var nextRoute = $route.routes[$location.path()];
+      if(nextRoute.requireLogin) {
+        if(!$window.localStorage.token) {
+          event.preventDefault();
+          $location.path('/');
+        }
       }
     })
 }]).controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
