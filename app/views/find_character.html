@@ -1,6 +1,36 @@
-<section data-ng-init="findCtrl.init()">
-  <!-- data-ng-init="findCtrl.init()" -->
-  <h1>Find a Character</h1>
+<section id="find-character" data-ng-init="findCtrl.init()">
+  <div id="random20-container" data-ng-show="!findCtrl.showResults">
+    <h2>Browse the Random 20</h2>
+    <div id="random20-images" class="well well-sm row">
+      <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
+      <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
+      <div>
+        <div id="{{character.marvel_id}}" ng-mouseover="findCtrl.mouseIn(character.marvel_id)" ng-mouseleave="findCtrl.mouseOut()"
+        data-ng-repeat="character in findCtrl.random20" class="character-result"
+        style="background-image: url({{character.image_medium}})">
+
+              <!-- INFO POPUP -->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{character.name}}</h4>
+                </div>
+                <!-- TODO: div for inset shadow to fade text on bottom -->
+                <div class="modal-body">
+                  <h5>Description:</h5>
+                  <p data-ng-show="character.description === ''">No Description Found</p>
+                  <p data-ng-show="character.description !== ''">{{character.description}}</p>
+                </div>
+                <div class="modal-footer">
+                  <a data-ng-click="findCtrl.selectCharacter(character)" class="btn btn-default btn-lg btn-block">View Character</a>
+                </div>
+              </div>
+              <!-- END POPUP -->
+
+        </div>
+      </div>
+    </div>
+  <h2>Filtered Search:</h2>
+  </div>
   <question></question>
   <question-results></question-results>
 </section>

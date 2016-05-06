@@ -1,12 +1,32 @@
 <article id="results" data-ng-show="findCtrl.showResults">
-  <div>
-    <h2>Characters that match: <span ng-repeat="filter in findCtrl.filterOpts"> "{{filter}}"</span></h2>
+  <div id="results-container">
+    <h2>Here are your filtered matches:</h2>
     <div id="character-images" class="well well-sm row">
       <img id="fade-left" data-ng-show="!findCtrl.onLeft" src="images/fade-left.png" />
       <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
       <div>
-        <div data-ng-repeat="character in findCtrl.filtered" data-ng-click="findCtrl.selectCharacter(character)" class="result-image"
-        style="background-image: url({{character.image_medium}})"></div>
+        <div id="{{character.marvel_id}}" ng-mouseover="findCtrl.mouseIn(character.marvel_id)" ng-mouseleave="findCtrl.mouseOut()"
+        data-ng-repeat="character in findCtrl.filtered" class="character-result"
+        style="background-image: url({{character.image_medium}})">
+
+              <!-- INFO POPUP -->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">{{character.name}}</h4>
+                </div>
+                <!-- TODO: div for inset shadow to fade text on bottom -->
+                <div class="modal-body">
+                  <h5>Description:</h5>
+                  <p data-ng-show="character.description == ''">No Description Found</p>
+                  <p data-ng-show="character.description != ''">{{character.description}}</p>
+                </div>
+                <div class="modal-footer">
+                  <a data-ng-click="findCtrl.selectCharacter(character)" class="btn btn-default btn-lg btn-block">View Character</a>
+                </div>
+              </div>
+              <!-- END POPUP -->
+
+        </div>
       </div>
     </div>
   </div>

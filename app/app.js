@@ -23,6 +23,7 @@ app.controller('TabController', function($location) {
   if ($location.$$path == '/') _this.tab = 1;
   if ($location.$$path == '/profile') _this.tab = 2;
   if ($location.$$path == '/find-character') _this.tab = 3;
+  if ($location.$$path == '/character') _this.tab = 4
 
   _this.setTab = num => _this.tab = num;
   _this.isSet = num => _this.tab == num;
@@ -120,12 +121,12 @@ app.config(['$routeProvider', router => {
     controller: 'FindCharacterController',
     controllerAs: 'findCtrl'
   })
-  .when('/compare-characters', {
-    templateUrl: 'views/compare_characters.html'
-  })
   .when('/character', {
     templateUrl: 'views/character.html',
     controller: 'CharacterController',
     controllerAs: 'characterCtrl'
   });
+  // .when('/compare-characters', {
+  //   templateUrl: 'views/compare_characters.html'
+  // })
 }]);

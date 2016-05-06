@@ -32,7 +32,8 @@
 
         <div class="modal-footer">
           <span data-ng-show="findCtrl.num != findCtrl.questions.length-1">Tired of answering questions?</span>
-          <button type="button" data-ng-click="findCtrl.lastFilter(findCtrl.num, filterOption)"
+          <button data-ng-show="findCtrl.notLoaded" type="button" class="btn btn-primary">Results Loading...<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i></button>
+          <button data-ng-show="!findCtrl.notLoaded" type="button" data-ng-click="findCtrl.lastFilter(findCtrl.num, filterOption)"
             class="btn btn-primary">{{findCtrl.num == findCtrl.questions.length-1 ? 'Get Results' : 'Get Results Now'}}</button>
         </div>
       </div>
