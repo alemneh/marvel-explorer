@@ -29,7 +29,7 @@ module.exports = function(app) {
         .then(res => {
           console.log(res.data);
           _this.random20 = res.data;
-          _this.random20 = _this.random20.slice(0, 20);
+          // _this.random20 = _this.random20.slice(0, 20);
           _this.random20 = _this.random20.map(char => {
             char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
             return char;
@@ -129,9 +129,11 @@ module.exports = function(app) {
     }
 
     _this.lastFilter = (num, option) => {
+      if (option == undefined) {
+        _this.getResults();
+      }
       _this.filterOpts[num] =  option;
       _this.filterList[num](num, option);
-      _this.filtered = _this.filtered.length >= 20 ? _this.filtered.slice(0, 20) : _this.filtered;
       console.log(_this.filtered);
       _this.getResults();
     }
@@ -169,6 +171,7 @@ module.exports = function(app) {
 
     _this.getResults = () => {
       // TODO: setup a #/find-charater/results route
+      _this.filtered = _this.filtered.length >= 20 ? _this.filtered.slice(0, 20) : _this.filtered;
       _this.showResults = true;
       endScroll(_this.filtered, 'character-images');
     }
@@ -196,7 +199,6 @@ module.exports = function(app) {
         } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > totalWidth - 30) {
           _this.onRight = false;
         }
-        
         $scope.$digest();
       });
     }
@@ -205,8 +207,8 @@ module.exports = function(app) {
       return ((168 + 10) * array.length);
     }
 
-    _this.mouseIn = function(id) {
-      $('#' + id + ' .modal-content').fadeIn('slow');
+    _this.characterClick = function(id) {
+      $('#' + id + ' .modal-content').fadeToggle('slow');
     }
 
     _this.mouseOut = function() {

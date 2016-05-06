@@ -29,6 +29,7 @@
   display: inline-block;
   width: 168px;
   height: 252px;
+  cursor: pointer;
 }
 
 .character-result:nth-child(n+2) {
@@ -43,8 +44,8 @@
   display: none;
   position: absolute;
   z-index: 9999;
-  margin-top: -175px;
-  width: 250px;
+  margin-top: -75px;
+  width: 200px;
 }
 
 .character-result .modal-body {
@@ -54,11 +55,12 @@
   text-align: center;
   color: #C8C8C8;
   overflow-y: scroll;
-  height: 125px;
+  height: 150px;
   box-shadow: inset 0 -10px 10px 0 rgba(46, 51, 56, 0.5);
 }
 
 #character-images, #random20-images {
+  /*position: relative;*/
   white-space: nowrap;
   overflow-x: scroll;
   margin-left: 0;
@@ -66,17 +68,17 @@
 }
 
 #fade-left {
-  left: 20px;
+  /*left: 20px;*/
 }
 
 #fade-right {
-  right: 20px;
+  margin-left: -98px;
 }
 
 #fade-left,
 #fade-right {
   position: absolute;
-  margin-top: -10px;
+  margin-top: 0;
   height: 275px;
   z-index: 1000;
 }

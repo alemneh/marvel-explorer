@@ -6,3 +6,18 @@
   height: 500px;
   max-width: none;
 }
+
+#first-slide {
+  background-image: url('images/splash.jpg');
+  background-position: center top;
+}
+
+#second-slide {
+  background-image: url('images/splash.jpg');
+  background-position: center top;
+}
+
+#third-slide {
+  background-image: url('images/splash.jpg');
+  background-position: center top;
+}
