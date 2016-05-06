@@ -48,7 +48,7 @@
       </thead>
       <tbody>
         <tr data-ng-repeat="comic in characterCtrl.comics" class="warning">
-          <td><img data-ng-click="characterCtrl.getComicBook(comic)" src="{{characterCtrl.character.thumbnail}}" alt="" /></a></td>
+          <td><img data-ng-click="characterCtrl.getComicBook(comic)" src="{{comic.thumbnail}}" alt="" /></a></td>
           <td>{{comic.title}}</td>
           <td>{{comic.issue_number}}</td>
           <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
