@@ -6,3 +6,7 @@
 #editBtn,#deleteBtn {
   margin: 15px 0;
 }
+
+#profile table a {
+  width: 46.23px;
+}

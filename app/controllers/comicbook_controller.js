@@ -1,9 +1,11 @@
 module.exports = function(app) {
-  app.controller('ComicBookController', ['ErrorService', 'httpService', 'CharacterService',
-function(ErrorService, httpService, CharacterService) {
+  app.controller('ComicBookController', ['ErrorService', 'httpService', 'ComicBookService', 'CharacterService',
+function(ErrorService, httpService, ComicBookService, CharacterService) {
   const _this = this;
   const addComicToListResource = httpService('users/comics');
-  const getComicBook = CharacterService();
+  const getCharacter = CharacterService();
+  const getComicBook = ComicBookService();
+  _this.character = getCharacter.get();
   _this.comicBook;
 
   _this.getComicBook = function() {

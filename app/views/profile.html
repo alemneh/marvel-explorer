@@ -47,14 +47,17 @@
           <table class="table table-striped table-hover ">
             <thead>
               <tr class="info">
-                <th>Read List</th>
+                <th>Title</th>
+                <th>Issue</th>
+                <th>Delete</th>
               </tr>
               <tbody>
                 <tr class="warning" data-ng-repeat="readBook in profileCtrl.readList" >
-                  <td>
-                    {{readBook.name}}
-                    <a ng-click="profileCtrl.removeBook(readBook)" href class="btn btn-primary btn-xs">Delete</a>
-                  </td>
+                  <td>{{readBook.title}}</td>
+                  <td>{{readBook.issue_number}}</td>
+                  <td><a ng-click="profileCtrl.removeBook(readBook)" href class="btn btn-primary btn-xs">Delete</a></td>
+
+
                 </tr>
               </tbody>
             </thead>
@@ -64,14 +67,19 @@
           <table class="table table-striped table-hover ">
             <thead>
               <tr class="info">
-                <th>
-                  To Read List
-                </th>
+                <th>Title</th>
+                <th>Issue</th>
+                <th>Read/Delete</th>
               </tr>
               <tbody>
                 <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList" >
                   <td>
-                    {{unReadBook.name}}
+                    {{unReadBook.title}}
+                  </td>
+                  <td>
+                    {{unReadBook.issue_number}}
+                  </td>
+                  <td>
                     <a ng-click="profileCtrl.markRead(unReadBook)" href class="btn btn-primary btn-xs">Read</a>
                     <a ng-click="profileCtrl.removeBook(unReadBook)" href class="btn btn-primary btn-xs">Delete</a>
                   </td>
@@ -93,12 +101,12 @@
           <div class="modal-body">
             <form class="form-horizontal"  >
               <fieldset>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                   <div class="col-lg-10">
                     <input type="text" class="form-control" id="inputUsername" data-ng-model="profileCtrl.user.username">
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                   <label for="inputAge" class="col-lg-2 control-label">Favorite Hero</label>
                   <div class="col-lg-10">

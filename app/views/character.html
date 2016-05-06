@@ -29,6 +29,10 @@
               <td>Origin</td>
               <td>{{characterCtrl.character.origin}}</td>
             </tr>
+            <tr class="info">
+              <td>Number of Comics</td>
+              <td>{{characterCtrl.character.total_comics}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -37,35 +41,23 @@
     <table data-ng-init="characterCtrl.getComics(characterCtrl.character)" data-ng-show="characterCtrl.loaded" class="table table-striped table-hover ">
       <thead>
         <tr>
-          <th>Issue</th>
-          <th>Title</th>
+          <th>Cover</th>
           <th>Year Released</th>
+          <th>Issue</th>
         </tr>
       </thead>
       <tbody>
         <tr data-ng-repeat="comic in characterCtrl.comics" class="warning">
-          <td><img data-ng-click="characterCtrl.getComicBook()" src="{{characterCtrl.character.thumbnail}}" alt="" /></a></td>
-          <td>{{comic.name}}</td>
-          <td>{{comic.year}}</td>
-          <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
-        </tr>
-        <tr class="warning">
-          <td><img src="{{characterCtrl.character.thumbnail}}" alt="" /></td>
-          <td>Comic #2</td>
-          <td>1944</td>
-          <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
-        </tr>
-        <tr class="warning">
-          <td><img src="{{characterCtrl.character.thumbnail}}" alt="" /></td>
-          <td>Comic #3</td>
-          <td>1955</td>
+          <td><img data-ng-click="characterCtrl.getComicBook(comic)" src="{{characterCtrl.character.thumbnail}}" alt="" /></a></td>
+          <td>{{comic.title}}</td>
+          <td>{{comic.issue_number}}</td>
           <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
         </tr>
       </tbody>
     </table>
     <!-- <div class="container"> -->
-	<button data-ng-show="characterCtrl.loading" data-ng-click="characterCtrl.loadedDone()" class="btn btn-lg btn-info btn-block"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
-  <button data-ng-show="characterCtrl.load" data-ng-click="characterCtrl.onLoad()"class="btn btn-lg btn-info btn-block">Load more comics</button>
+	<button data-ng-show="characterCtrl.loading" class="btn btn-lg btn-info btn-block"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
+  <button data-ng-show="characterCtrl.load" data-ng-click="characterCtrl.getComics(characterCtrl.character)"class="btn btn-lg btn-info btn-block">Load more comics</button>
 
 <!-- </div> -->
   </div>
