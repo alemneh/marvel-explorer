@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function(app) {
-  app.controller('ProfileController', ['ErrorService', 'httpService',
-  function(ErrorService, httpService) {
+  app.controller('ProfileController', ['ErrorService', 'httpService', '$location', 'AuthService',
+  function(ErrorService, httpService, $location, $window) {
     const profileResource = httpService('users/profile');
     const userComicsResource = httpService('users/comics');
     const _this = this;
@@ -54,6 +54,16 @@ module.exports = function(app) {
         console.log(error);
       });
     };
+
+    _this.removeProfile = function() {
+      profileResource.remove().then((res) => {
+        AuthService.signOut();
+        $location.path('/');
+      }, function(error) {
+        console.log(error);
+      })
+    }
+
     _this.getProfileInfo();
 
     _this.updateProfile = function(user) {

@@ -15,6 +15,8 @@ require('./controllers/findCharacter_controller')(app);
 require('./controllers/character_controller')(app);
 require('./controllers/signin_controller')(app);
 require('./controllers/profile_controller')(app);
+require('./controllers/comicbook_controller')(app);
+
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -132,5 +134,10 @@ app.config(['$routeProvider', router => {
     templateUrl: 'views/character.html',
     controller: 'CharacterController',
     controllerAs: 'characterCtrl'
+  })
+  .when('/comic-book', {
+    templateUrl: 'views/comic_book.html',
+    controller: 'ComicBookController',
+    controllerAs: 'comicbookCtrl'
   });
 }]);
