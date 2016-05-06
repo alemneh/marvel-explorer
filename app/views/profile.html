@@ -42,8 +42,9 @@
       </div><!--end row -->
 
       <h2>Reading List</h2>
-      <div data-ng-init="profileCtrl.getComics()" class="row">
+      <div  data-ng-init="profileCtrl.getComics()" class="row">
         <div class="col-md-6">
+          <h4>Already Read</h4>
           <table class="table table-striped table-hover ">
             <thead>
               <tr class="info">
@@ -52,11 +53,10 @@
                 <th>Delete</th>
               </tr>
               <tbody>
-                <tr class="warning" data-ng-repeat="readBook in profileCtrl.readList" >
-                  <td>{{readBook.title}}</td>
-                  <td>{{readBook.issue_number}}</td>
-                  <td><a ng-click="profileCtrl.removeBook(readBook)" href class="btn btn-primary btn-xs">Delete</a></td>
-
+                <tr  class="warning" data-ng-repeat="readBook in profileCtrl.readList | limitTo : 5" >
+                  <td data-ng-hide="readBook.title == ''">{{readBook.title}}</td>
+                  <td data-ng-hide="readBook.title == ''">{{readBook.issue_number}}</td>
+                  <td data-ng-hide="readBook.title == ''"><a ng-click="profileCtrl.removeBook(readBook); profileCtrl.removeBook2(readBook)" href class="btn btn-primary btn-xs">Delete</a></td>
 
                 </tr>
               </tbody>
@@ -64,6 +64,7 @@
           </table>
         </div><!-- End left table -->
         <div class="col-md-6">
+          <h4>Unread</h4>
           <table class="table table-striped table-hover ">
             <thead>
               <tr class="info">
@@ -72,7 +73,7 @@
                 <th>Read/Delete</th>
               </tr>
               <tbody>
-                <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList" >
+                <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList | limitTo : 5" >
                   <td>
                     {{unReadBook.title}}
                   </td>
@@ -80,8 +81,8 @@
                     {{unReadBook.issue_number}}
                   </td>
                   <td>
-                    <a ng-click="profileCtrl.markRead(unReadBook)" href class="btn btn-primary btn-xs">Read</a>
-                    <a ng-click="profileCtrl.removeBook(unReadBook)" href class="btn btn-primary btn-xs">Delete</a>
+                    <a ng-click="profileCtrl.markRead(unReadBook); profileCtrl.markRead2(unReadBook)" href class="btn btn-primary btn-xs">Read</a>
+                    <a ng-click="profileCtrl.removeBook(unReadBook); profileCtrl.removeBook2(unReadBook)" href class="btn btn-primary btn-xs">Delete</a>
                   </td>
                 </tr>
               </tbody>

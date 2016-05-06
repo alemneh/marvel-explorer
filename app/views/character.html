@@ -13,23 +13,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="info">
+            <tr data-ng-hide="characterCtrl.character.aliases == ''" class="info">
               <td>Aliases</td>
               <td>{{characterCtrl.character.aliases}}</td>
             </tr>
-            <tr class="info">
+            <tr data-ng-hide="characterCtrl.character.abilities == ''" class="info">
               <td>Abilities</td>
               <td>{{characterCtrl.character.abilities}}</td>
             </tr>
-            <tr class="info">
+            <tr data-ng-hide="characterCtrl.character.weapons == ''" class="info">
               <td>Weapons</td>
               <td>{{characterCtrl.character.weapons}}</td>
             </tr>
-            <tr class="info">
+            <tr data-ng-hide="characterCtrl.character.origin == ''" class="info">
               <td>Origin</td>
               <td>{{characterCtrl.character.origin}}</td>
             </tr>
-            <tr class="info">
+            <tr data-ng-hide="characterCtrl.character.total_comics == ''" class="info">
               <td>Number of Comics</td>
               <td>{{characterCtrl.character.total_comics}}</td>
             </tr>

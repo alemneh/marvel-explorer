@@ -7,8 +7,8 @@ module.exports = function(app) {
     const userResource = httpService('users');
     const userComicsResource = httpService('users/comics');
     const _this = this;
-    _this.readList = [{name: 'X-Men'},{name:'Spider Man'}, {name:'Thor'},{name:'Iron Man'}];
-    _this.unreadList = [{name: 'Superman'},{name: 'Batman'},{name:'Ice Man'}];
+    _this.readList = [];
+    _this.unreadList = [];
     _this.sampleUser = {
       username: 'Tim',
       profileImage: 'https://s-media-cache-ak0.pinimg.com/736x/f8/ab/ca/f8abca4e6023dd27b355f0be0255888a.jpg',
@@ -79,6 +79,18 @@ module.exports = function(app) {
       });
 
 
+    };
+
+    _this.markRead2 = function(book) {
+      console.log(1);
+      _this.removeBook2(book);
+      _this.readList.push(book);
+    };
+
+    _this.removeBook2 = function(book) {
+      console.log(2);
+      _this.unreadList = _this.unreadList.filter((b) => b.marvel_id != book.marvel_id );
+      _this.readList = _this.readList.filter((b) => b.marvel_id != book.marvel_id );
     };
 
     _this.markRead = function(book) {
