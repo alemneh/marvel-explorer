@@ -1,0 +1,8 @@
+#profile img {
+  width: 200px;
+  border-radius: 7px;
+}
+
+#editBtn,#deleteBtn {
+  margin: 15px 0;
+}

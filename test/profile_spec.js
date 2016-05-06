@@ -18,7 +18,7 @@ describe('it should test something', () => {
     expect(typeof profileController.setUser).toBe('function');
     expect(typeof profileController.cancel).toBe('function');
     expect(typeof profileController.edit).toBe('function');
-    expect(typeof profileController.update).toBe('function');
+    expect(typeof profileController.updateProfile).toBe('function');
     expect(typeof profileController.markRead).toBe('function');
     expect(typeof profileController.removeBook).toBe('function');
   })
@@ -34,11 +34,11 @@ describe('it should test something', () => {
     })
 
     it('get a reading list', () => {
-      $httpBackend.expectGET('http://54.201.60.218/users/1/comics')
+      $httpBackend.expectGET('http://54.201.60.218/users/comics')
         .respond(200, {data: [{name: 'Spiderman', read: false}] });
-      profileController.getComics(1);
+      profileController.getComics();
       $httpBackend.flush();
-      expect(profileController.unreadList.lenth).toBe(0);
+      expect(profileController.unreadList.length).toBe(5);
     })
   })
 });

@@ -1,12 +1,13 @@
 module.exports = function(app) {
-  app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService',
-  function(ErrorService, httpService, CharacterService) {
+  app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService', '$location',
+  function(ErrorService, httpService, CharacterService, $location) {
     const _this = this;
-    const comicsList = httpService('herofinder');
+    const comicsListResource = httpService('herofinder');
+    const addComicToListResource = httpService('users/comics');
     const getCharacter = CharacterService();
 
 
-    _this.comics;
+    _this.comics = [{name: 'Spiderman', marvel_id: 1009468, year: 1944}];
     _this.load = false;
     _this.loaded = false;
     _this.loading = true;
@@ -27,15 +28,19 @@ module.exports = function(app) {
       console.log(_this.character);
     }
 
+    _this.getComicBook = function() {
+      $location.path('/comic-book');
+    }
+
     _this.getComics = function(character) {
-      comicsList.getOne(character._id).then((res) => {
+      comicsListResource.getOneSubResource(character.marvel_id, 'comics').then((res) => {
         console.log(res);
         _this.comics = res.data;
       });
     };
 
     _this.addBook = function(comic) {
-      comicsList.update(comic).then((res) => {
+      addComicToListResource.create(comic).then((res) => {
         console.log(res);
       }, function(error) {
         console.log(error);

@@ -1,3 +1,13 @@
 #marvelCharacter img {
   width: 450px;
+  border-radius: 5px;
+}
+
+#marvelCharacter table img {
+  width: 150px;
+}
+
+#marvelComic img {
+  width: 450px;
+  border-radius: 5px;
 }

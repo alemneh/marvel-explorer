@@ -4,7 +4,6 @@ module.exports = function(app) {
   app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService',
     function($location, $scope, AuthService, ErrorService) {
       const _this = this;
-      // _this.signedIn = false;
       _this.switchForm = true;
       _this.verify = false;
 
@@ -28,8 +27,7 @@ module.exports = function(app) {
           _this.signIn(user);
         }
       }
-      //
-      // _this.signedIn = false;
+
 
       _this.checkSignedIn = (token) => {
         if (token) {
@@ -37,7 +35,7 @@ module.exports = function(app) {
         }
         _this.signedIn = false;
       }
-      _this.checkSignedIn(AuthService.getToken);
+      _this.checkSignedIn(AuthService.getToken());
 
 
       _this.signIn = function(user) {

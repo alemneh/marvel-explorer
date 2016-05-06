@@ -15,6 +15,8 @@ require('./controllers/findCharacter_controller')(app);
 require('./controllers/character_controller')(app);
 require('./controllers/signin_controller')(app);
 require('./controllers/profile_controller')(app);
+require('./controllers/comicbook_controller')(app);
+
 
 var sampleUser = {name: 'Mr. User', username: 'user', password: 'password'};
 
@@ -30,8 +32,13 @@ app.controller('TabController', function($location) {
 });
 
 app.run(['$rootScope', '$location', '$route', '$window', function($rootScope, $location, $route, $window) {
+  $rootScope.$on('$locationChangeStart', function(event, next, current) {
+    if(current == 'http://localhost:9000/#/character' && next == 'http://localhost:9000/#/character') {
+      $location.path('/find-character');
+      console.log('Current: '+current);
+      console.log('Next: '+next);
+    }
 
-  $rootScope.$on('$locationChangeStart', function(event) {
     var nextRoute = $route.routes[$location.path()];
     if(nextRoute.requireLogin) {
       if(!$window.localStorage.token) {
@@ -125,6 +132,11 @@ app.config(['$routeProvider', router => {
     templateUrl: 'views/character.html',
     controller: 'CharacterController',
     controllerAs: 'characterCtrl'
+  })
+  .when('/comic-book', {
+    templateUrl: 'views/comic_book.html',
+    controller: 'ComicBookController',
+    controllerAs: 'comicbookCtrl'
   });
   // .when('/compare-characters', {
   //   templateUrl: 'views/compare_characters.html'

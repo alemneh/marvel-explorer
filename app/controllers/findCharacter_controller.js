@@ -196,6 +196,7 @@ module.exports = function(app) {
         } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > totalWidth - 30) {
           _this.onRight = false;
         }
+        
         $scope.$digest();
       });
     }
