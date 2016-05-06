@@ -14,7 +14,8 @@ function(ErrorService, httpService, ComicBookService, CharacterService) {
   }
 
   _this.addBook = function(comic) {
-    addComicToListResource.create(comic).then((res) => {
+    console.log(comic);
+    addComicToListResource.createComic(comic).then((res) => {
       console.log(res);
     }, function(error) {
       console.log(error);

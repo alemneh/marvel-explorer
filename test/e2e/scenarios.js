@@ -1,6 +1,6 @@
 describe('Marvel Explorer App', function() {
-  var readList = element.all(by.binding('readBook.name'));
-  var unReadList = element.all(by.binding('unReadBook.name'));
+  var readList = element.all(by.binding('readBook.title'));
+  var unReadList = element.all(by.binding('unReadBook.title'));
 
 
   beforeEach(function() {
