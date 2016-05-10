@@ -13,6 +13,8 @@ module.exports = function(app) {
     _this.loaded = false;
     _this.loading = true;
 
+
+
     _this.onLoad = function() {
       _this.load = false;
       _this.loading = true;
@@ -30,23 +32,23 @@ module.exports = function(app) {
     }
 
     _this.getComicBook = function(comicBook) {
-      console.log(comicBook);
       getComicBook.set(comicBook);
       $location.path('/comic-book');
     }
 
     _this.getComics = function(character) {
       comicsListResource.getOneSubResource(character.marvel_id, 'comics').then((res) => {
-        console.log(res);
         _this.loadedDone();
         _this.comics = res.data;
       });
     };
 
-    _this.addBook = function(comic) {
+    _this.addBook = function(comic, $index) {
       console.log(comic);
+      console.log($index);
       addComicToListResource.createComic(comic).then((res) => {
-        console.log(res);
+        var btn = 'btn'+$index;
+        $('#'+btn).removeClass('hide');
       }, function(error) {
         console.log(error);
       });

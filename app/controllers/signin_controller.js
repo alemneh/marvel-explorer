@@ -13,6 +13,10 @@ module.exports = function(app) {
         _this.signInPopup = !_this.signInPopup;
       }
 
+      _this.toggleForm = function() {
+        _this.switchForm = !_this.switchForm;
+      }
+
       _this.showSignIn = () => {
         _this.switchForm = true;
       }

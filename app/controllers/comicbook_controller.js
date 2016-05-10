@@ -6,17 +6,15 @@ function(ErrorService, httpService, ComicBookService, CharacterService) {
   const getCharacter = CharacterService();
   const getComicBook = ComicBookService();
   _this.character = getCharacter.get();
-  _this.comicBook;
+
 
   _this.getComicBook = function() {
     _this.comicBook = getComicBook.get();
-    console.log(_this.comicBook);
   }
 
-  _this.addBook = function(comic) {
-    console.log(comic);
+  _this.addBook = function(comic, $index) {
     addComicToListResource.createComic(comic).then((res) => {
-      console.log(res);
+      $('#success').removeClass('hide');
     }, function(error) {
       console.log(error);
     });
