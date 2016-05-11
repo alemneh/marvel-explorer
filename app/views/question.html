@@ -1,0 +1,42 @@
+<article data-ng-show="!findCtrl.showResults" class="question">
+  <!-- <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-success" style="width: {{findCtrl.num == findCtrl.questions.length-1 ? 100 : findCtrl.num * (100/findCtrl.questions.length)}}%"></div>
+  </div> -->
+  <div class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{findCtrl.questions[findCtrl.num]}}</h4>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <div class="select-options">
+                <select class="form-control" id="select" ng-model="filterOption" ng-options="option for option in findCtrl.options[findCtrl.num]">
+                  <option value="">--- select one ---</option>
+                </select>
+                <br>
+              </div>
+              <ul class="pager">
+                <!-- <li data-ng-class="{'disabled':findCtrl.num == 0}" class="previous">
+                  <a data-ng-click="findCtrl.back(findCtrl.num)">&larr; Back</a>
+                </li> -->
+                <li data-ng-class="{'disabled':findCtrl.num == findCtrl.questions.length-1}" class="next">
+                  <a data-ng-click="findCtrl.nxtQ(findCtrl.num, filterOption)">Next &rarr;</a>
+                </li>
+              </ul>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <span data-ng-show="findCtrl.num != findCtrl.questions.length-1">Tired of answering questions?</span>
+          <button data-ng-show="findCtrl.notLoaded" type="button" class="btn btn-primary">Results Loading...<i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i></button>
+          <button data-ng-show="!findCtrl.notLoaded" type="button" data-ng-click="findCtrl.lastFilter(findCtrl.num, filterOption)"
+            class="btn btn-primary">{{findCtrl.num == findCtrl.questions.length-1 ? 'Get Results' : 'Get Results Now'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

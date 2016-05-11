@@ -1,42 +1,63 @@
-module.expots = function(app) {
-  app.factory('httpService', ['$http', function($http) {
-    const mainRoute = 'http://localhost:3000/';
+module.exports = function(app) {
+  app.factory('httpService', ['$http', 'AuthService', function($http, AuthService) {
+    const mainRoute = 'http://54.201.60.218/';
 
-    function resource(resourceName) {
+    function Resource(resourceName) {
       this.resourceName = resourceName;
     }
 
-    resource.prototype.get = function(token) {
-      return $http.get(mainRoute + this.resourceName, {
+    Resource.prototype.getAll = function() {
+      return $http.get(mainRoute + this.resourceName);
+    };
+
+
+    Resource.prototype.getOne = function(id) {
+      return $http.get(mainRoute + this.resourceName + (id ? '/' + id : ''), {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
 
-    resource.prototype.create = function(data) {
+    Resource.prototype.getOneSubResource = function(id, subResource) {
+      return $http.get(mainRoute + this.resourceName + '/' + id + '/' + subResource, {
+        headers: {
+          Authorization: 'Token ' + AuthService.getToken()
+        }
+      });
+    }
+
+    Resource.prototype.create = function(data) {
       return $http.post(mainRoute + this.resourceName, data);
     };
 
-
-    resource.prototype.update = function(data, token) {
-      return $http.put(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.createComic = function(data) {
+      return $http.post(mainRoute + this.resourceName, data, {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
     };
 
-    resource.prototype.remove = function(data, token) {
-      return $http.delete(mainRoute + this.resourceName + '/' + data._id, {
+    Resource.prototype.update = function(data, id) {
+      console.log(data);
+      return $http.put(mainRoute + this.resourceName + (id ? '/' + id : ''), data, {
         headers: {
-          token: token
+          Authorization: 'Token ' + AuthService.getToken()
         }
       });
+    };
 
+    Resource.prototype.remove = function(id) {
+      return $http.delete(mainRoute + this.resourceName + (id ? '/' + id : ''), {
+        headers: {
+          Authorization: 'Token ' + AuthService.getToken()
+        }
+      });
+    }
 
     return function(resourceName) {
-      return new resource(resourceName);
+      return new Resource(resourceName);
     };
 
   }]);

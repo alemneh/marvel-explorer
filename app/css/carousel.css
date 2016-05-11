@@ -1,0 +1,27 @@
+.carousel-inner > .item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+  max-width: none;
+}
+
+#first-slide {
+  background-image: url('images/slide1.jpg');
+  background-position: center;
+}
+
+#second-slide {
+  background-image: url('images/splash.jpg');
+  background-position: center top;
+}
+
+#third-slide {
+  background-image: url('images/comics.jpg');
+  background-position: center;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+}

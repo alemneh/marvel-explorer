@@ -1,0 +1,21 @@
+#marvelCharacter img {
+  width: 450px;
+  border-radius: 5px;
+}
+
+#marvelCharacter table img {
+  width: 150px;
+}
+
+#marvelComic img {
+  width: 450px;
+  border-radius: 5px;
+}
+
+#marvelComic button {
+  margin: 10px 0;
+}
+
+#infoA {
+  float: left;
+}

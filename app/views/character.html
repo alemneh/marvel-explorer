@@ -1,0 +1,64 @@
+<section id="marvelCharacter" data-ng-init="characterCtrl.getCharacter()">
+  <div class="well well-lg">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{{characterCtrl.character.thumbnail}}" alt="" />
+      </div>
+      <div class="col-md-6">
+        <h1>{{characterCtrl.character.name}}</h1>
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th>Info</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-ng-hide="characterCtrl.character.aliases == ''" class="info">
+              <td>Aliases</td>
+              <td>{{characterCtrl.character.aliases}}</td>
+            </tr>
+            <tr data-ng-hide="characterCtrl.character.abilities == ''" class="info">
+              <td>Abilities</td>
+              <td>{{characterCtrl.character.abilities}}</td>
+            </tr>
+            <tr data-ng-hide="characterCtrl.character.weapons == ''" class="info">
+              <td>Weapons</td>
+              <td>{{characterCtrl.character.weapons}}</td>
+            </tr>
+            <tr data-ng-hide="characterCtrl.character.origin == ''" class="info">
+              <td>Origin</td>
+              <td>{{characterCtrl.character.origin}}</td>
+            </tr>
+            <tr data-ng-hide="characterCtrl.character.total_comics == ''" class="info">
+              <td>Number of Comics</td>
+              <td>{{characterCtrl.character.total_comics}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <h2>Comic List</h2>
+    <table data-ng-init="characterCtrl.getComics(characterCtrl.character)" data-ng-show="characterCtrl.loaded" class="table table-striped table-hover ">
+      <thead>
+        <tr>
+          <th>Cover</th>
+          <th>Year Released</th>
+          <th>Issue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-ng-repeat="comic in characterCtrl.comics" class="warning">
+          <td><img data-ng-click="characterCtrl.getComicBook(comic)" src="{{comic.thumbnail}}" alt="" /></a></td>
+          <td>{{comic.title}}</td>
+          <td>{{comic.issue_number}}</td>
+          <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <div class="container"> -->
+	<button data-ng-show="characterCtrl.loading" class="btn btn-lg btn-info btn-block"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
+  <button data-ng-show="characterCtrl.load" data-ng-click="characterCtrl.getComics(characterCtrl.character)"class="btn btn-lg btn-info btn-block">Load more comics</button>
+
+<!-- </div> -->
+  </div>
+</section>
