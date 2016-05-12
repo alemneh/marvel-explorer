@@ -118,11 +118,6 @@
 	app.controller('TabController', function($location, TabService) {
 	  var tabSrv = TabService();
 	  let _this = this;
-	  // if ($location.$$path == '/') _this.tab = 1;
-	  // if ($location.$$path == '/profile') _this.tab = 2;
-	  // if ($location.$$path == '/find-character') _this.tab = 3;
-	  // if ($location.$$path == '/character') _this.tab = 4
-	  //
 	  _this.setTab = num => tabSrv.setTab(num);
 	  _this.isSet = num => tabSrv.isSet(num);
 	});
@@ -151,8 +146,11 @@
 	    })
 	}]).controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
 	  const _this = this;
-	  _this.signInPopup = false;
 	  _this.error = ErrorService(null);
+
+	  _this.togglePopup = () => {
+	    signinSrv.togglePopup()
+	  }
 
 	  _this.cancel = input => {
 	    for (var key in input) {
@@ -174,8 +172,6 @@
 	  return {
 	    restrict: 'E',
 	    replace: true,
-	    controller: 'SigninController',
-	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signinPopup.html'
 	  };
 	});
@@ -184,14 +180,9 @@
 	  return {
 	    restrict: 'E',
 	    replace: true,
-	    controller: 'SigninController',
-	    controllerAs: 'signinCtrl',
 	    templateUrl: 'views/signin_signout.html'
 	  };
 	});
-
-
-
 
 	app.directive('carousel', function() {
 	  return {
@@ -204,8 +195,7 @@
 	app.config(['$routeProvider', router => {
 	  router
 	  .when('/', {
-	    templateUrl: 'views/home.html',
-	    controller: 'TabController'
+	    templateUrl: 'views/home.html'
 	  })
 	  .when('/profile', {
 	    templateUrl: 'views/profile.html',
@@ -36331,7 +36321,7 @@
 	    if ($location.$$path == '/') currentTab = 1;
 	    if ($location.$$path == '/profile') currentTab = 2;
 	    if ($location.$$path == '/find-character') currentTab = 3;
-	    if ($location.$$path == '/character') currentTab = 4
+	    if ($location.$$path == '/character') currentTab = 4;
 
 	    return function() {
 	      return new TabControl();
@@ -36849,18 +36839,18 @@
 	      var tabSrv = TabService();
 	      _this.switchForm = true;
 	      _this.verify = false;
+	      _this.signInPopup = false;
 
 	      _this.togglePopup = () => {
+	        console.log(_this.signInPopup);
 	        _this.error = ErrorService(null);
 	        _this.signInPopup = !_this.signInPopup;
-	      }
-
-	      _this.toggleForm = function() {
-	        _this.switchForm = !_this.switchForm;
+	        console.log(_this.signInPopup);
 	      }
 
 	      _this.showSignIn = () => {
 	        _this.switchForm = true;
+	        _this.error = ErrorService(null);
 	      }
 
 	      _this.showSignUp = () => {
@@ -36909,7 +36899,7 @@
 	            return _this.error = ErrorService(err.data.username[0]);
 	          }
 	          _this.error = ErrorService(null);
-	          _this.toggleForm();
+	          _this.showSignIn();
 	          _this.verify = true;
 	          console.log(verify);
 	          for (var key in user) {
@@ -36927,32 +36917,6 @@
 	      };
 
 	    }]);
-
-	    // // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
-	    // app.directive('showErrors', function() {
-	    //   return {
-	    //     restrict: 'A',
-	    //     require:  '^form',
-	    //     link: function (scope, el, attrs, formCtrl) {
-	    //       // find the text box element, which has the 'name' attribute
-	    //       var inputEl   = el[0].querySelector('[name]');
-	    //       // convert the native text box element to an angular element
-	    //       var inputNgEl = angular.element(inputEl);
-	    //       // get the name on the text box so we know the property to check
-	    //       // on the form controller
-	    //       var inputName = inputNgEl.attr('name');
-	    //
-	    //       // only apply the has-error class after the user leaves the text box
-	    //       inputNgEl.bind('blur', function() {
-	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	    //       });
-	    //
-	    //       scope.$on('show-errors-check-validity', function() {
-	    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
-	    //       });
-	    //     }
-	    //   }
-	    // });
 	};
 
 
