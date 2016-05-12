@@ -7,10 +7,13 @@ module.exports = function(app) {
       var tabSrv = TabService();
       _this.switchForm = true;
       _this.verify = false;
+      _this.signInPopup = false;
 
       _this.togglePopup = () => {
+        console.log(_this.signInPopup);
         _this.error = ErrorService(null);
         _this.signInPopup = !_this.signInPopup;
+        console.log(_this.signInPopup);
       }
 
       _this.toggleForm = function() {
@@ -19,6 +22,7 @@ module.exports = function(app) {
 
       _this.showSignIn = () => {
         _this.switchForm = true;
+        _this.error = ErrorService(null);
       }
 
       _this.showSignUp = () => {
@@ -67,7 +71,7 @@ module.exports = function(app) {
             return _this.error = ErrorService(err.data.username[0]);
           }
           _this.error = ErrorService(null);
-          _this.toggleForm();
+          _this.showSignIn();
           _this.verify = true;
           console.log(verify);
           for (var key in user) {
@@ -85,30 +89,4 @@ module.exports = function(app) {
       };
 
     }]);
-
-    // // http://blog.yodersolutions.com/bootstrap-form-validation-done-right-in-angularjs/
-    // app.directive('showErrors', function() {
-    //   return {
-    //     restrict: 'A',
-    //     require:  '^form',
-    //     link: function (scope, el, attrs, formCtrl) {
-    //       // find the text box element, which has the 'name' attribute
-    //       var inputEl   = el[0].querySelector('[name]');
-    //       // convert the native text box element to an angular element
-    //       var inputNgEl = angular.element(inputEl);
-    //       // get the name on the text box so we know the property to check
-    //       // on the form controller
-    //       var inputName = inputNgEl.attr('name');
-    //
-    //       // only apply the has-error class after the user leaves the text box
-    //       inputNgEl.bind('blur', function() {
-    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
-    //       });
-    //
-    //       scope.$on('show-errors-check-validity', function() {
-    //         el.toggleClass('has-error', formCtrl[inputName].$invalid);
-    //       });
-    //     }
-    //   }
-    // });
 };
