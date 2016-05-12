@@ -9,7 +9,7 @@ module.exports = function(app) {
     if ($location.$$path == '/') currentTab = 1;
     if ($location.$$path == '/profile') currentTab = 2;
     if ($location.$$path == '/find-character') currentTab = 3;
-    if ($location.$$path == '/character') currentTab = 4
+    if ($location.$$path == '/character') currentTab = 4;
 
     return function() {
       return new TabControl();
