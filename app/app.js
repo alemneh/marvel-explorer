@@ -96,6 +96,14 @@ app.directive('carousel', function() {
   };
 });
 
+app.directive('characterPopup', function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'views/character_popup.html'
+  }
+});
+
 app.config(['$routeProvider', router => {
   router
   .when('/', {

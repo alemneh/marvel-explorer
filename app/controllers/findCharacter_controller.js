@@ -28,7 +28,6 @@ module.exports = function(app) {
     _this.init = () => {
       httpReq.getOne('random20')
         .then(res => {
-          console.log(res.data);
           _this.random20 = res.data;
           // _this.random20 = _this.random20.slice(0, 20);
           _this.random20 = _this.random20.map(char => {
@@ -61,7 +60,6 @@ module.exports = function(app) {
       _this.filtered = results.filter(char => {
         return (char.gender == option);
       });
-      console.log(_this.filtered);
     }
 
     var filter1 = (num, option) => {
@@ -84,7 +82,6 @@ module.exports = function(app) {
       if (_this.filtered.length <= 20) {
         return _this.getResults();
       }
-      console.log(_this.filtered);
     }
 
     var filter2 = (num, option) => {
@@ -115,14 +112,12 @@ module.exports = function(app) {
       if (_this.filtered.length <= 20) {
         return _this.getResults();
       }
-      console.log(_this.filtered);
     }
 
     var filter3 = (num, options) => {
       if (options[3] == 'No Preference') return _this.filtered;
 
       _this.filtered = _this.filtered.filter(char => {
-        console.log(char);
         if (options[3] == 'U.S.A.') return char.citizenship == 'U.S.A.';
         return char.citizenship != 'U.S.A.';
       });
@@ -156,7 +151,6 @@ module.exports = function(app) {
     ];
 
     _this.nxtQ = (num, option) => {
-      console.log(option);
       if (num == _this.questions.length-1) return;
       if (option == undefined) {
         _this.num = _this.num += 1;
@@ -165,7 +159,6 @@ module.exports = function(app) {
       _this.filterOpts[num] = option;
       _this.filterList[num](num, option);
       _this.num = _this.num += 1;
-      console.log(_this.num);
     }
 
     // _this.back = (num) => {
