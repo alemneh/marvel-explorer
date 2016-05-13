@@ -31,6 +31,8 @@ module.exports = function(app) {
           _this.random20 = res.data;
           // _this.random20 = _this.random20.slice(0, 20);
           _this.random20 = _this.random20.map(char => {
+            if (char.abilities == 'Unrevealed' || 'None') char.abilities = '';
+            if (char.powers == 'Unrevealed' || 'None') char.powers = '';
             char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
             return char;
           });
@@ -43,6 +45,8 @@ module.exports = function(app) {
           results = res.data;
           _this.notLoaded = false;
           results = results.map(char => {
+            if (char.abilities == 'Unrevealed' || 'None') char.abilities = '';
+            if (char.powers == 'Unrevealed' || 'None') char.powers = '';
             char.image_medium = char.thumbnail.slice(0, char.thumbnail.length - 4) + '/portrait_fantastic.jpg';
             return char;
           });
@@ -125,7 +129,6 @@ module.exports = function(app) {
       // if (_this.filtered.length <= 20 || _this.options[num].length < 3) {
       //   return _this.getResults();
       // }
-      console.log(_this.filtered);
     }
 
     _this.lastFilter = (num, option) => {
@@ -134,7 +137,6 @@ module.exports = function(app) {
       }
       _this.filterOpts[num] =  option;
       _this.filterList[num](num, option);
-      console.log(_this.filtered);
       _this.getResults();
     }
 
@@ -169,8 +171,10 @@ module.exports = function(app) {
 
     _this.getResults = () => {
       // TODO: setup a #/find-charater/results route
+      if (!_this.filtered.length) _this.filtered = results;
       _this.filtered = _this.filtered.length >= 20 ? _this.filtered.slice(0, 20) : _this.filtered;
       _this.showResults = true;
+      console.log(_this.filtered);
       endScroll(_this.filtered, 'character-images');
     }
 
@@ -184,18 +188,16 @@ module.exports = function(app) {
       var inner = $(`#${divId}`);
       var totalWidth = resultWidth(array);
       var eleWidth = $window.innerWidth - 30;
-      console.log($window.innerWidth);
       inner.scroll(function() {
-        $('.character-result .modal-content').css({'margin-left':`-${inner.scrollLeft()}px`});
-        var scrollWidth = inner.scrollLeft() + eleWidth;
-        if (inner.scrollLeft() <= 15) {
+        $('.character-popup').fadeOut('fast');
+        var scrollAmount = inner.scrollLeft() + eleWidth;
+        if (inner.scrollLeft() <= 35) {
           _this.onLeft = true;
-        } else if (inner.scrollLeft() > 15 && inner.scrollLeft() < 30) {
-          _this.onLeft = false;
-        } else if (scrollWidth >= totalWidth - 15) {
+        } else if (scrollAmount >= totalWidth - 35) {
           _this.onRight = true;
-        } else if (scrollWidth < scroll.scrollWidth - 15 && scrollWidth > totalWidth - 30) {
+        } else {
           _this.onRight = false;
+          _this.onLeft = false;
         }
         $scope.$digest();
       });
@@ -205,13 +207,22 @@ module.exports = function(app) {
       return ((168 + 10) * array.length);
     }
 
-    _this.characterClick = function(id) {
-      $('#' + id + ' .modal-content').fadeToggle('slow');
+    _this.characterClick = function(id, e) {
+      var mouseX, mouseY;
+      mouseX = e.pageX;
+      mouseY = e.pageY;
+      if ($('#' + id).prev('.character-popup').css('display') === 'block') {
+        $('.character-popup').fadeOut('fast');
+      } else {
+        $('.character-popup').fadeOut('fast');
+        $('#' + id).prev('.character-popup').css({'top':`${mouseY}px`,'left':`${mouseX}px`}).fadeToggle('fast');
+      }
     }
 
-    _this.mouseOut = function() {
-      $('.character-result .modal-content').fadeOut('slow');
+    _this.closePopup = function() {
+      $('.character-popup').fadeOut('fast');
     }
+
   }]);
 
 
