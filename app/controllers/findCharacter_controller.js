@@ -213,6 +213,9 @@ module.exports = function(app) {
       mouseY = e.pageY;
       if ($('#' + id).prev('.character-popup').css('display') === 'block') {
         $('.character-popup').fadeOut('fast');
+      } else if ($('#' + id).parent().is(':last-child')) {
+        $('.character-popup').fadeOut('fast');
+        $('#' + id).prev('.character-popup').css({'top':`${mouseY}px`,'left':`${mouseX - 225}px`}).fadeToggle('fast');
       } else {
         $('.character-popup').fadeOut('fast');
         $('#' + id).prev('.character-popup').css({'top':`${mouseY}px`,'left':`${mouseX}px`}).fadeToggle('fast');
