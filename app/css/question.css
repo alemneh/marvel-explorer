@@ -34,25 +34,20 @@
   width: 168px;
   height: 252px;
   cursor: pointer;
+  margin: 0 10px 0 0;
 }
 
-.character-result:nth-child(n+2) {
-  margin-left: 10px;
+.image-wrapper {
+  display: inline-block;
 }
 
-.character-result:last-child {
-  margin-right: 10px;
-}
-
-.character-result .modal-content {
+.character-popup {
   display: none;
   position: absolute;
-  z-index: 9999;
-  margin-top: -75px;
-  width: 200px;
+  z-index: 1050;
 }
 
-.character-result .modal-body {
+.character-popup .modal-body {
   width: 100%;
   max-width: 225px;
   white-space: normal;
@@ -60,7 +55,10 @@
   color: #C8C8C8;
   overflow-y: scroll;
   height: 150px;
-  box-shadow: inset 0 -10px 10px 0 rgba(46, 51, 56, 0.5);
+}
+
+.character-popup .modal-footer {
+  text-align: center;
 }
 
 #character-images, #random20-images {
