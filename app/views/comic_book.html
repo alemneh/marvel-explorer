@@ -31,7 +31,10 @@
             </tr>
           </tbody>
         </table>
-        <button  data-ng-click="comicbookCtrl.addBook(comicbookCtrl.character)"class="btn btn-lg btn-warning btn-block">Add to Reading List</button>
+        <div id="success" class="alert alert-dismissible alert-success hide">
+          <strong>Saved!</strong>
+        </div>
+        <button  data-ng-click="comicbookCtrl.addBook(comicbookCtrl.comicBook, $index)"class="btn btn-lg btn-warning btn-block success">Add to Reading List</button>
       </div>
     </div>
 

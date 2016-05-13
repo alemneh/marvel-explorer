@@ -16,6 +16,10 @@ module.exports = function(app) {
         console.log(_this.signInPopup);
       }
 
+      _this.toggleForm = function() {
+        _this.switchForm = !_this.switchForm;
+      }
+
       _this.showSignIn = () => {
         _this.switchForm = true;
         _this.error = ErrorService(null);
