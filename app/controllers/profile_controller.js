@@ -119,7 +119,7 @@ module.exports = function(app) {
       userComicsResource.getOne().then((res) => {
         console.log(res);
         res.data.forEach(function(book) {
-          if(book.issue_number > 50) _this.readList.push(book);
+          if(book.issue_number > 5) _this.readList.push(book);
           _this.unreadList.push(book);
         });
       }, function(error) {

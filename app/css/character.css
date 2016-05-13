@@ -6,6 +6,9 @@
 #marvelCharacter table img {
   width: 150px;
 }
+#marvelCharacter [data-ng-click] {
+  cursor: pointer;
+}
 
 #marvelComic img {
   width: 450px;
@@ -18,4 +21,8 @@
 
 #infoA {
   float: left;
+}
+
+.hide {
+  display: none;
 }

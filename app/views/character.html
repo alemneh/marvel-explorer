@@ -51,7 +51,13 @@
           <td><img data-ng-click="characterCtrl.getComicBook(comic)" src="{{comic.thumbnail}}" alt="" /></a></td>
           <td>{{comic.title}}</td>
           <td>{{comic.issue_number}}</td>
-          <td><a ng-click="characterCtrl.addBook(comic)" href class="btn btn-primary btn-xs">Add to Reading</a></td>
+
+          <td>
+            <div id="btn{{$index}}" class="alert alert-dismissible alert-success hide">
+              <strong>Saved!</strong>
+            </div>
+            <a ng-click="characterCtrl.addBook(comic, $index); characterCtrl.class.item = $index" href class="btn btn-primary btn-xs">Add to Reading</a>
+          </td>
         </tr>
       </tbody>
     </table>
