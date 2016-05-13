@@ -22,11 +22,6 @@ require('./controllers/comicbook_controller')(app);
 app.controller('TabController', function($location, TabService) {
   var tabSrv = TabService();
   let _this = this;
-  // if ($location.$$path == '/') _this.tab = 1;
-  // if ($location.$$path == '/profile') _this.tab = 2;
-  // if ($location.$$path == '/find-character') _this.tab = 3;
-  // if ($location.$$path == '/character') _this.tab = 4
-  //
   _this.setTab = num => tabSrv.setTab(num);
   _this.isSet = num => tabSrv.isSet(num);
 });
@@ -55,8 +50,11 @@ app.run(['$rootScope', '$location', '$route', '$window',
     })
 }]).controller('AppController', ['$window', 'ErrorService', function($window, ErrorService) {
   const _this = this;
-  _this.signInPopup = false;
   _this.error = ErrorService(null);
+
+  _this.togglePopup = () => {
+    signinSrv.togglePopup()
+  }
 
   _this.cancel = input => {
     for (var key in input) {
@@ -78,8 +76,6 @@ app.directive('signinPopup', function() {
   return {
     restrict: 'E',
     replace: true,
-    controller: 'SigninController',
-    controllerAs: 'signinCtrl',
     templateUrl: 'views/signinPopup.html'
   };
 });
@@ -88,14 +84,9 @@ app.directive('signinButton', function() {
   return {
     restrict: 'E',
     replace: true,
-    controller: 'SigninController',
-    controllerAs: 'signinCtrl',
     templateUrl: 'views/signin_signout.html'
   };
 });
-
-
-
 
 app.directive('carousel', function() {
   return {
@@ -108,8 +99,7 @@ app.directive('carousel', function() {
 app.config(['$routeProvider', router => {
   router
   .when('/', {
-    templateUrl: 'views/home.html',
-    controller: 'TabController'
+    templateUrl: 'views/home.html'
   })
   .when('/profile', {
     templateUrl: 'views/profile.html',
