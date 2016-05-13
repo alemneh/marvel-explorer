@@ -17,6 +17,10 @@ function(ErrorService, httpService, ComicBookService, CharacterService) {
       $('#success').removeClass('hide');
     }, function(error) {
       console.log(error);
+      if(error.statusText == 'Unauthorized') {
+        $('#success').removeClass('hide').addClass('alert-danger')
+          .html('<strong>Login to save comic!</strong>');
+      }
     });
   };
 }])

@@ -44,13 +44,17 @@ module.exports = function(app) {
     };
 
     _this.addBook = function(comic, $index) {
-      console.log(comic);
-      console.log($index);
+      var btn = 'btn'+$index;
       addComicToListResource.createComic(comic).then((res) => {
-        var btn = 'btn'+$index;
+
         $('#'+btn).removeClass('hide');
       }, function(error) {
-        console.log(error);
+        console.log(error.statusText);
+        if(error.statusText == 'Unauthorized') {
+          console.log('hit');
+          $('#'+btn).removeClass('hide').addClass('alert-danger')
+            .html('<strong>Login to save comic!</strong>');
+        }
       });
     };
 
