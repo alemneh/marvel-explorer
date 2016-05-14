@@ -8,29 +8,12 @@
       <img id="fade-right" data-ng-show="!findCtrl.onRight" src="images/fade-right.png" />
     </div>
     <div id="random20-images" class="well well-sm row">
-      <div>
-        <div id="{{character.marvel_id}}" ng-click="findCtrl.characterClick(character.marvel_id)"
-        data-ng-repeat="character in findCtrl.random20" class="character-result"
-        style="background-image: url({{character.image_medium}})">
+      <div class="image-wrapper" data-ng-repeat="character in findCtrl.random20">
+        <!-- INFO POPUP -->
+        <character-popup></character-popup>
 
-              <!-- INFO POPUP -->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">{{character.name}}</h4>
-                </div>
-                <!-- TODO: div for inset shadow to fade text on bottom -->
-                <div class="modal-body">
-                  <h5>Description:</h5>
-                  <p data-ng-show="character.description === ''">No Description Found</p>
-                  <p data-ng-show="character.description !== ''">{{character.description}}</p>
-                </div>
-                <div class="modal-footer">
-                  <a data-ng-click="findCtrl.selectCharacter(character)" class="pull-left btn btn-default">View Character</a>
-                </div>
-              </div>
-              <!-- END POPUP -->
-
-        </div>
+        <div id="{{character.marvel_id}}" ng-click="findCtrl.characterClick(character.marvel_id, $event)"
+        class="character-result" style="background-image: url({{character.image_medium}})"></div>
       </div>
     </div>
   <h2>Filtered Search</h2>

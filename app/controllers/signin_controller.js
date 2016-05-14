@@ -10,10 +10,12 @@ module.exports = function(app) {
       _this.signInPopup = false;
 
       _this.togglePopup = () => {
-        console.log(_this.signInPopup);
         _this.error = ErrorService(null);
         _this.signInPopup = !_this.signInPopup;
-        console.log(_this.signInPopup);
+      }
+
+      _this.toggleForm = function() {
+        _this.switchForm = !_this.switchForm;
       }
 
       _this.toggleForm = function() {
@@ -21,8 +23,8 @@ module.exports = function(app) {
       }
 
       _this.showSignIn = () => {
-        _this.switchForm = true;
         _this.error = ErrorService(null);
+        _this.switchForm = true;
       }
 
       _this.showSignUp = () => {

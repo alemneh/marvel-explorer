@@ -1,0 +1,17 @@
+<div class="character-popup modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-ng-click="findCtrl.closePopup()" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{{character.name}}</h4>
+  </div>
+  <!-- TODO: div for inset shadow to fade text on bottom -->
+  <div class="modal-body">
+    <h5>Description:</h5>
+    <p>{{character.description != '' ? character.description :
+      character.abilities != '' ? character.abilities :
+      character.powers != '' ? character.powers :
+      character.occupation != '' ? character.occupation : 'No Description Found'}}</p>
+  </div>
+  <div class="modal-footer">
+    <a data-ng-click="findCtrl.selectCharacter(character)" class="btn btn-default">Character Profile</a>
+  </div>
+</div>
