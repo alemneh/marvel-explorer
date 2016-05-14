@@ -53,7 +53,7 @@
                 <th>Delete</th>
               </tr>
               <tbody>
-                <tr  class="warning" data-ng-repeat="readBook in profileCtrl.readList | limitTo : 5" >
+                <tr  class="warning" data-ng-repeat="readBook in profileCtrl.readList" >
                   <td data-ng-hide="readBook.title == ''">{{readBook.title}}</td>
                   <td data-ng-hide="readBook.title == ''">{{readBook.issue_number}}</td>
                   <td data-ng-hide="readBook.title == ''"><a ng-click="profileCtrl.removeBook(readBook); profileCtrl.removeBook2(readBook)" href class="btn btn-primary btn-xs">Delete</a></td>
@@ -73,7 +73,7 @@
                 <th>Read/Delete</th>
               </tr>
               <tbody>
-                <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList | limitTo : 5" >
+                <tr class="warning" data-ng-repeat="unReadBook in profileCtrl.unreadList" >
                   <td>
                     {{unReadBook.title}}
                   </td>

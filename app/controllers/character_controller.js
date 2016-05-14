@@ -13,6 +13,8 @@ module.exports = function(app) {
     _this.loaded = false;
     _this.loading = true;
 
+
+
     _this.onLoad = function() {
       _this.load = false;
       _this.loading = true;
@@ -30,25 +32,29 @@ module.exports = function(app) {
     }
 
     _this.getComicBook = function(comicBook) {
-      console.log(comicBook);
       getComicBook.set(comicBook);
       $location.path('/comic-book');
     }
 
     _this.getComics = function(character) {
       comicsListResource.getOneSubResource(character.marvel_id, 'comics').then((res) => {
-        console.log(res);
         _this.loadedDone();
         _this.comics = res.data;
       });
     };
 
-    _this.addBook = function(comic) {
-      console.log(comic);
+    _this.addBook = function(comic, $index) {
+      var btn = 'btn'+$index;
       addComicToListResource.createComic(comic).then((res) => {
-        console.log(res);
+
+        $('#'+btn).removeClass('hide');
       }, function(error) {
-        console.log(error);
+        console.log(error.statusText);
+        if(error.statusText == 'Unauthorized') {
+          console.log('hit');
+          $('#'+btn).removeClass('hide').addClass('alert-danger')
+            .html('<strong>Login to save comic!</strong>');
+        }
       });
     };
 
