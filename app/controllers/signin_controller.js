@@ -2,7 +2,8 @@
 
 module.exports = function(app) {
   app.controller('SigninController', ['$location', '$scope', 'AuthService', 'ErrorService', 'TabService',
-    function($location, $scope, AuthService, ErrorService, TabService) {
+  '$window',
+    function($location, $scope, AuthService, ErrorService, TabService, $window) {
       const _this = this;
       var tabSrv = TabService();
       _this.switchForm = true;
@@ -60,6 +61,7 @@ module.exports = function(app) {
           console.log(res);
           _this.signedIn = true;
           _this.verify = false;
+          $window.location.reload();
           _this.togglePopup();
           for (var key in user) {
             delete user[key];
@@ -85,6 +87,7 @@ module.exports = function(app) {
       _this.signOut = function() {
         AuthService.signOut(() => {
           $location.path('/');
+          $window.location.reload();
           _this.signedIn = false;
           tabSrv.setTab(1);
         });

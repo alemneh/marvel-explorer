@@ -1,14 +1,10 @@
 module.exports = function(app) {
-  app.controller('CharacterController', ['ErrorService', 'httpService', 'CharacterService', 'ComicBookService', '$location',
-  function(ErrorService, httpService, CharacterService, ComicBookService, $location) {
+  app.controller('CharacterController', ['ErrorService', 'httpService','$location', '$window',
+  function(ErrorService, httpService, $location, $window) {
     const _this = this;
     const comicsListResource = httpService('herofinder');
     const addComicToListResource = httpService('users/comics');
-    const getCharacter = CharacterService();
-    const getComicBook = ComicBookService();
-
-
-    _this.comics = [{name: 'Spiderman', marvel_id: 1009468, year: 1944}];
+    _this.character = JSON.parse($window.localStorage.character);
     _this.load = false;
     _this.loaded = false;
     _this.loading = true;
@@ -26,17 +22,17 @@ module.exports = function(app) {
       _this.loading = false;
     };
 
-    _this.getCharacter = function() {
-      _this.character = getCharacter.get();
-      console.log(_this.character);
-    }
+
+
+
 
     _this.getComicBook = function(comicBook) {
-      getComicBook.set(comicBook);
+      $window.localStorage.comicBook = JSON.stringify(comicBook);
       $location.path('/comic-book');
     }
 
     _this.getComics = function(character) {
+      _this.onLoad();
       comicsListResource.getOneSubResource(character.marvel_id, 'comics').then((res) => {
         _this.loadedDone();
         _this.comics = res.data;
@@ -49,9 +45,8 @@ module.exports = function(app) {
 
         $('#'+btn).removeClass('hide');
       }, function(error) {
-        console.log(error.statusText);
+        console.log(error);
         if(error.statusText == 'Unauthorized') {
-          console.log('hit');
           $('#'+btn).removeClass('hide').addClass('alert-danger')
             .html('<strong>Login to save comic!</strong>');
         }

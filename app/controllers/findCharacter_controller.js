@@ -179,7 +179,8 @@ module.exports = function(app) {
     }
 
     _this.selectCharacter = (character) => {
-      saveCharacter.set(character);
+      $window.localStorage.character = JSON.stringify(character);
+      // saveCharacter.set(character);
       $location.path('/character');
     }
 

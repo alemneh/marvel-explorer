@@ -19,27 +19,18 @@ require('./controllers/signin_controller')(app);
 require('./controllers/profile_controller')(app);
 require('./controllers/comicbook_controller')(app);
 
-app.controller('TabController', function($location, TabService) {
+app.controller('TabController', ['$location', '$window', 'TabService',
+function($location, $window, TabService) {
   var tabSrv = TabService();
   let _this = this;
+  _this.token = $window.localStorage.token;
   _this.setTab = num => tabSrv.setTab(num);
   _this.isSet = num => tabSrv.isSet(num);
-});
+}]);
 
 app.run(['$rootScope', '$location', '$route', '$window',
   function($rootScope, $location, $route, $window) {
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
-      if(current == 'http://localhost:9000/#/character' && next == 'http://localhost:9000/#/character') {
-        $location.path('/find-character');
-        console.log('Current: '+current);
-        console.log('Next: '+next);
-      }
-
-      if(current == 'http://localhost:9000/#/comic-book' && next == 'http://localhost:9000/#/comic-book') {
-        $location.path('/find-character');
-        console.log('Current: '+current);
-        console.log('Next: '+next);
-      }
       var nextRoute = $route.routes[$location.path()];
       if(nextRoute.requireLogin) {
         if(!$window.localStorage.token) {
