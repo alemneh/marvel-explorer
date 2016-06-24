@@ -1,15 +1,13 @@
 module.exports = function(app) {
-  app.controller('ComicBookController', ['ErrorService', 'httpService', 'ComicBookService', 'CharacterService',
-function(ErrorService, httpService, ComicBookService, CharacterService) {
+  app.controller('ComicBookController', ['ErrorService', 'httpService', '$window',
+function(ErrorService, httpService, $window) {
   const _this = this;
   const addComicToListResource = httpService('users/comics');
-  const getCharacter = CharacterService();
-  const getComicBook = ComicBookService();
-  _this.character = getCharacter.get();
+  _this.character = JSON.parse($window.localStorage.character);
 
 
   _this.getComicBook = function() {
-    _this.comicBook = getComicBook.get();
+    _this.comicBook = JSON.parse($window.localStorage.comicBook);
   }
 
   _this.addBook = function(comic, $index) {
