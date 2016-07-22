@@ -11,7 +11,22 @@ const sources = {
 
 gulp.task('bundle:angular', () => {
   return gulp.src(__dirname + '/app/app.js')
-    .pipe(webpack({output: {filename: 'angular.bundle.js'}}))
+    .pipe(webpack({
+      output: {filename: 'angular.bundle.js'},
+      // devtool: 'source-map',
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+              presets: ['es2015', 'stage-0']
+            }
+          }
+        ]
+      }
+    }))
     .pipe(gulp.dest('./public'))
 });
 
@@ -27,11 +42,6 @@ gulp.task('css', function() {
   .pipe(minifyCss({compatibility: 'ie8'}))
   .pipe(gulp.dest('./public'));
 });
-
-// gulp.task('copy', () => {
-//   return gulp.src(sources.html)
-//     .pipe(gulp.dest('./public'))
-// });
 
 gulp.task('bundle:test', () => {
   return gulp.src(sources.test)

@@ -2,7 +2,6 @@ module.exports = function(app) {
   app.factory('httpService', ['$http', 'AuthService', function($http, AuthService) {
     const mainRoute = 'http://52.41.45.45/';
     
-
     function Resource(resourceName) {
       this.resourceName = resourceName;
     }
